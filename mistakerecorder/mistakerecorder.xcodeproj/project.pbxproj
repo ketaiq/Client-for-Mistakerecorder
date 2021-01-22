@@ -14,6 +14,7 @@
 		0B665A0A25B998AA00C9DB31 /* mistakerecorderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B665A0925B998AA00C9DB31 /* mistakerecorderTests.swift */; };
 		0B665A1525B998AA00C9DB31 /* mistakerecorderUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B665A1425B998AA00C9DB31 /* mistakerecorderUITests.swift */; };
 		0BC4745A25B99AED001A59BE /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BC4745925B99AED001A59BE /* LoginView.swift */; };
+		0BC474F125BAB92E001A59BE /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BC474F025BAB92E001A59BE /* RegisterView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +48,7 @@
 		0B665A1425B998AA00C9DB31 /* mistakerecorderUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mistakerecorderUITests.swift; sourceTree = "<group>"; };
 		0B665A1625B998AA00C9DB31 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0BC4745925B99AED001A59BE /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		0BC474F025BAB92E001A59BE /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,6 +102,7 @@
 				0B6659F725B998A800C9DB31 /* mistakerecorderApp.swift */,
 				0B6659F925B998A800C9DB31 /* ContentView.swift */,
 				0BC4745925B99AED001A59BE /* LoginView.swift */,
+				0BC474F025BAB92E001A59BE /* RegisterView.swift */,
 				0B6659FB25B998AA00C9DB31 /* Assets.xcassets */,
 				0B665A0025B998AA00C9DB31 /* Info.plist */,
 				0B6659FD25B998AA00C9DB31 /* Preview Content */,
@@ -263,6 +266,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0BC4745A25B99AED001A59BE /* LoginView.swift in Sources */,
+				0BC474F125BAB92E001A59BE /* RegisterView.swift in Sources */,
 				0B6659FA25B998A800C9DB31 /* ContentView.swift in Sources */,
 				0B6659F825B998A800C9DB31 /* mistakerecorderApp.swift in Sources */,
 			);
