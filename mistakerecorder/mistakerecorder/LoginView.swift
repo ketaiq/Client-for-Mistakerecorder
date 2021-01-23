@@ -95,9 +95,6 @@ struct LoginView: View {
             .edgesIgnoringSafeArea(.all)
         }
         
-        
-        
-        
     }
 }
 

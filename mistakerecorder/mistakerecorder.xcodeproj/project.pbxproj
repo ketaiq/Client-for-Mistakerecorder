@@ -13,6 +13,8 @@
 		0B6659FF25B998AA00C9DB31 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0B6659FE25B998AA00C9DB31 /* Preview Assets.xcassets */; };
 		0B665A0A25B998AA00C9DB31 /* mistakerecorderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B665A0925B998AA00C9DB31 /* mistakerecorderTests.swift */; };
 		0B665A1525B998AA00C9DB31 /* mistakerecorderUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B665A1425B998AA00C9DB31 /* mistakerecorderUITests.swift */; };
+		0B914FFC25BBC7AD00122F38 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B914FFB25BBC7AD00122F38 /* User.swift */; };
+		0B91500125BBCAEF00122F38 /* RegisterTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B91500025BBCAEF00122F38 /* RegisterTextField.swift */; };
 		0BC4745A25B99AED001A59BE /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BC4745925B99AED001A59BE /* LoginView.swift */; };
 		0BC474F125BAB92E001A59BE /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BC474F025BAB92E001A59BE /* RegisterView.swift */; };
 /* End PBXBuildFile section */
@@ -47,6 +49,8 @@
 		0B665A1025B998AA00C9DB31 /* mistakerecorderUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = mistakerecorderUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0B665A1425B998AA00C9DB31 /* mistakerecorderUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mistakerecorderUITests.swift; sourceTree = "<group>"; };
 		0B665A1625B998AA00C9DB31 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0B914FFB25BBC7AD00122F38 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		0B91500025BBCAEF00122F38 /* RegisterTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterTextField.swift; sourceTree = "<group>"; };
 		0BC4745925B99AED001A59BE /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		0BC474F025BAB92E001A59BE /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -103,6 +107,8 @@
 				0B6659F925B998A800C9DB31 /* ContentView.swift */,
 				0BC4745925B99AED001A59BE /* LoginView.swift */,
 				0BC474F025BAB92E001A59BE /* RegisterView.swift */,
+				0B91500025BBCAEF00122F38 /* RegisterTextField.swift */,
+				0B914FFB25BBC7AD00122F38 /* User.swift */,
 				0B6659FB25B998AA00C9DB31 /* Assets.xcassets */,
 				0B665A0025B998AA00C9DB31 /* Info.plist */,
 				0B6659FD25B998AA00C9DB31 /* Preview Content */,
@@ -267,7 +273,9 @@
 			files = (
 				0BC4745A25B99AED001A59BE /* LoginView.swift in Sources */,
 				0BC474F125BAB92E001A59BE /* RegisterView.swift in Sources */,
+				0B91500125BBCAEF00122F38 /* RegisterTextField.swift in Sources */,
 				0B6659FA25B998A800C9DB31 /* ContentView.swift in Sources */,
+				0B914FFC25BBC7AD00122F38 /* User.swift in Sources */,
 				0B6659F825B998A800C9DB31 /* mistakerecorderApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
