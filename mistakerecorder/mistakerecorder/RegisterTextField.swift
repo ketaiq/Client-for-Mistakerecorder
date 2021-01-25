@@ -22,10 +22,15 @@ struct RegisterTextField: View {
                     "请输入\(textType)",
                     text: $textContent,
                     onEditingChanged: { (isBegin) in
-                        if (isBegin) {
+                        if isBegin {
                             textWarningOpacity = 0
-                        } else if !isBegin && !confirmTextTypeMatch(textType: textType, textContent: textContent) {
-                            textWarningOpacity = 1
+                        }
+                        if !isBegin {
+                            if !confirmTextTypeMatch(textType: textType, textContent: textContent) {
+                                textWarningOpacity = 1
+                            } else {
+                                textWarningOpacity = 0
+                            }
                         }
                     })
                     .autocapitalization(.none)

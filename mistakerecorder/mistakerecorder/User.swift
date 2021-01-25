@@ -42,7 +42,7 @@ func confirmTextTypeMatch(textType: String, textContent: String) -> Bool {// 匹
         } else {
             return true
         }
-    case "密码": // 至少一个字母和一个数字，至少8位密码，最多20位
+    case "密码": // 可由字母和数字组成，至少8位密码，最多32位
         textTypeExpression = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,32}$"
         let predicate = NSPredicate(format: "SELF MATCHES %@", textTypeExpression)
         if !predicate.evaluate(with: textContent) {
@@ -50,7 +50,7 @@ func confirmTextTypeMatch(textType: String, textContent: String) -> Bool {// 匹
         } else {
             return true
         }
-    case "再次输入密码": // 至少一个字母和一个数字，至少8位密码，最多32位
+    case "再次输入密码": // 可由字母和数字组成，至少8位密码，最多32位
         textTypeExpression = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,32}$"
         let predicate = NSPredicate(format: "SELF MATCHES %@", textTypeExpression)
         if !predicate.evaluate(with: textContent) {
@@ -61,7 +61,5 @@ func confirmTextTypeMatch(textType: String, textContent: String) -> Bool {// 匹
     default:
         return true
     }
-    
-    
-    
 }
+

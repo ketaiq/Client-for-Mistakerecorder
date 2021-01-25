@@ -1,21 +1,18 @@
 //
-//  RegisterView.swift
+//  ForgetPasswordView.swift
 //  mistakerecorder
 //
-//  Created by CaSdm on 2021/1/22.
+//  Created by CaSdm on 2021/1/25.
 //
 
 import SwiftUI
 
-struct RegisterView: View {
-    
-    @State var nickname = ""
+struct ForgetPasswordView: View {
     @State var realname = ""
     @State var id = ""
     @State var emailaddress = ""
-    @State var password = ""
-    @State var repeatPassword = ""
-    @State var nicknameWarningOpacity: Double = 0
+    @State var newPassword = ""
+    @State var repeatNewPassword = ""
     @State var realnameWarningOpacity: Double = 0
     @State var idWarningOpacity: Double = 0
     @State var emailaddressWarningOpacity: Double = 0
@@ -28,28 +25,26 @@ struct RegisterView: View {
     var body: some View {
         NavigationView {
             VStack(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/, spacing: 10, content: {
-                
-                RegisterTextField(textType: "昵称", textContent: $nickname, textWarningOpacity: $nicknameWarningOpacity, formatRequirement: "可由1到32个汉字、大小写字母和数字组成")
                 RegisterTextField(textType: "真实姓名", textContent: $realname, textWarningOpacity: $realnameWarningOpacity, formatRequirement: "可由2到5个汉字或1到32位大小写字母组成")
                 RegisterTextField(textType: "身份证号", textContent: $id, textWarningOpacity: $idWarningOpacity, formatRequirement: "第二代18位身份证号")
                 RegisterTextField(textType: "邮箱", textContent: $emailaddress, textWarningOpacity: $emailaddressWarningOpacity, formatRequirement: "正常邮箱格式")
-                RegisterTextField(textType: "密码", textContent: $password, textWarningOpacity: $passwordWarningOpacity, formatRequirement: "可由字母和数字组成，至少8位密码，最多32位")
-                RegisterTextField(textType: "再次输入密码", textContent: $repeatPassword, textWarningOpacity: $repeatPasswordWarningOpacity, formatRequirement: "与上述密码一致")
+                RegisterTextField(textType: "新密码", textContent: $newPassword, textWarningOpacity: $passwordWarningOpacity, formatRequirement: "可由字母和数字组成，至少8位密码，最多32位")
+                RegisterTextField(textType: "再次输入新密码", textContent: $repeatNewPassword, textWarningOpacity: $repeatPasswordWarningOpacity, formatRequirement: "与上述密码一致")
                 
                 Rectangle()
                     .opacity(0)
                     .frame(width: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/, height: 30, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                 
                 Button(action: {
-                    if !confirmTextTypeMatch(textType: "昵称", textContent: nickname) || !confirmTextTypeMatch(textType: "真实姓名", textContent: realname) ||
+                    if !confirmTextTypeMatch(textType: "真实姓名", textContent: realname) ||
                         !confirmTextTypeMatch(textType: "身份证号", textContent: id) ||
                         !confirmTextTypeMatch(textType: "邮箱", textContent: emailaddress) ||
-                        !confirmTextTypeMatch(textType: "密码", textContent: password) {
+                        !confirmTextTypeMatch(textType: "新密码", textContent: newPassword) {
                         wrongFormatAlert = true
                     } else {
                         wrongFormatAlert = false
                     }
-                    if password != repeatPassword {
+                    if newPassword != repeatNewPassword {
                         repeatPasswordDifferentAlert = true
                     } else {
                         repeatPasswordDifferentAlert = false
@@ -88,8 +83,8 @@ struct RegisterView: View {
     }
 }
 
-struct RegisterView_Previews: PreviewProvider {
+struct ForgetPasswordView_Previews: PreviewProvider {
     static var previews: some View {
-        RegisterView()
+        ForgetPasswordView()
     }
 }

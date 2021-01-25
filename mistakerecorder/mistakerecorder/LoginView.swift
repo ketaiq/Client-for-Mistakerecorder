@@ -8,7 +8,9 @@
 import SwiftUI
 
 struct LoginView: View {
+    @State private var loginButtonPressed = false
     @State private var registerButtonPressed = false
+    @State private var forgetPasswordButtonPressed = false
     @State private var username = ""
     @State private var password = ""
     var body: some View {
@@ -38,18 +40,30 @@ struct LoginView: View {
                         })
                     }).padding(.trailing)
                     
-                    Button(action: {
-                        var registerView: some View {
-                            RegisterView()
+                    ZStack {
+                        Button(action: {
+                            loginButtonPressed = true
+                        }, label: {
+                            Text("登录")
+                                .font(.system(size: 16))
+                                .foregroundColor(.black)
+                                .frame(width: 50, height: 50)
+                                .background(Color.blue)
+                                .cornerRadius(13)
+                        })
+                        NavigationLink(
+                            destination: HomeView()
+                                .navigationBarHidden(true)
+                                .navigationBarTitle(""),
+                            isActive: $loginButtonPressed) {
+                            EmptyView()
                         }
-                    }, label: {
-                        Text("登录")
-                            .font(.system(size: 16))
-                            .foregroundColor(.black)
-                            .frame(width: 50, height: 50)
-                            .background(Color.blue)
-                            .cornerRadius(13)
-                    })
+                        .navigationBarHidden(true)
+                        .navigationBarTitle("")
+                    }
+                    
+                    
+                    
                 }).padding()
                 
                 HStack {
@@ -76,15 +90,20 @@ struct LoginView: View {
                     
                     ZStack {
                         Button(action: {
-                            
+                            forgetPasswordButtonPressed = true
                         }, label: {
-                            Text("找回密码")
+                            Text("忘记密码")
                                 .font(.system(size: 16))
                                 .foregroundColor(.black)
                                 .frame(width: 100, height: 26)
                                 .background(Color.green)
                                 .cornerRadius(13)
                         })
+                        NavigationLink(
+                            destination: ForgetPasswordView(),
+                            isActive: $forgetPasswordButtonPressed) {
+                            EmptyView()
+                        }
                     }
                     
                 }
