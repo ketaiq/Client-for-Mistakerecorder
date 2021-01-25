@@ -17,9 +17,11 @@ struct RegisterTextField: View {
         VStack(alignment: .center, spacing: 10, content: {
             
             HStack(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/, spacing: 0, content: {
-                Text("\(textType)：").font(.system(size: 16))
+                Text("\(textType)：")
+                    .font(.system(size: 16))
+                    .foregroundColor(.black)
                 TextField(
-                    "请输入\(textType)",
+                    "",
                     text: $textContent,
                     onEditingChanged: { (isBegin) in
                         if isBegin {
@@ -35,7 +37,8 @@ struct RegisterTextField: View {
                     })
                     .autocapitalization(.none)
                     .disableAutocorrection(true)
-                    .border(Color.black)
+                    .font(.system(size: 16))
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
                     .overlay(
                         Label("", systemImage: "exclamationmark.triangle")
                             .offset(x: 50)

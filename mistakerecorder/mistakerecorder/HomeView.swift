@@ -15,9 +15,6 @@ struct HomeView: View {
                 HomeNavigationBar()
             })
             .padding()
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Color(red: 252 / 255, green: 230 / 255, blue: 201 / 255))
-            .edgesIgnoringSafeArea(.all)
         }
     }
 }

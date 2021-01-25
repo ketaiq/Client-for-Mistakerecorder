@@ -21,22 +21,27 @@ struct LoginView: View {
                         HStack(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/, spacing: 0, content: {
                             Text("账号：")
                                 .font(.system(size: 16))
+                                .foregroundColor(.black)
                             TextField(
                                 "",
                                 text: $username)
                                 .autocapitalization(.none)
                                 .disableAutocorrection(true)
-                                .border(Color.black)
+                                .font(.system(size: 16))
+                                .textFieldStyle(RoundedBorderTextFieldStyle())
+                                
                         })
                         HStack(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/, spacing: 0, content: {
                             Text("密码：")
                                 .font(.system(size: 16))
+                                .foregroundColor(.black)
                             SecureField(
                                 "",
                                 text: $password)
                                 .autocapitalization(.none)
                                 .disableAutocorrection(true)
-                                .border(Color.black)
+                                .font(.system(size: 16))
+                                .textFieldStyle(RoundedBorderTextFieldStyle())
                         })
                     }).padding(.trailing)
                     
@@ -47,7 +52,7 @@ struct LoginView: View {
                             Text("登录")
                                 .font(.system(size: 16))
                                 .foregroundColor(.black)
-                                .frame(width: 50, height: 50)
+                                .frame(width: 50, height: 80)
                                 .background(Color.blue)
                                 .cornerRadius(13)
                         })
@@ -67,7 +72,6 @@ struct LoginView: View {
                 }).padding()
                 
                 HStack {
-                    
                     ZStack {
                         Button(action: {
                             registerButtonPressed = true
@@ -85,8 +89,11 @@ struct LoginView: View {
                             isActive: $registerButtonPressed) {
                             EmptyView()
                         }
+                        .navigationBarTitle("", displayMode: .inline)
                     }
                     
+                    Rectangle()
+                        .frame(width: 20, height: 0, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                     
                     ZStack {
                         Button(action: {
@@ -104,14 +111,14 @@ struct LoginView: View {
                             isActive: $forgetPasswordButtonPressed) {
                             EmptyView()
                         }
+                        .navigationBarTitle("", displayMode: .inline)
                     }
                     
                 }
                 
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Color(red: 252 / 255, green: 230 / 255, blue: 201 / 255))
-            .edgesIgnoringSafeArea(.all)
+            .background(Color.white)
         }
         
     }

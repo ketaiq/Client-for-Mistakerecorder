@@ -57,7 +57,7 @@ struct HomeNavigationBar: View {
                     })
                 })
                 NavigationLink(
-                    destination: PhotographView(),
+                    destination: testCameraView(),
                     isActive: $photographButtonPressed) {
                     EmptyView()
                 }
