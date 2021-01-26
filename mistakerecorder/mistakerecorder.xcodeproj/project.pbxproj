@@ -19,6 +19,8 @@
 		0B91501325BE717200122F38 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B91501225BE717200122F38 /* HomeView.swift */; };
 		0B91501825BE734600122F38 /* HomeNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B91501725BE734600122F38 /* HomeNavigationBar.swift */; };
 		0B91502525BE95A700122F38 /* PhotographView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B91502425BE95A700122F38 /* PhotographView.swift */; };
+		0B91503D25C015E700122F38 /* MistakeCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B91503C25C015E700122F38 /* MistakeCardView.swift */; };
+		0B91504225C03DEA00122F38 /* BackMistakeCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B91504125C03DEA00122F38 /* BackMistakeCardView.swift */; };
 		0BC4745A25B99AED001A59BE /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BC4745925B99AED001A59BE /* LoginView.swift */; };
 		0BC474F125BAB92E001A59BE /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BC474F025BAB92E001A59BE /* RegisterView.swift */; };
 /* End PBXBuildFile section */
@@ -59,6 +61,8 @@
 		0B91501225BE717200122F38 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		0B91501725BE734600122F38 /* HomeNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeNavigationBar.swift; sourceTree = "<group>"; };
 		0B91502425BE95A700122F38 /* PhotographView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotographView.swift; sourceTree = "<group>"; };
+		0B91503C25C015E700122F38 /* MistakeCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistakeCardView.swift; sourceTree = "<group>"; };
+		0B91504125C03DEA00122F38 /* BackMistakeCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackMistakeCardView.swift; sourceTree = "<group>"; };
 		0BC4745925B99AED001A59BE /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		0BC474F025BAB92E001A59BE /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -116,6 +120,8 @@
 				0BC4745925B99AED001A59BE /* LoginView.swift */,
 				0BC474F025BAB92E001A59BE /* RegisterView.swift */,
 				0B91501225BE717200122F38 /* HomeView.swift */,
+				0B91503C25C015E700122F38 /* MistakeCardView.swift */,
+				0B91504125C03DEA00122F38 /* BackMistakeCardView.swift */,
 				0B91501725BE734600122F38 /* HomeNavigationBar.swift */,
 				0B91502425BE95A700122F38 /* PhotographView.swift */,
 				0B91500D25BE6E2400122F38 /* ForgetPasswordView.swift */,
@@ -287,9 +293,11 @@
 				0BC474F125BAB92E001A59BE /* RegisterView.swift in Sources */,
 				0B91500125BBCAEF00122F38 /* RegisterTextField.swift in Sources */,
 				0B91501825BE734600122F38 /* HomeNavigationBar.swift in Sources */,
+				0B91503D25C015E700122F38 /* MistakeCardView.swift in Sources */,
 				0B91502525BE95A700122F38 /* PhotographView.swift in Sources */,
 				0B91500E25BE6E2400122F38 /* ForgetPasswordView.swift in Sources */,
 				0B6659FA25B998A800C9DB31 /* ContentView.swift in Sources */,
+				0B91504225C03DEA00122F38 /* BackMistakeCardView.swift in Sources */,
 				0B91501325BE717200122F38 /* HomeView.swift in Sources */,
 				0B914FFC25BBC7AD00122F38 /* User.swift in Sources */,
 				0B6659F825B998A800C9DB31 /* mistakerecorderApp.swift in Sources */,

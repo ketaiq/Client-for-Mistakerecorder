@@ -11,20 +11,6 @@ struct HomeNavigationBar: View {
     @State private var photographButtonPressed = false
     var body: some View {
         HStack(alignment: .bottom, spacing: 5, content: {
-            Button(action: {
-                
-            }, label: {
-                VStack(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/, spacing: 2, content: {
-                    Image(systemName: "house")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 50, height: 50, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                        .foregroundColor(.orange)
-                    Text("首页")
-                        .font(.system(size: 16))
-                        .foregroundColor(.black)
-                })
-            })
             Spacer()
             Button(action: {
                 
@@ -63,7 +49,6 @@ struct HomeNavigationBar: View {
                 }
                 .navigationBarTitle("", displayMode: .inline)
             }
-            
             Spacer()
             Button(action: {
                 
@@ -80,20 +65,6 @@ struct HomeNavigationBar: View {
                 })
             })
             Spacer()
-            Button(action: {
-                
-            }, label: {
-                VStack(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/, spacing: 2, content: {
-                    Image(systemName: "person")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 50, height: 50, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                        .foregroundColor(.orange)
-                    Text("我的")
-                        .font(.system(size: 16))
-                        .foregroundColor(.black)
-                })
-            })
         })
     }
 }
