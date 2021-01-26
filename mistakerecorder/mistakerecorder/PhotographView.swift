@@ -9,61 +9,71 @@ import UIKit
 import SwiftUI
 
 struct PhotographView: View {
-    @State private var isShowPhotoLibrary = false
+    @State private var showingPhotoLibrary = false
+    @State private var showingCamera = false
+    @State private var showingSheet = false
     @State private var image = UIImage()
     
     var body: some View {
-        ZStack  {
-            Image(uiImage: self.image)
-                .resizable()
-                .scaledToFit()
-                .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
-            
-            VStack(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/, spacing: 20, content: {
+        NavigationView {
+            VStack  {
+                Image(uiImage: image)
+                    .resizable()
+                    .scaledToFit()
                 Spacer()
-                Button(action: {
-                    ImagePicker(sourceType: .camera, selectedImage: self.$image)
-                }, label: {
-                    HStack {
-                        Image(systemName: "camera")
-                            .font(.system(size: 20))
-                        
-                        Text("拍照")
-                            .font(.headline)
-                            .font(.system(size: 16))
+                HStack(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/, spacing: 0, content: {
+                    ZStack {
+                        Button(action: {
+                            showingCamera = true
+                        }, label: {
+                            HStack {
+                                Image(systemName: "camera")
+                                    .font(.system(size: 20))
+                                
+                                Text("拍照")
+                                    .font(.headline)
+                                    .font(.system(size: 16))
+                            }
+                            .frame(width: 100, height: 50, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                            .background(Color.blue)
+                            .foregroundColor(.white)
+                            .cornerRadius(20)
+                        })
+                        NavigationLink(
+                            destination: ImagePicker(sourceType: .camera, selectedImage: self.$image)
+                                .navigationBarHidden(true)
+                                .navigationBarTitle("", displayMode: .inline),
+                            isActive: $showingCamera) {
+                            EmptyView()
+                        }
+                        .navigationBarTitle("", displayMode: .inline)
+                        .navigationBarHidden(true)
                     }
-                    .frame(width: 300, height: 50, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                    .background(Color.blue)
-                    .foregroundColor(.white)
-                    .cornerRadius(20)
-                    .padding(.horizontal)
+                    Spacer()
+                    Button(action: {
+                        showingPhotoLibrary = true
+                    }, label: {
+                        HStack {
+                            Image(systemName: "photo")
+                                .font(.system(size: 20))
+                            
+                            Text("照片图库")
+                                .font(.headline)
+                                .font(.system(size: 16))
+                        }
+                        .frame(width: 150, height: 50, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                        .background(Color.blue)
+                        .foregroundColor(.white)
+                        .cornerRadius(20)
+                    })
                 })
-                
-                Button(action: {
-                    self.isShowPhotoLibrary = true
-                }, label: {
-                    HStack {
-                        Image(systemName: "photo")
-                            .font(.system(size: 20))
-                        
-                        Text("照片图库")
-                            .font(.headline)
-                            .font(.system(size: 16))
-                    }
-                    .frame(width: 300, height: 50, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                    .background(Color.blue)
-                    .foregroundColor(.white)
-                    .cornerRadius(20)
-                    .padding(.horizontal)
-                })
+                .padding()
+            }
+            .sheet(isPresented: $showingPhotoLibrary, content: {
+                ImagePicker(sourceType: .photoLibrary, selectedImage: self.$image)
             })
-            .padding()
-            
-            
         }
-        .sheet(isPresented: $isShowPhotoLibrary, content: {
-            ImagePicker(sourceType: .photoLibrary, selectedImage: self.$image)
-        })
+        
     }
 }
 

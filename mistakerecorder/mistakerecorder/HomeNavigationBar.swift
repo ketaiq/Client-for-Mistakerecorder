@@ -57,10 +57,11 @@ struct HomeNavigationBar: View {
                     })
                 })
                 NavigationLink(
-                    destination: testCameraView(),
+                    destination: PhotographView(),
                     isActive: $photographButtonPressed) {
                     EmptyView()
                 }
+                .navigationBarTitle("", displayMode: .inline)
             }
             
             Spacer()

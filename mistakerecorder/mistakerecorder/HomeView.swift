@@ -15,6 +15,9 @@ struct HomeView: View {
                 HomeNavigationBar()
             })
             .padding()
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(Color.white)
+            .navigationBarHidden(true)
         }
     }
 }

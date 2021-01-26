@@ -59,12 +59,12 @@ struct LoginView: View {
                         NavigationLink(
                             destination: HomeView()
                                 .navigationBarHidden(true)
-                                .navigationBarTitle(""),
+                                .navigationBarTitle("", displayMode: .inline),
                             isActive: $loginButtonPressed) {
                             EmptyView()
                         }
                         .navigationBarHidden(true)
-                        .navigationBarTitle("")
+                        .navigationBarTitle("", displayMode: .inline)
                     }
                     
                     
