@@ -22,6 +22,9 @@
 		0B91503D25C015E700122F38 /* MistakeCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B91503C25C015E700122F38 /* MistakeCardView.swift */; };
 		0B91504225C03DEA00122F38 /* BackMistakeCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B91504125C03DEA00122F38 /* BackMistakeCardView.swift */; };
 		0B91504725C0FFFB00122F38 /* UserMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B91504625C0FFFB00122F38 /* UserMenuView.swift */; };
+		0B91504C25C2974C00122F38 /* ReviseListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B91504B25C2974C00122F38 /* ReviseListView.swift */; };
+		0B91505925C29CB700122F38 /* MistakeListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B91505825C29CB700122F38 /* MistakeListView.swift */; };
+		0B91506425C2B2E900122F38 /* ReviseItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B91506325C2B2E900122F38 /* ReviseItemView.swift */; };
 		0BC4745A25B99AED001A59BE /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BC4745925B99AED001A59BE /* LoginView.swift */; };
 		0BC474F125BAB92E001A59BE /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BC474F025BAB92E001A59BE /* RegisterView.swift */; };
 /* End PBXBuildFile section */
@@ -65,6 +68,9 @@
 		0B91503C25C015E700122F38 /* MistakeCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistakeCardView.swift; sourceTree = "<group>"; };
 		0B91504125C03DEA00122F38 /* BackMistakeCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackMistakeCardView.swift; sourceTree = "<group>"; };
 		0B91504625C0FFFB00122F38 /* UserMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserMenuView.swift; sourceTree = "<group>"; };
+		0B91504B25C2974C00122F38 /* ReviseListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviseListView.swift; sourceTree = "<group>"; };
+		0B91505825C29CB700122F38 /* MistakeListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistakeListView.swift; sourceTree = "<group>"; };
+		0B91506325C2B2E900122F38 /* ReviseItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviseItemView.swift; sourceTree = "<group>"; };
 		0BC4745925B99AED001A59BE /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		0BC474F025BAB92E001A59BE /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -122,6 +128,9 @@
 				0BC4745925B99AED001A59BE /* LoginView.swift */,
 				0BC474F025BAB92E001A59BE /* RegisterView.swift */,
 				0B91501225BE717200122F38 /* HomeView.swift */,
+				0B91505825C29CB700122F38 /* MistakeListView.swift */,
+				0B91504B25C2974C00122F38 /* ReviseListView.swift */,
+				0B91506325C2B2E900122F38 /* ReviseItemView.swift */,
 				0B91504625C0FFFB00122F38 /* UserMenuView.swift */,
 				0B91503C25C015E700122F38 /* MistakeCardView.swift */,
 				0B91504125C03DEA00122F38 /* BackMistakeCardView.swift */,
@@ -299,7 +308,10 @@
 				0B91503D25C015E700122F38 /* MistakeCardView.swift in Sources */,
 				0B91502525BE95A700122F38 /* PhotographView.swift in Sources */,
 				0B91500E25BE6E2400122F38 /* ForgetPasswordView.swift in Sources */,
+				0B91506425C2B2E900122F38 /* ReviseItemView.swift in Sources */,
+				0B91505925C29CB700122F38 /* MistakeListView.swift in Sources */,
 				0B91504725C0FFFB00122F38 /* UserMenuView.swift in Sources */,
+				0B91504C25C2974C00122F38 /* ReviseListView.swift in Sources */,
 				0B6659FA25B998A800C9DB31 /* ContentView.swift in Sources */,
 				0B91504225C03DEA00122F38 /* BackMistakeCardView.swift in Sources */,
 				0B91501325BE717200122F38 /* HomeView.swift in Sources */,

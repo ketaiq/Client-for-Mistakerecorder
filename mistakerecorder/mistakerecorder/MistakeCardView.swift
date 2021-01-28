@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct MistakeCardView: View {
+    var mistake: Mistake
     @Binding var unfoldMistakeCards: Bool
     @Binding var dragPosition: CGSize
-    @State var answers: [String] = [String](repeating: "", count: 4)
     
     var body: some View {
         ZStack {
@@ -39,44 +39,24 @@ struct MistakeCardView: View {
                     Spacer()
                 }
                 HStack {
-                    Text("语文")
+                    Text(mistake.subject)
                         .font(.title)
                     Spacer()
                 }
                 .padding(.bottom)
-                Text("写出下列词语的反义词。")
+                Text(mistake.questionDescription)
                     .font(.headline)
                 Spacer()
-                HStack {
-                    Text("认真")
-                    TextField("", text: $answers[0])
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .font(.system(size: 16))
-                        .autocapitalization(.none)
-                        .disableAutocorrection(true)
-                    Text("长")
-                    TextField("", text: $answers[1])
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .font(.system(size: 16))
-                        .autocapitalization(.none)
-                        .disableAutocorrection(true)
+                
+                VStack {
+                    ForEach(mistake.questionItems) { item in
+                        HStack {
+                            Text(item.question)
+                            Spacer()
+                        }
+                        .padding(.vertical, 5)
+                    }
                 }
-                Spacer()
-                HStack {
-                    Text("高兴")
-                    TextField("", text: $answers[2])
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .font(.system(size: 16))
-                        .autocapitalization(.none)
-                        .disableAutocorrection(true)
-                    Text("早")
-                    TextField("", text: $answers[3])
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .font(.system(size: 16))
-                        .autocapitalization(.none)
-                        .disableAutocorrection(true)
-                }
-                Spacer()
             }
             .padding()
         }

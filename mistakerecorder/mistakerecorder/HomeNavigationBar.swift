@@ -9,23 +9,30 @@ import SwiftUI
 
 struct HomeNavigationBar: View {
     @State private var photographButtonPressed = false
+    @State private var reviseButtonPressed = false
+    @State private var mistakeButtonPressed = false
     var body: some View {
         HStack(alignment: .bottom, spacing: 5, content: {
             Spacer()
-            Button(action: {
-                
-            }, label: {
-                VStack(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/, spacing: 2, content: {
-                    Image(systemName: "doc.text")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 50, height: 50, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                        .foregroundColor(.orange)
-                    Text("复习")
-                        .font(.system(size: 16))
-                        .foregroundColor(.black)
+            ZStack {
+                Button(action: {
+                    reviseButtonPressed = true
+                }, label: {
+                    VStack(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/, spacing: 2, content: {
+                        Image(systemName: "doc.text")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 50, height: 50, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                            .foregroundColor(.orange)
+                        Text("复习")
+                            .font(.system(size: 16))
+                            .foregroundColor(.black)
+                    })
                 })
-            })
+                .sheet(isPresented: $reviseButtonPressed, content: {
+                    ReviseListView()
+                })
+            }
             Spacer()
             ZStack {
                 Button(action: {
@@ -50,20 +57,25 @@ struct HomeNavigationBar: View {
                 .navigationBarTitle("", displayMode: .inline)
             }
             Spacer()
-            Button(action: {
-                
-            }, label: {
-                VStack(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/, spacing: 2, content: {
-                    Image(systemName: "book")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 50, height: 50, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                        .foregroundColor(.orange)
-                    Text("错题本")
-                        .font(.system(size: 16))
-                        .foregroundColor(.black)
+            ZStack {
+                Button(action: {
+                    mistakeButtonPressed = true
+                }, label: {
+                    VStack(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/, spacing: 2, content: {
+                        Image(systemName: "book")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 50, height: 50, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                            .foregroundColor(.orange)
+                        Text("错题本")
+                            .font(.system(size: 16))
+                            .foregroundColor(.black)
+                    })
+                }).sheet(isPresented: $mistakeButtonPressed, content: {
+                    MistakeListView()
                 })
-            })
+            }
+            
             Spacer()
         })
     }
