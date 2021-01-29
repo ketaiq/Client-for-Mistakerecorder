@@ -44,6 +44,6 @@ struct BackMistakeCardView: View {
 
 struct BackMistakeCardView_Previews: PreviewProvider {
     static var previews: some View {
-        BackMistakeCardView(mistake: mistake)
+        BackMistakeCardView(mistake: mistakeExample)
     }
 }

@@ -8,8 +8,8 @@
 import SwiftUI
 
 let screen = UIScreen.main.bounds
-var mistakeList = [mistake, mistake, mistake, mistake]
-var mistake = Mistake(
+var mistakeListExample = [mistakeExample, mistakeExample, mistakeExample, mistakeExample]
+var mistakeExample = Mistake(
     subject: "语文",
     category: "反义词",
     questionDescription: "写出下列词语的反义词。",
@@ -115,19 +115,19 @@ struct MistakeCardGroupView: View {
     @Binding var mistakeCardViewDragPosition: CGSize
     var body: some View {
         ZStack {
-            BackMistakeCardView(mistake: mistake)
+            BackMistakeCardView(mistake: mistakeExample)
                 .offset(x: 0, y: unfoldMistakeCards ? -250 : -40)
                 .offset(x: mistakeCardViewDragPosition.width, y: mistakeCardViewDragPosition.height)
                 .scaleEffect(unfoldMistakeCards ? 0.6 : 0.9)
                 .rotationEffect(.degrees(unfoldMistakeCards ? 0 : 10))
                 .animation(.easeInOut(duration: 0.5))
-            BackMistakeCardView(mistake: mistake)
+            BackMistakeCardView(mistake: mistakeExample)
                 .offset(x: 0, y: unfoldMistakeCards ? -100 : -20)
                 .offset(x: mistakeCardViewDragPosition.width, y: mistakeCardViewDragPosition.height)
                 .scaleEffect(unfoldMistakeCards ? 0.8 : 0.95)
                 .rotationEffect(.degrees(unfoldMistakeCards ? 0 : 5))
                 .animation(.easeInOut(duration: 0.3))
-            MistakeCardView(mistake: mistake, unfoldMistakeCards: $unfoldMistakeCards, dragPosition: $mistakeCardViewDragPosition)
+            MistakeCardView(mistake: mistakeExample, unfoldMistakeCards: $unfoldMistakeCards, dragPosition: $mistakeCardViewDragPosition)
                 .offset(x: mistakeCardViewDragPosition.width, y: mistakeCardViewDragPosition.height)
                 .animation(.spring(response: 0.3, dampingFraction: 0.6, blendDuration: 0))
             

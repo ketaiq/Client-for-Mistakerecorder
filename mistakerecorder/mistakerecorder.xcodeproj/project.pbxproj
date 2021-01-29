@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0B50C43825C3C18E00D392C7 /* MistakeStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B50C43725C3C18E00D392C7 /* MistakeStore.swift */; };
+		0B50C43D25C402E000D392C7 /* MistakeItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B50C43C25C402E000D392C7 /* MistakeItemView.swift */; };
 		0B6659F825B998A800C9DB31 /* mistakerecorderApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6659F725B998A800C9DB31 /* mistakerecorderApp.swift */; };
 		0B6659FA25B998A800C9DB31 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6659F925B998A800C9DB31 /* ContentView.swift */; };
 		0B6659FC25B998AA00C9DB31 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0B6659FB25B998AA00C9DB31 /* Assets.xcassets */; };
@@ -47,6 +49,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0B50C43725C3C18E00D392C7 /* MistakeStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistakeStore.swift; sourceTree = "<group>"; };
+		0B50C43C25C402E000D392C7 /* MistakeItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistakeItemView.swift; sourceTree = "<group>"; };
 		0B6659F425B998A800C9DB31 /* mistakerecorder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = mistakerecorder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0B6659F725B998A800C9DB31 /* mistakerecorderApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mistakerecorderApp.swift; sourceTree = "<group>"; };
 		0B6659F925B998A800C9DB31 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -129,8 +133,10 @@
 				0BC474F025BAB92E001A59BE /* RegisterView.swift */,
 				0B91501225BE717200122F38 /* HomeView.swift */,
 				0B91505825C29CB700122F38 /* MistakeListView.swift */,
+				0B50C43C25C402E000D392C7 /* MistakeItemView.swift */,
 				0B91504B25C2974C00122F38 /* ReviseListView.swift */,
 				0B91506325C2B2E900122F38 /* ReviseItemView.swift */,
+				0B50C43725C3C18E00D392C7 /* MistakeStore.swift */,
 				0B91504625C0FFFB00122F38 /* UserMenuView.swift */,
 				0B91503C25C015E700122F38 /* MistakeCardView.swift */,
 				0B91504125C03DEA00122F38 /* BackMistakeCardView.swift */,
@@ -315,6 +321,8 @@
 				0B6659FA25B998A800C9DB31 /* ContentView.swift in Sources */,
 				0B91504225C03DEA00122F38 /* BackMistakeCardView.swift in Sources */,
 				0B91501325BE717200122F38 /* HomeView.swift in Sources */,
+				0B50C43D25C402E000D392C7 /* MistakeItemView.swift in Sources */,
+				0B50C43825C3C18E00D392C7 /* MistakeStore.swift in Sources */,
 				0B914FFC25BBC7AD00122F38 /* User.swift in Sources */,
 				0B6659F825B998A800C9DB31 /* mistakerecorderApp.swift in Sources */,
 			);
