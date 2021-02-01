@@ -58,13 +58,10 @@ struct LoginView: View {
                                 .cornerRadius(13)
                         })
                         NavigationLink(
-                            destination: HomeView()
-                                .navigationBarHidden(true)
-                                .navigationBarTitle("", displayMode: .inline),
+                            destination: TabBar(),
                             isActive: $loginButtonPressed) {
                             EmptyView()
                         }
-                        .navigationBarHidden(true)
                         .navigationBarTitle("", displayMode: .inline)
                     }
                     
@@ -120,6 +117,7 @@ struct LoginView: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color.white)
+            .navigationBarHidden(true)
         }
         
     }

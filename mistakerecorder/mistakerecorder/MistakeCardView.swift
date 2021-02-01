@@ -8,59 +8,88 @@
 import SwiftUI
 
 struct MistakeCardView: View {
+    @State var answerText: String = "请在这里填写答案"
     var mistake: Mistake
-    @Binding var unfoldMistakeCards: Bool
-    @Binding var dragPosition: CGSize
+    @Binding var occupyFullScreen: Bool
+    @Binding var fullScreenActive: Bool
     
     var body: some View {
-        ZStack {
-            Rectangle()
-                .foregroundColor(.green)
-                .cornerRadius(15)
-                .shadow(radius: 20)
-            VStack(alignment: .leading) {
+        ZStack(alignment: .top) {
+            VStack {
+                Rectangle()
+                    .foregroundColor(.white)
+                TextEditor(text: $answerText)
+                    .autocapitalization(.none)
+                    .disableAutocorrection(true)
                 HStack {
-                    Spacer()
-                    Rectangle()
-                        .frame(width: 40, height: 6, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                        .cornerRadius(3.0)
-                        .opacity(0.2)
-                        .gesture(
-                            DragGesture()
-                                .onChanged { value in
-                                    dragPosition = value.translation
-                                    unfoldMistakeCards = true
-                                }
-                                .onEnded { value in
-                                    dragPosition = CGSize.zero
-                                    unfoldMistakeCards = false
-                                }
-                        )
-                    Spacer()
+                    Button(action: {
+                        answerText = ""
+                    }, label: {
+                        Text("清空")
+                            .font(.headline)
+                            .font(.system(size: 16))
+                    })
+                    .frame(width: 100, height: 50, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                    .background(Color(#colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)))
+                    .foregroundColor(.white)
+                    .cornerRadius(20)
+                    
+                    Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {
+                        Text("确认")
+                            .font(.headline)
+                            .font(.system(size: 16))
+                    })
+                    .frame(width: 150, height: 50, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                    .background(Color.blue)
+                    .foregroundColor(.white)
+                    .cornerRadius(20)
                 }
+            }
+            .padding()
+            .frame(maxWidth: occupyFullScreen ? .infinity : 200,
+                   maxHeight: occupyFullScreen ? .infinity : 200)
+            .background(Color.white)
+            .clipShape(RoundedRectangle(cornerRadius: 30, style: /*@START_MENU_TOKEN@*/.continuous/*@END_MENU_TOKEN@*/))
+            .shadow(color: Color.black.opacity(0.2), radius: 20, x: /*@START_MENU_TOKEN@*/0.0/*@END_MENU_TOKEN@*/, y: 20)
+            .opacity(occupyFullScreen ? 1 : 0)
+            
+            
+            VStack(alignment: .leading, spacing: 10) {
                 HStack {
                     Text(mistake.subject)
                         .font(.title)
                     Spacer()
+                    Image(systemName: "xmark.circle")
+                        .font(.title)
+                        .foregroundColor(Color(#colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)))
+                        .opacity(occupyFullScreen ? 1 : 0)
                 }
-                .padding(.bottom)
+                .padding(.top)
                 Text(mistake.questionDescription)
                     .font(.headline)
-                Spacer()
-                
-                VStack {
+                VStack(spacing: 10) {
                     ForEach(mistake.questionItems) { item in
                         HStack {
                             Text(item.question)
                             Spacer()
                         }
-                        .padding(.vertical, 5)
                     }
                 }
+                Spacer()
             }
-            .padding()
+            .padding(.horizontal)
+            .frame(
+                width: occupyFullScreen ? .infinity : 320,
+                height: occupyFullScreen ? 300 : 250)
+            .background(Color.green)
+            .clipShape(RoundedRectangle(cornerRadius: 20, style: /*@START_MENU_TOKEN@*/.continuous/*@END_MENU_TOKEN@*/))
+            .shadow(color: Color.green.opacity(0.8), radius: 20, x: 0, y: 20)
+            .onTapGesture {
+                occupyFullScreen.toggle()
+                fullScreenActive.toggle()
+            }
         }
-        .frame(height: 250, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-        .padding()
+        .frame(height: occupyFullScreen ? screen.height - 70 : 250)
+        .animation(.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0))
     }
 }

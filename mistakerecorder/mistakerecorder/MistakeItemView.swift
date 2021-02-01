@@ -8,19 +8,11 @@
 import SwiftUI
 
 struct MistakeItemView: View {
-    var mistake: Mistake
-    @State var showingRightAnswers = false
+    @ObservedObject var mistake: Mistake
     @State var subject: String = ""
     @State var category: String = ""
     @State var questionDescription: String = ""
-    
-    init(mistake: Mistake) {
-        self.mistake = mistake
-        self.subject = mistake.subject
-        self.category = mistake.category
-        self.questionDescription = mistake.questionDescription
-    }
-    
+
     var body: some View {
         ScrollView {
             VStack(alignment: .leading) {
@@ -40,9 +32,9 @@ struct MistakeItemView: View {
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                 }
                 Button(action: {
-//                    self.mistake.subject = self.subject
-//                    self.mistake.category = self.category
-//                    self.mistake.questionDescription = self.questionDescription
+                    mistake.subject = subject
+                    mistake.category = category
+                    mistake.questionDescription = questionDescription
                 }, label: {
                     Text("保存")
                         .font(.system(size: 16))

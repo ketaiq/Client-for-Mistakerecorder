@@ -8,7 +8,9 @@
 import SwiftUI
 
 struct ReviseListView: View {
+    
     @ObservedObject var store = MistakeStore()
+    
     var body: some View {
         NavigationView {
             List(store.mistakeList) { mistake in
