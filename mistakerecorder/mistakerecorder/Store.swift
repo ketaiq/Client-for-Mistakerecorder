@@ -1,14 +1,18 @@
 //
-//  MistakeStore.swift
+//  Store.swift
 //  mistakerecorder
 //
-//  Created by CaSdm on 2021/1/29.
+//  Created by CaSdm on 2021/2/3.
 //
 
 import Foundation
 
 class MistakeStore: ObservableObject { // 错题列表
-    @Published var mistakeList: [Mistake] = mistakeListExample
+    @Published var list: [Mistake] = mistakeListExample
+}
+
+class RevisingMistakeStore: ObservableObject { // 复习题列表
+    @Published var list: [RevisingMistake] = revisingMistakeListExample
 }
 
 class Mistake: ObservableObject, Identifiable { // 错题
@@ -26,6 +30,17 @@ class Mistake: ObservableObject, Identifiable { // 错题
     }
 }
 
+class RevisingMistake: ObservableObject, Identifiable { // 复习题
+    var id = UUID()
+    @Published var mistake: Mistake
+    @Published var occupyFullScreen: Bool
+    
+    init(mistake: Mistake, occupyFullScreen: Bool) {
+        self.mistake = mistake
+        self.occupyFullScreen = occupyFullScreen
+    }
+}
+
 class QuestionItem: ObservableObject, Identifiable { // 题目项
     var id = UUID() // 自动生成的ID
     @Published var question: String // 题目
@@ -37,6 +52,7 @@ class QuestionItem: ObservableObject, Identifiable { // 题目项
     }
 }
 
+var revisingMistakeListExample = [revisingMistakeExample1, revisingMistakeExample2, revisingMistakeExample3, revisingMistakeExample4]
 var mistakeListExample = [mistakeExample1, mistakeExample2, mistakeExample3, mistakeExample4]
 var mistakeExample1 = Mistake(
     subject: "语文",
@@ -78,3 +94,10 @@ var mistakeExample4 = Mistake(
         QuestionItem(question: "高兴", rightAnswer: "难过"),
         QuestionItem(question: "早", rightAnswer: "晚")]
 )
+var revisingMistakeExample1 = RevisingMistake(mistake: mistakeExample1, occupyFullScreen: false)
+var revisingMistakeExample2 = RevisingMistake(mistake: mistakeExample2, occupyFullScreen: false)
+var revisingMistakeExample3 = RevisingMistake(mistake: mistakeExample3, occupyFullScreen: false)
+var revisingMistakeExample4 = RevisingMistake(mistake: mistakeExample4, occupyFullScreen: false)
+
+
+

@@ -8,25 +8,26 @@
 import SwiftUI
 
 struct MistakeListView: View {
-    @ObservedObject var mistakeStore = MistakeStore()
+    @ObservedObject var mistakeStore: MistakeStore
+    @State private var isEditing = false
     
     func addMistake() {
-        mistakeStore.mistakeList.append(
+        mistakeStore.list.append(
             Mistake(
-                subject: "语文",
-                category: "反义词",
-                questionDescription: "写出下列词语的反义词。",
+                subject: "学科",
+                category: "题目类型",
+                questionDescription: "题干描述。",
                 questionItems: [
-                    QuestionItem(question: "认真", rightAnswer: "马虎"),
-                    QuestionItem(question: "长", rightAnswer: "短"),
-                    QuestionItem(question: "高兴", rightAnswer: "难过"),
-                    QuestionItem(question: "早", rightAnswer: "晚")]))
+                    QuestionItem(question: "题目项1题目", rightAnswer: "题目项1答案"),
+                    QuestionItem(question: "题目项2题目", rightAnswer: "题目项2答案"),
+                    QuestionItem(question: "题目项3题目", rightAnswer: "题目项3答案"),
+                    QuestionItem(question: "题目项4题目", rightAnswer: "题目项4答案")]))
     }
     
     var body: some View {
         NavigationView {
             List {
-                ForEach(mistakeStore.mistakeList) { mistake in
+                ForEach(mistakeStore.list) { mistake in
                     NavigationLink(destination: MistakeItemView(mistake: mistake)) {
                         VStack(alignment: .leading, spacing: 8) {
                             Text(mistake.subject)
@@ -45,30 +46,33 @@ struct MistakeListView: View {
                     }
                 }
                 .onDelete(perform: { indexSet in
-                    self.mistakeStore.mistakeList.remove(at: indexSet.first!)
+                    self.mistakeStore.list.remove(at: indexSet.first!)
                 })
                 .onMove(perform: { (source: IndexSet, destination: Int) in
-                    self.mistakeStore.mistakeList.move(fromOffsets: source, toOffset: destination)
+                    self.mistakeStore.list.move(fromOffsets: source, toOffset: destination)
                 })
             }
+            .environment(
+                \.editMode,
+                .constant(self.isEditing ? EditMode.active : EditMode.inactive))
+            .animation(.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0))
             .navigationTitle(Text("错题本"))
             .navigationBarItems(
                 leading: Button(action: addMistake) {
                     Text("添加")
                 },
-                trailing: Button(action: {}, label: {
-                    ZStack {
-                        Text("编辑")
-                        EditButton().opacity(0.08)
-                    }
-                })
-            )
+                trailing: Button(action: {
+                    self.isEditing.toggle()
+                }, label: {
+                    Text(self.isEditing ? "完成" : "编辑")
+                }))
+            
         }
     }
 }
 
 struct MistakeListView_Previews: PreviewProvider {
     static var previews: some View {
-        MistakeListView()
+        MistakeListView(mistakeStore: MistakeStore())
     }
 }

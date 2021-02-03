@@ -10,7 +10,7 @@ import SwiftUI
 let screen = UIScreen.main.bounds
 
 struct HomeView: View {
-    @State var revisingMistakeList = revisingMistakeListExample
+    @ObservedObject var revisingMistakeStore: RevisingMistakeStore
     @State var showingUserMenuView = false
     @State var userMenuViewDragPosition = CGSize.zero
     @State var fullScreenActive = false
@@ -25,22 +25,21 @@ struct HomeView: View {
                     VStack {
                         TitleView(showingUserMenuView: $showingUserMenuView,
                                   fullScreenActive: $fullScreenActive)
-                        ForEach(revisingMistakeList.indices, id: \.self) { index in
+                        ForEach(revisingMistakeStore.list.indices, id: \.self) { index in
                             GeometryReader { geometry in
-                                MistakeCardView(
-                                    mistake: revisingMistakeList[index].mistake,
-                                    occupyFullScreen: $revisingMistakeList[index].occupyFullScreen,
+                                RevisingMistakeCardView(
+                                    revisingMistake: revisingMistakeStore.list[index],
                                     fullScreenActive: $fullScreenActive,
                                     index: index,
                                     activeIndex: $activeIndex)
-                                    .offset(y: revisingMistakeList[index].occupyFullScreen ? -geometry.frame(in: .global).minY : 0)
+                                    .offset(y: revisingMistakeStore.list[index].occupyFullScreen ? -geometry.frame(in: .global).minY : 0)
                                     .opacity(self.activeIndex != index && self.fullScreenActive ? 0 : 1)
                                     .scaleEffect(self.activeIndex != index && self.fullScreenActive ? 0.5 : 1)
                                     .offset(x: self.activeIndex != index && self.fullScreenActive ? screen.width : 0)
                             }
                             .frame(height: 250)
-                            .frame(maxWidth: revisingMistakeList[index].occupyFullScreen ? .infinity : 320)
-                            .zIndex(revisingMistakeList[index].occupyFullScreen ? 1 : 0)
+                            .frame(maxWidth: revisingMistakeStore.list[index].occupyFullScreen ? .infinity : 320)
+                            .zIndex(revisingMistakeStore.list[index].occupyFullScreen ? 1 : 0)
                         }
                         .padding()
                     }
@@ -87,7 +86,7 @@ struct HomeView: View {
 
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
-        HomeView()
+        HomeView(revisingMistakeStore: RevisingMistakeStore())
     }
 }
 

@@ -8,9 +8,11 @@
 import SwiftUI
 
 struct TabBar: View {
+    @StateObject var mistakeStore = MistakeStore()
+    @StateObject var revisingMistakeStore = RevisingMistakeStore()
     var body: some View {
         TabView {
-            HomeView().tabItem {
+            HomeView(revisingMistakeStore: revisingMistakeStore).tabItem {
                 Image(systemName: "house")
                 Text("主页")
             }
@@ -18,11 +20,11 @@ struct TabBar: View {
                 Image(systemName: "camera")
                 Text("拍照")
             }
-            ReviseListView().tabItem {
+            ReviseListView(revisingMistakeStore: revisingMistakeStore).tabItem {
                 Image(systemName: "doc.text")
                 Text("复习")
             }
-            MistakeListView().tabItem {
+            MistakeListView(mistakeStore: mistakeStore).tabItem {
                 Image(systemName: "book")
                 Text("错题本")
             }
