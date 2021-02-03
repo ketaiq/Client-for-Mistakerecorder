@@ -12,15 +12,16 @@ struct MistakeCardView: View {
     var mistake: Mistake
     @Binding var occupyFullScreen: Bool
     @Binding var fullScreenActive: Bool
+    var index: Int
+    @Binding var activeIndex: Int
     
     var body: some View {
         ZStack(alignment: .top) {
             VStack {
-                Rectangle()
-                    .foregroundColor(.white)
                 TextEditor(text: $answerText)
                     .autocapitalization(.none)
                     .disableAutocorrection(true)
+                    .padding(.vertical)
                 HStack {
                     Button(action: {
                         answerText = ""
@@ -44,10 +45,12 @@ struct MistakeCardView: View {
                     .foregroundColor(.white)
                     .cornerRadius(20)
                 }
+                Rectangle().foregroundColor(.white)
             }
             .padding()
             .frame(maxWidth: occupyFullScreen ? .infinity : 200,
                    maxHeight: occupyFullScreen ? .infinity : 200)
+            .offset(y: occupyFullScreen ? 300: 0)
             .background(Color.white)
             .clipShape(RoundedRectangle(cornerRadius: 30, style: /*@START_MENU_TOKEN@*/.continuous/*@END_MENU_TOKEN@*/))
             .shadow(color: Color.black.opacity(0.2), radius: 20, x: /*@START_MENU_TOKEN@*/0.0/*@END_MENU_TOKEN@*/, y: 20)
@@ -87,9 +90,29 @@ struct MistakeCardView: View {
             .onTapGesture {
                 occupyFullScreen.toggle()
                 fullScreenActive.toggle()
+                if occupyFullScreen {
+                    activeIndex = index
+                } else {
+                    activeIndex = -1
+                }
             }
         }
         .frame(height: occupyFullScreen ? screen.height - 70 : 250)
         .animation(.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0))
+    }
+}
+
+struct MistakeCardView_Previews: PreviewProvider {
+    @State static var activeIndex = 0
+    @State static var occupyFullScreen = true
+    @State static var fullScreenActive = true
+    
+    static var previews: some View {
+        MistakeCardView(
+            mistake: revisingMistakeExample1.mistake,
+            occupyFullScreen: $occupyFullScreen,
+            fullScreenActive: $fullScreenActive,
+            index: 0,
+            activeIndex: $activeIndex)
     }
 }

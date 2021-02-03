@@ -14,6 +14,7 @@ struct HomeView: View {
     @State var showingUserMenuView = false
     @State var userMenuViewDragPosition = CGSize.zero
     @State var fullScreenActive = false
+    @State var activeIndex = -1
     
     var body: some View {
         ZStack {
@@ -29,8 +30,13 @@ struct HomeView: View {
                                 MistakeCardView(
                                     mistake: revisingMistakeList[index].mistake,
                                     occupyFullScreen: $revisingMistakeList[index].occupyFullScreen,
-                                    fullScreenActive: $fullScreenActive)
+                                    fullScreenActive: $fullScreenActive,
+                                    index: index,
+                                    activeIndex: $activeIndex)
                                     .offset(y: revisingMistakeList[index].occupyFullScreen ? -geometry.frame(in: .global).minY : 0)
+                                    .opacity(self.activeIndex != index && self.fullScreenActive ? 0 : 1)
+                                    .scaleEffect(self.activeIndex != index && self.fullScreenActive ? 0.5 : 1)
+                                    .offset(x: self.activeIndex != index && self.fullScreenActive ? screen.width : 0)
                             }
                             .frame(height: 250)
                             .frame(maxWidth: revisingMistakeList[index].occupyFullScreen ? .infinity : 320)
