@@ -42,7 +42,6 @@ struct ReviseListView: View {
             .environment(
                 \.editMode,
                 .constant(self.isEditing ? EditMode.active : EditMode.inactive))
-            .animation(.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0))
             .navigationTitle(Text("所有待复习错题"))
             .navigationBarItems(
                 trailing: Button(action: {
@@ -50,6 +49,7 @@ struct ReviseListView: View {
                 }, label: {
                     Text(self.isEditing ? "完成" : "编辑")
                 }))
+            .animation(.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0))
         }
     }
 }

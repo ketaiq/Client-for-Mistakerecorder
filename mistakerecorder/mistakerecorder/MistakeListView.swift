@@ -7,21 +7,45 @@
 
 import SwiftUI
 
-struct MistakeListView: View {
+struct MistakeListView: DataDelegate, View {
     @ObservedObject var mistakeStore: MistakeStore
     @State private var isEditing = false
+    @State private var addButtonPressed = false
+    
+    func updateList(newData: String) {
+        do {
+            mistakeStore.list = try JSONDecoder().decode(
+                [Mistake].self,
+                from: newData.data(using: .utf8)!)
+        } catch {
+            print("解码失败！")
+        }
+    }
     
     func addMistake() {
         mistakeStore.list.append(
             Mistake(
+                _id: UUID().uuidString,
                 subject: "学科",
                 category: "题目类型",
                 questionDescription: "题干描述。",
                 questionItems: [
-                    QuestionItem(question: "题目项1题目", rightAnswer: "题目项1答案"),
-                    QuestionItem(question: "题目项2题目", rightAnswer: "题目项2答案"),
-                    QuestionItem(question: "题目项3题目", rightAnswer: "题目项3答案"),
-                    QuestionItem(question: "题目项4题目", rightAnswer: "题目项4答案")]))
+                    QuestionItem(
+                        _id: UUID().uuidString,
+                        question: "题目项1题目",
+                        rightAnswer: "题目项1答案"),
+                    QuestionItem(
+                        _id: UUID().uuidString,
+                        question: "题目项2题目",
+                        rightAnswer: "题目项2答案"),
+                    QuestionItem(
+                        _id: UUID().uuidString,
+                        question: "题目项3题目",
+                        rightAnswer: "题目项3答案"),
+                    QuestionItem(
+                        _id: UUID().uuidString,
+                        question: "题目项4题目",
+                        rightAnswer: "题目项4答案")]))
     }
     
     var body: some View {
@@ -55,18 +79,33 @@ struct MistakeListView: View {
             .environment(
                 \.editMode,
                 .constant(self.isEditing ? EditMode.active : EditMode.inactive))
-            .animation(.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0))
+            .onAppear(perform: {
+//                NetworkAPIFunctions.functions.delegate = self
+//                NetworkAPIFunctions.functions.fetchMistakes()
+                self.isEditing.toggle() // 强制刷新List中的数据
+                self.isEditing.toggle()
+            })
             .navigationTitle(Text("错题本"))
             .navigationBarItems(
-                leading: Button(action: addMistake) {
-                    Text("添加")
+                leading: ZStack {
+                    Button(action: {
+                        addMistake()
+                        self.addButtonPressed.toggle()
+                    }, label: {
+                        Text("添加")
+                    })
+                    NavigationLink(
+                        destination: MistakeItemView(mistake: self.mistakeStore.list[self.mistakeStore.list.count - 1]),
+                        isActive: self.$addButtonPressed) {
+                        EmptyView()
+                    }
                 },
                 trailing: Button(action: {
                     self.isEditing.toggle()
                 }, label: {
                     Text(self.isEditing ? "完成" : "编辑")
-                }))
-            
+                    }))
+            .animation(.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0))
         }
     }
 }

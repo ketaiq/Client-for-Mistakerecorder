@@ -10,24 +10,29 @@ import SwiftUI
 struct TabBar: View {
     @StateObject var mistakeStore = MistakeStore()
     @StateObject var revisingMistakeStore = RevisingMistakeStore()
+    @State private var selected = 0
     var body: some View {
-        TabView {
+        TabView(selection: $selected) {
             HomeView(revisingMistakeStore: revisingMistakeStore).tabItem {
-                Image(systemName: "house")
+                Image(systemName: (selected == 0 ? "house.fill" : "house"))
                 Text("主页")
             }
+            .tag(0)
             PhotographView().tabItem {
-                Image(systemName: "camera")
+                Image(systemName: (selected == 1 ? "camera.fill" : "camera"))
                 Text("拍照")
             }
+            .tag(1)
             ReviseListView(revisingMistakeStore: revisingMistakeStore).tabItem {
-                Image(systemName: "doc.text")
+                Image(systemName: (selected == 2 ? "doc.text.fill" : "doc.text"))
                 Text("复习")
             }
+            .tag(2)
             MistakeListView(mistakeStore: mistakeStore).tabItem {
-                Image(systemName: "book")
+                Image(systemName: (selected == 3 ? "book.fill" : "book"))
                 Text("错题本")
             }
+            .tag(3)
         }
     }
 }
