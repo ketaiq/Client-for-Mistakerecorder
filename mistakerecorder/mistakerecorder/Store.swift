@@ -8,8 +8,76 @@
 import Foundation
 
 protocol DataDelegate {
-    func updateList(newData: String)
+    func fetch(newData: String)
 }
+
+class User: ObservableObject, Codable { // 用户
+    var _id: String
+    @Published var username: String
+    @Published var nickname: String
+    @Published var realname: String
+    @Published var idcard: String
+    @Published var emailaddress: String
+    @Published var password: String
+    @Published var avatar: String
+    @Published var mistakeList: [Mistake] // 错题列表
+//    @Published var revisingList: [RevisingMistake] // 待复习列表
+    
+    enum CodingKeys: CodingKey {
+        case _id
+        case username
+        case nickname
+        case realname
+        case idcard
+        case emailaddress
+        case password
+        case avatar
+        case mistakeList
+//        case revisingList
+    }
+    
+    init(_id: String, username: String, nickname: String, realname: String, idcard: String, emailaddress: String, password: String, avatar: String) {
+        self._id = _id
+        self.username = username
+        self.nickname = nickname
+        self.realname = realname
+        self.idcard = idcard
+        self.emailaddress = emailaddress
+        self.password = password
+        self.avatar = avatar
+        self.mistakeList = [Mistake]()
+//        self.revisingList = [RevisingMistake]()
+    }
+    
+    required init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        self._id = try values.decode(String.self, forKey: ._id)
+        self.username = try values.decode(String.self, forKey: .username)
+        self.nickname = try values.decode(String.self, forKey: .nickname)
+        self.realname = try values.decode(String.self, forKey: .realname)
+        self.idcard = try values.decode(String.self, forKey: .idcard)
+        self.emailaddress = try values.decode(String.self, forKey: .emailaddress)
+        self.password = try values.decode(String.self, forKey: .password)
+        self.avatar = try values.decode(String.self, forKey: .avatar)
+        self.mistakeList = try values.decode([Mistake].self, forKey: .mistakeList)
+//        self.revisingList = try values.decode([RevisingMistake].self, forKey: .revisingList)
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(_id, forKey: ._id)
+        try container.encode(username, forKey: .username)
+        try container.encode(nickname, forKey: .nickname)
+        try container.encode(realname, forKey: .realname)
+        try container.encode(idcard, forKey: .idcard)
+        try container.encode(emailaddress, forKey: .emailaddress)
+        try container.encode(password, forKey: .password)
+        try container.encode(avatar, forKey: .avatar)
+        try container.encode(mistakeList, forKey: .mistakeList)
+//        try container.encode(revisingList, forKey: .revisingList)
+    }
+}
+
 class MistakeStore: ObservableObject { // 错题列表
     @Published var list: [Mistake] = mistakeListExample
 }
@@ -105,55 +173,54 @@ class QuestionItem: ObservableObject, Identifiable, Codable { // 题目项
 
 var revisingMistakeListExample = [revisingMistakeExample1, revisingMistakeExample2, revisingMistakeExample3, revisingMistakeExample4]
 var mistakeListExample = [mistakeExample1, mistakeExample2, mistakeExample3, mistakeExample4]
-//var mistakeListExample = [Mistake]()
 var mistakeExample1 = Mistake(
-    _id: UUID().uuidString,
+    _id: "",
     subject: "语文",
     category: "反义词",
     questionDescription: "写出下列词语的反义词。",
     questionItems: [
-        QuestionItem(_id: UUID().uuidString, question: "认真", rightAnswer: "马虎"),
-        QuestionItem(_id: UUID().uuidString, question: "长", rightAnswer: "短"),
-        QuestionItem(_id: UUID().uuidString, question: "高兴", rightAnswer: "难过"),
-        QuestionItem(_id: UUID().uuidString, question: "早", rightAnswer: "晚")]
+        QuestionItem(_id: "", question: "认真", rightAnswer: "马虎"),
+        QuestionItem(_id: "", question: "长", rightAnswer: "短"),
+        QuestionItem(_id: "", question: "高兴", rightAnswer: "难过"),
+        QuestionItem(_id: "", question: "早", rightAnswer: "晚")]
 )
 var mistakeExample2 = Mistake(
-    _id: UUID().uuidString,
+    _id: "",
     subject: "语文",
     category: "反义词",
     questionDescription: "写出下列词语的反义词。",
     questionItems: [
-        QuestionItem(_id: UUID().uuidString, question: "认真", rightAnswer: "马虎"),
-        QuestionItem(_id: UUID().uuidString, question: "长", rightAnswer: "短"),
-        QuestionItem(_id: UUID().uuidString, question: "高兴", rightAnswer: "难过"),
-        QuestionItem(_id: UUID().uuidString, question: "早", rightAnswer: "晚")]
+        QuestionItem(_id: "", question: "认真", rightAnswer: "马虎"),
+        QuestionItem(_id: "", question: "长", rightAnswer: "短"),
+        QuestionItem(_id: "", question: "高兴", rightAnswer: "难过"),
+        QuestionItem(_id: "", question: "早", rightAnswer: "晚")]
 )
 var mistakeExample3 = Mistake(
-    _id: UUID().uuidString,
+    _id: "",
     subject: "语文",
     category: "反义词",
     questionDescription: "写出下列词语的反义词。",
     questionItems: [
-        QuestionItem(_id: UUID().uuidString, question: "认真", rightAnswer: "马虎"),
-        QuestionItem(_id: UUID().uuidString, question: "长", rightAnswer: "短"),
-        QuestionItem(_id: UUID().uuidString, question: "高兴", rightAnswer: "难过"),
-        QuestionItem(_id: UUID().uuidString, question: "早", rightAnswer: "晚")]
+        QuestionItem(_id: "", question: "认真", rightAnswer: "马虎"),
+        QuestionItem(_id: "", question: "长", rightAnswer: "短"),
+        QuestionItem(_id: "", question: "高兴", rightAnswer: "难过"),
+        QuestionItem(_id: "", question: "早", rightAnswer: "晚")]
 )
 var mistakeExample4 = Mistake(
-    _id: UUID().uuidString,
+    _id: "",
     subject: "语文",
     category: "反义词",
     questionDescription: "写出下列词语的反义词。",
     questionItems: [
-        QuestionItem(_id: UUID().uuidString, question: "认真", rightAnswer: "马虎"),
-        QuestionItem(_id: UUID().uuidString, question: "长", rightAnswer: "短"),
-        QuestionItem(_id: UUID().uuidString, question: "高兴", rightAnswer: "难过"),
-        QuestionItem(_id: UUID().uuidString, question: "早", rightAnswer: "晚")]
+        QuestionItem(_id: "", question: "认真", rightAnswer: "马虎"),
+        QuestionItem(_id: "", question: "长", rightAnswer: "短"),
+        QuestionItem(_id: "", question: "高兴", rightAnswer: "难过"),
+        QuestionItem(_id: "", question: "早", rightAnswer: "晚")]
 )
-var revisingMistakeExample1 = RevisingMistake(_id: UUID().uuidString, mistake: mistakeExample1)
-var revisingMistakeExample2 = RevisingMistake(_id: UUID().uuidString, mistake: mistakeExample2)
-var revisingMistakeExample3 = RevisingMistake(_id: UUID().uuidString, mistake: mistakeExample3)
-var revisingMistakeExample4 = RevisingMistake(_id: UUID().uuidString, mistake: mistakeExample4)
+var revisingMistakeExample1 = RevisingMistake(_id: "", mistake: mistakeExample1)
+var revisingMistakeExample2 = RevisingMistake(_id: "", mistake: mistakeExample2)
+var revisingMistakeExample3 = RevisingMistake(_id: "", mistake: mistakeExample3)
+var revisingMistakeExample4 = RevisingMistake(_id: "", mistake: mistakeExample4)
 
 
 

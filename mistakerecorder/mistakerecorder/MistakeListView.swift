@@ -7,51 +7,42 @@
 
 import SwiftUI
 
-struct MistakeListView: DataDelegate, View {
-    @ObservedObject var mistakeStore: MistakeStore
+struct MistakeListView: View {
+    @Binding var mistakeList: [Mistake]
     @State private var isEditing = false
     @State private var addButtonPressed = false
     
-    func updateList(newData: String) {
-        do {
-            mistakeStore.list = try JSONDecoder().decode(
-                [Mistake].self,
-                from: newData.data(using: .utf8)!)
-        } catch {
-            print("解码失败！")
-        }
-    }
-    
     func addMistake() {
-        mistakeStore.list.append(
-            Mistake(
-                _id: UUID().uuidString,
-                subject: "学科",
-                category: "题目类型",
-                questionDescription: "题干描述。",
-                questionItems: [
-                    QuestionItem(
-                        _id: UUID().uuidString,
-                        question: "题目项1题目",
-                        rightAnswer: "题目项1答案"),
-                    QuestionItem(
-                        _id: UUID().uuidString,
-                        question: "题目项2题目",
-                        rightAnswer: "题目项2答案"),
-                    QuestionItem(
-                        _id: UUID().uuidString,
-                        question: "题目项3题目",
-                        rightAnswer: "题目项3答案"),
-                    QuestionItem(
-                        _id: UUID().uuidString,
-                        question: "题目项4题目",
-                        rightAnswer: "题目项4答案")]))
+        let mistake = Mistake(
+            _id: "",
+            subject: "学科",
+            category: "题目类型",
+            questionDescription: "题干描述。",
+            questionItems: [
+                QuestionItem(
+                    _id: "",
+                    question: "题目项1题目",
+                    rightAnswer: "题目项1答案"),
+                QuestionItem(
+                    _id: "",
+                    question: "题目项2题目",
+                    rightAnswer: "题目项2答案"),
+                QuestionItem(
+                    _id: "",
+                    question: "题目项3题目",
+                    rightAnswer: "题目项3答案"),
+                QuestionItem(
+                    _id: "",
+                    question: "题目项4题目",
+                    rightAnswer: "题目项4答案")])
+        mistakeList.append(mistake)
+        NetworkAPIFunctions.functions.createMistake(mistake: mistake)
     }
     
     var body: some View {
         NavigationView {
             List {
-                ForEach(mistakeStore.list) { mistake in
+                ForEach(mistakeList) { mistake in
                     NavigationLink(destination: MistakeItemView(mistake: mistake)) {
                         VStack(alignment: .leading, spacing: 8) {
                             Text(mistake.subject)
@@ -70,18 +61,14 @@ struct MistakeListView: DataDelegate, View {
                     }
                 }
                 .onDelete(perform: { indexSet in
-                    self.mistakeStore.list.remove(at: indexSet.first!)
-                })
-                .onMove(perform: { (source: IndexSet, destination: Int) in
-                    self.mistakeStore.list.move(fromOffsets: source, toOffset: destination)
+                    NetworkAPIFunctions.functions.deleteMistake(mistake: mistakeList[indexSet.first!])
+                    mistakeList.remove(at: indexSet.first!)
                 })
             }
             .environment(
                 \.editMode,
                 .constant(self.isEditing ? EditMode.active : EditMode.inactive))
             .onAppear(perform: {
-//                NetworkAPIFunctions.functions.delegate = self
-//                NetworkAPIFunctions.functions.fetchMistakes()
                 self.isEditing.toggle() // 强制刷新List中的数据
                 self.isEditing.toggle()
             })
@@ -95,23 +82,33 @@ struct MistakeListView: DataDelegate, View {
                         Text("添加")
                     })
                     NavigationLink(
-                        destination: MistakeItemView(mistake: self.mistakeStore.list[self.mistakeStore.list.count - 1]),
+                        destination: MistakeItemView(mistake: mistakeList[mistakeList.count - 1]),
                         isActive: self.$addButtonPressed) {
                         EmptyView()
                     }
                 },
-                trailing: Button(action: {
-                    self.isEditing.toggle()
-                }, label: {
-                    Text(self.isEditing ? "完成" : "编辑")
-                    }))
+                trailing: HStack {
+                    Button(action: {
+                        self.isEditing.toggle()
+                    }, label: {
+                        Text(self.isEditing ? "完成" : "编辑")
+                    })
+                    Button(action: {
+                        
+                        
+                    }, label: {
+                        Text("同步")
+                    })
+                }
+            )
             .animation(.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0))
         }
     }
 }
 
 struct MistakeListView_Previews: PreviewProvider {
+    @State static var mistakeList = [mistakeExample1, mistakeExample2, mistakeExample3, mistakeExample4]
     static var previews: some View {
-        MistakeListView(mistakeStore: MistakeStore())
+        MistakeListView(mistakeList: $mistakeList)
     }
 }

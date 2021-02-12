@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct RegisterView: View {
-    
+    @StateObject var user = User(_id: "", username: "", nickname: "", realname: "", idcard: "", emailaddress: "", password: "", avatar: "ac84bcb7d0a20cf4800d77cc74094b36acaf990f")
     @State var nickname = ""
     @State var realname = ""
     @State var id = ""
@@ -24,6 +24,8 @@ struct RegisterView: View {
     @State var wrongFormatAlert = false
     @State var repeatPasswordDifferentAlert = false
     @State var inputInvalidAlert = false
+    @State var confirmAlert = false
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
     var body: some View {
         VStack(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/, spacing: 10, content: {
@@ -51,6 +53,13 @@ struct RegisterView: View {
                     inputInvalidAlert = true
                 } else {
                     inputInvalidAlert = false
+                    user.nickname = nickname
+                    user.realname = realname
+                    user.idcard = id
+                    user.emailaddress = emailaddress
+                    user.password = password
+                    NetworkAPIFunctions.functions.register(user: user)
+                    confirmAlert = true
                 }
             }, label: {
                 Text("确认")
@@ -71,6 +80,14 @@ struct RegisterView: View {
                 return Alert(title: Text("警告"),
                       message: Text(alertMessage),
                       dismissButton: .default(Text("确认")))
+            })
+            .alert(isPresented: $confirmAlert, content: {
+                return Alert(title: Text("欢迎！"),
+                    message: Text("新账号已创建成功，账号为\(user.username)，请牢记！"),
+                    dismissButton: .default(Text("确认")) {
+                        self.presentationMode.wrappedValue.dismiss()
+                    }
+                )
             })
         })
         .frame(maxWidth: .infinity, maxHeight: .infinity)

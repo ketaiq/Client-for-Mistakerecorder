@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct TabBar: View {
-    @StateObject var mistakeStore = MistakeStore()
+    @ObservedObject var user: User
     @StateObject var revisingMistakeStore = RevisingMistakeStore()
     @State private var selected = 0
     var body: some View {
@@ -28,7 +28,7 @@ struct TabBar: View {
                 Text("复习")
             }
             .tag(2)
-            MistakeListView(mistakeStore: mistakeStore).tabItem {
+            MistakeListView(mistakeList: $user.mistakeList).tabItem {
                 Image(systemName: (selected == 3 ? "book.fill" : "book"))
                 Text("错题本")
             }
@@ -38,7 +38,8 @@ struct TabBar: View {
 }
 
 struct TabBar_Previews: PreviewProvider {
+    @StateObject static var user = User(_id: "", username: "00000000", nickname: "abc", realname: "qiu", idcard: "111111111111111111", emailaddress: "1111@qq.com", password: "a88888888", avatar: "ac84bcb7d0a20cf4800d77cc74094b36acaf990f")
     static var previews: some View {
-        TabBar()
+        TabBar(user: user)
     }
 }
