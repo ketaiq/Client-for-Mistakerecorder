@@ -7,23 +7,39 @@
 
 import SwiftUI
 
+class ForgetPasswordStatus: ObservableObject {
+    @Published var findPasswordSuccessfully: Bool
+    @Published var invalidInfoAlert: Bool
+    
+    init(findPasswordSuccessfully: Bool, invalidInfoAlert: Bool) {
+        self.findPasswordSuccessfully = findPasswordSuccessfully
+        self.invalidInfoAlert = invalidInfoAlert
+    }
+}
+
 struct ForgetPasswordView: View {
-    @State var realname = ""
-    @State var id = ""
-    @State var emailaddress = ""
-    @State var newPassword = ""
-    @State var repeatNewPassword = ""
-    @State var realnameWarningOpacity: Double = 0
-    @State var idWarningOpacity: Double = 0
-    @State var emailaddressWarningOpacity: Double = 0
-    @State var passwordWarningOpacity: Double = 0
-    @State var repeatPasswordWarningOpacity: Double = 0
-    @State var wrongFormatAlert = false
-    @State var repeatPasswordDifferentAlert = false
-    @State var inputInvalidAlert = false
+    @StateObject private var user = User(username: "", nickname: "", realname: "", idcard: "", emailaddress: "", password: "", avatar: "")
+    @StateObject private var forgetPasswordStatus = ForgetPasswordStatus(findPasswordSuccessfully: false, invalidInfoAlert: false)
+    @State private var username = ""
+    @State private var realname = ""
+    @State private var id = ""
+    @State private var emailaddress = ""
+    @State private var newPassword = ""
+    @State private var repeatNewPassword = ""
+    @State private var usernameWarningOpacity: Double = 0
+    @State private var realnameWarningOpacity: Double = 0
+    @State private var idWarningOpacity: Double = 0
+    @State private var emailaddressWarningOpacity: Double = 0
+    @State private var passwordWarningOpacity: Double = 0
+    @State private var repeatPasswordWarningOpacity: Double = 0
+    @State private var wrongFormatAlert = false
+    @State private var repeatPasswordDifferentAlert = false
+    @State private var inputInvalidAlert = false
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
     var body: some View {
         VStack(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/, spacing: 10, content: {
+            RegisterTextField(textType: "账号", textContent: $username, textWarningOpacity: $usernameWarningOpacity, formatRequirement: "注册后得到的8位数字")
             RegisterTextField(textType: "真实姓名", textContent: $realname, textWarningOpacity: $realnameWarningOpacity, formatRequirement: "可由2到5个汉字或1到32位大小写字母组成")
             RegisterTextField(textType: "身份证号", textContent: $id, textWarningOpacity: $idWarningOpacity, formatRequirement: "第二代18位身份证号")
             RegisterTextField(textType: "邮箱", textContent: $emailaddress, textWarningOpacity: $emailaddressWarningOpacity, formatRequirement: "正常邮箱格式")
@@ -47,6 +63,12 @@ struct ForgetPasswordView: View {
                     inputInvalidAlert = true
                 } else {
                     inputInvalidAlert = false
+                    user.username = username
+                    user.realname = realname
+                    user.idcard = id
+                    user.emailaddress = emailaddress
+                    user.password = newPassword
+                    NetworkAPIFunctions.functions.forgetPassword(user: user, forgetPasswordStatus: forgetPasswordStatus)
                 }
             }, label: {
                 Text("确认")
@@ -65,8 +87,22 @@ struct ForgetPasswordView: View {
                     alertMessage = "再次输入的密码与设置的密码不一致！"
                 }
                 return Alert(title: Text("警告"),
-                      message: Text(alertMessage),
-                      dismissButton: .default(Text("确认")))
+                             message: Text(alertMessage),
+                             dismissButton: .default(Text("确认")))
+            })
+            .alert(isPresented: $forgetPasswordStatus.invalidInfoAlert, content: {
+                return Alert(title: Text("提示"),
+                             message: Text("提供的信息无效！"),
+                             dismissButton: .default(Text("确认")) {
+                                forgetPasswordStatus.invalidInfoAlert = false
+                             })
+            })
+            .alert(isPresented: $forgetPasswordStatus.findPasswordSuccessfully, content: {
+                return Alert(title: Text("欢迎！"),
+                             message: Text("账号已找回，新密码为\(user.password)，请牢记！"),
+                             dismissButton: .default(Text("确认")) {
+                                self.presentationMode.wrappedValue.dismiss()
+                             })
             })
         })
         .frame(maxWidth: .infinity, maxHeight: .infinity)

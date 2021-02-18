@@ -79,6 +79,28 @@ class NetworkAPIFunctions {
                 }
         }
     }
+    func register(user: User) {
+        AF.request("http://47.100.54.54:8080/register",
+            method: .post,
+            parameters: user,
+            encoder: JSONParameterEncoder.default).response { response in
+                user.username = String(data: response.data!, encoding: .utf8)!
+            }
+    }
+    func forgetPassword(user: User, forgetPasswordStatus: ForgetPasswordStatus) {
+        AF.request("http://47.100.54.54:8080/forgetPassword",
+            method: .post,
+            parameters: user,
+            encoder: JSONParameterEncoder.default).response { response in
+                let userStr = String(data: response.data!, encoding: .utf8)!
+                print(userStr)
+                if userStr == "-1" {
+                    forgetPasswordStatus.invalidInfoAlert = true // 用户提供的信息无效
+                } else {
+                    forgetPasswordStatus.findPasswordSuccessfully = true // 找回密码成功
+                }
+            }
+    }
     func createMistake(mistake: Mistake) {
         var createdQuestionItems = [CreatedQuestionItem]()
         var i = 0
@@ -98,28 +120,23 @@ class NetworkAPIFunctions {
             method: .post,
             parameters: createdMistake,
             encoder: JSONParameterEncoder.default).response { response in
-                debugPrint(response)}
+                debugPrint(response)
+            }
     }
     func updateMistake(mistake: Mistake) {
         AF.request("http://47.100.54.54:8080/updateMistake",
             method: .post,
             parameters: mistake,
             encoder: JSONParameterEncoder.default).response { response in
-                debugPrint(response)}
+                debugPrint(response)
+            }
     }
     func deleteMistake(mistake: Mistake) {
         AF.request("http://47.100.54.54:8080/deleteMistake",
             method: .post,
             parameters: mistake,
             encoder: JSONParameterEncoder.default).response { response in
-                debugPrint(response)}
-    }
-    func register(user: User) {
-        AF.request("http://47.100.54.54:8080/register",
-            method: .post,
-            parameters: user,
-            encoder: JSONParameterEncoder.default).response { response in
-                user.username = String(data: response.data!, encoding: .utf8)!
+                debugPrint(response)
             }
     }
 }

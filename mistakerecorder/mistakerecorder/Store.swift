@@ -12,7 +12,6 @@ protocol DataDelegate {
 }
 
 class User: ObservableObject, Codable { // 用户
-    var _id: String
     @Published var username: String
     @Published var nickname: String
     @Published var realname: String
@@ -24,7 +23,6 @@ class User: ObservableObject, Codable { // 用户
 //    @Published var revisingList: [RevisingMistake] // 待复习列表
     
     enum CodingKeys: CodingKey {
-        case _id
         case username
         case nickname
         case realname
@@ -36,8 +34,7 @@ class User: ObservableObject, Codable { // 用户
 //        case revisingList
     }
     
-    init(_id: String, username: String, nickname: String, realname: String, idcard: String, emailaddress: String, password: String, avatar: String) {
-        self._id = _id
+    init(username: String, nickname: String, realname: String, idcard: String, emailaddress: String, password: String, avatar: String) {
         self.username = username
         self.nickname = nickname
         self.realname = realname
@@ -51,7 +48,6 @@ class User: ObservableObject, Codable { // 用户
     
     required init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
-        self._id = try values.decode(String.self, forKey: ._id)
         self.username = try values.decode(String.self, forKey: .username)
         self.nickname = try values.decode(String.self, forKey: .nickname)
         self.realname = try values.decode(String.self, forKey: .realname)
@@ -65,7 +61,6 @@ class User: ObservableObject, Codable { // 用户
     
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(_id, forKey: ._id)
         try container.encode(username, forKey: .username)
         try container.encode(nickname, forKey: .nickname)
         try container.encode(realname, forKey: .realname)

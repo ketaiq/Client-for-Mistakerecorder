@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct RegisterView: View {
-    @StateObject var user = User(_id: "", username: "", nickname: "", realname: "", idcard: "", emailaddress: "", password: "", avatar: "ac84bcb7d0a20cf4800d77cc74094b36acaf990f")
+    @StateObject var user = User(username: "", nickname: "", realname: "", idcard: "", emailaddress: "", password: "", avatar: "ac84bcb7d0a20cf4800d77cc74094b36acaf990f")
     @State var nickname = ""
     @State var realname = ""
     @State var id = ""

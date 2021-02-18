@@ -60,6 +60,14 @@ struct RegisterTextField: View {
 func confirmTextTypeMatch(textType: String, textContent: String) -> Bool {// 匹配昵称格式
     var textTypeExpression = ""
     switch textType {
+    case "账号": // 注册后得到的8位数字
+        textTypeExpression = "^[0-9]{8}$"
+        let predicate = NSPredicate(format: "SELF MATCHES %@", textTypeExpression)
+        if !predicate.evaluate(with: textContent) {
+            return false
+        } else {
+            return true
+        }
     case "昵称": // 可由汉字、大小写字母和数字组成
         textTypeExpression = "^[\u{4e00}-\u{9fa5}A-Za-z0-9]{1,32}$"
         let predicate = NSPredicate(format: "SELF MATCHES %@", textTypeExpression)

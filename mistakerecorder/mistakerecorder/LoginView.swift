@@ -13,14 +13,14 @@ class LoginStatus: ObservableObject {
     @Published var inexistentUsernameAlert: Bool
     
     init(loginSuccessfully: Bool, wrongPasswordAlert: Bool, inexistentUsernameAlert: Bool) {
-        self.loginSuccessfully = false
-        self.wrongPasswordAlert = false
-        self.inexistentUsernameAlert = false
+        self.loginSuccessfully = loginSuccessfully
+        self.wrongPasswordAlert = wrongPasswordAlert
+        self.inexistentUsernameAlert = inexistentUsernameAlert
     }
 }
 
 struct LoginView: View, DataDelegate {
-    @StateObject private var user = User(_id: "", username: "", nickname: "", realname: "", idcard: "", emailaddress: "", password: "", avatar: "")
+    @StateObject private var user = User(username: "", nickname: "", realname: "", idcard: "", emailaddress: "", password: "", avatar: "")
     @State private var registerButtonPressed = false
     @State private var forgetPasswordButtonPressed = false
     @StateObject private var loginStatus = LoginStatus(
