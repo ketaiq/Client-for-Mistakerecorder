@@ -8,42 +8,29 @@
 import SwiftUI
 
 struct MistakeListView: View {
-    @Binding var mistakeList: [Mistake]
+    @ObservedObject var user: User
     @State private var isEditing = false
     @State private var addButtonPressed = false
     
     func addMistake() {
         let mistake = Mistake(
-            _id: "",
             subject: "学科",
             category: "题目类型",
             questionDescription: "题干描述。",
             questionItems: [
                 QuestionItem(
-                    _id: "",
-                    question: "题目项1题目",
-                    rightAnswer: "题目项1答案"),
-                QuestionItem(
-                    _id: "",
-                    question: "题目项2题目",
-                    rightAnswer: "题目项2答案"),
-                QuestionItem(
-                    _id: "",
-                    question: "题目项3题目",
-                    rightAnswer: "题目项3答案"),
-                QuestionItem(
-                    _id: "",
-                    question: "题目项4题目",
-                    rightAnswer: "题目项4答案")])
-        mistakeList.append(mistake)
-        NetworkAPIFunctions.functions.createMistake(mistake: mistake)
+                    question: "题目项题目",
+                    rightAnswer: "题目项答案")
+            ])
+        user.mistakeList.append(mistake)
+        NetworkAPIFunctions.functions.updateMistakeList(user: user)
     }
     
     var body: some View {
         NavigationView {
             List {
-                ForEach(mistakeList) { mistake in
-                    NavigationLink(destination: MistakeItemView(mistake: mistake)) {
+                ForEach(user.mistakeList) { mistake in
+                    NavigationLink(destination: MistakeItemView(user: user, mistake: mistake)) {
                         VStack(alignment: .leading, spacing: 8) {
                             Text(mistake.subject)
                                 .font(.system(size: 25, weight: .bold))
@@ -60,9 +47,13 @@ struct MistakeListView: View {
                         .padding(.vertical)
                     }
                 }
+                .onMove(perform: { indices, newOffset in
+                    user.mistakeList.move(fromOffsets: indices, toOffset: newOffset)
+                    NetworkAPIFunctions.functions.updateMistakeList(user: user)
+                })
                 .onDelete(perform: { indexSet in
-                    NetworkAPIFunctions.functions.deleteMistake(mistake: mistakeList[indexSet.first!])
-                    mistakeList.remove(at: indexSet.first!)
+                    user.mistakeList.remove(at: indexSet.first!)
+                    NetworkAPIFunctions.functions.updateMistakeList(user: user)
                 })
             }
             .environment(
@@ -82,24 +73,16 @@ struct MistakeListView: View {
                         Text("添加")
                     })
                     NavigationLink(
-                        destination: MistakeItemView(mistake: mistakeList[mistakeList.count - 1]),
+                        destination: MistakeItemView(user: user, mistake: user.mistakeList[user.mistakeList.count - 1]),
                         isActive: self.$addButtonPressed) {
                         EmptyView()
                     }
                 },
-                trailing: HStack {
-                    Button(action: {
-                        self.isEditing.toggle()
-                    }, label: {
-                        Text(self.isEditing ? "完成" : "编辑")
-                    })
-                    Button(action: {
-                        
-                        
-                    }, label: {
-                        Text("同步")
-                    })
-                }
+                trailing: Button(action: {
+                    self.isEditing.toggle()
+                }, label: {
+                    Text(self.isEditing ? "完成" : "编辑")
+                })
             )
             .animation(.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0))
         }
@@ -107,8 +90,8 @@ struct MistakeListView: View {
 }
 
 struct MistakeListView_Previews: PreviewProvider {
-    @State static var mistakeList = [mistakeExample1, mistakeExample2, mistakeExample3, mistakeExample4]
+    @StateObject static var user = User(username: "00000000", nickname: "abc", realname: "qiu", idcard: "111111111111111111", emailaddress: "1111@qq.com", password: "a88888888", avatar: "ac84bcb7d0a20cf4800d77cc74094b36acaf990f")
     static var previews: some View {
-        MistakeListView(mistakeList: $mistakeList)
+        MistakeListView(user: user)
     }
 }

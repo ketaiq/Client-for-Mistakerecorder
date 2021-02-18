@@ -11,6 +11,7 @@ struct TabBar: View {
     @ObservedObject var user: User
     @StateObject var revisingMistakeStore = RevisingMistakeStore()
     @State private var selected = 0
+    
     var body: some View {
         TabView(selection: $selected) {
             HomeView(revisingMistakeStore: revisingMistakeStore).tabItem {
@@ -28,7 +29,7 @@ struct TabBar: View {
                 Text("复习")
             }
             .tag(2)
-            MistakeListView(mistakeList: $user.mistakeList).tabItem {
+            MistakeListView(user: user).tabItem {
                 Image(systemName: (selected == 3 ? "book.fill" : "book"))
                 Text("错题本")
             }

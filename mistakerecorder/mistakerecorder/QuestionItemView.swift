@@ -9,10 +9,11 @@ import SwiftUI
 
 struct QuestionItemView: View {
     @ObservedObject var questionItem: QuestionItem
-    @State var question: String = ""
-    @State var rightAnswer: String = ""
-    @State var questionCommit = false
-    @State var rightAnswerCommit = false
+    @Binding var questionItemSaved: Bool
+    @State private var question: String = ""
+    @State private var rightAnswer: String = ""
+    @State private var questionCommit = false
+    @State private var rightAnswerCommit = false
     
     var body: some View {
         VStack {
@@ -23,11 +24,13 @@ struct QuestionItemView: View {
                     onEditingChanged: { isBegin in
                         if isBegin {
                             self.questionCommit = false
+                            self.questionItemSaved = false
                         }
                     },
                     onCommit: {
                         self.questionItem.question = self.question
                         self.questionCommit = true
+                        self.questionItemSaved = true
                     })
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .autocapitalization(.none)
@@ -48,11 +51,13 @@ struct QuestionItemView: View {
                     onEditingChanged: { isBegin in
                         if isBegin {
                             self.rightAnswerCommit = false
+                            self.questionItemSaved = false
                         }
                     },
                     onCommit: {
                         self.questionItem.rightAnswer = self.rightAnswer
                         self.rightAnswerCommit = true
+                        self.questionItemSaved = true
                     })
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .autocapitalization(.none)
@@ -71,7 +76,8 @@ struct QuestionItemView: View {
 }
 
 struct QuestionItemView_Previews: PreviewProvider {
+    @State static var questionItemSaved = false
     static var previews: some View {
-        QuestionItemView(questionItem: mistakeExample1.questionItems[0])
+        QuestionItemView(questionItem: mistakeExample1.questionItems[0], questionItemSaved: $questionItemSaved)
     }
 }

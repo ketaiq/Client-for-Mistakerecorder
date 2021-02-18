@@ -8,14 +8,18 @@
 import SwiftUI
 
 struct MistakeItemView: View {
+    @ObservedObject var user: User
     @ObservedObject var mistake: Mistake
-    @State var subject: String = ""
-    @State var category: String = ""
-    @State var questionDescription: String = ""
-    @State var saveButtonPressed = false
-    @State var subjectCommit = false
-    @State var categoryCommit = false
-    @State var questionDescriptionCommit = false
+    @State private var subject: String = ""
+    @State private var category: String = ""
+    @State private var questionDescription: String = ""
+    @State private var saveButtonPressed = false
+    @State private var subjectCommit = false
+    @State private var categoryCommit = false
+    @State private var questionDescriptionCommit = false
+    @State private var questionItemSaved = false
+    @State private var mistakeUnsavedAlert = false
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
     var body: some View {
         ScrollView {
@@ -27,11 +31,13 @@ struct MistakeItemView: View {
                         onEditingChanged: { isBegin in
                             if isBegin {
                                 self.subjectCommit = false
+                                self.questionItemSaved = false
                             }
                         },
                         onCommit: {
                             self.mistake.subject = self.subject
                             self.subjectCommit = true
+                            self.questionItemSaved = true
                         })
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .autocapitalization(.none)
@@ -52,11 +58,13 @@ struct MistakeItemView: View {
                         onEditingChanged: { isBegin in
                             if isBegin {
                                 self.categoryCommit = false
+                                self.questionItemSaved = false
                             }
                         },
                         onCommit: {
                             self.mistake.category = self.category
                             self.categoryCommit = true
+                            self.questionItemSaved = true
                         })
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .autocapitalization(.none)
@@ -77,11 +85,13 @@ struct MistakeItemView: View {
                         onEditingChanged: { isBegin in
                             if isBegin {
                                 self.questionDescriptionCommit = false
+                                self.questionItemSaved = false
                             }
                         },
                         onCommit: {
                             self.mistake.questionDescription = self.questionDescription
                             self.questionDescriptionCommit = true
+                            self.questionItemSaved = true
                         })
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .autocapitalization(.none)
@@ -96,14 +106,14 @@ struct MistakeItemView: View {
                     }
                 }
                 ForEach(mistake.questionItems) { item in
-                    QuestionItemView(questionItem: item)
+                    QuestionItemView(questionItem: item, questionItemSaved: $questionItemSaved)
                 }
                 HStack {
                     Spacer()
                     Button(action: {
+                        questionItemSaved = false
                         mistake.questionItems.append(
-                            QuestionItem(_id: "",
-                                         question: "题目项题目",
+                            QuestionItem(question: "题目项题目",
                                          rightAnswer: "题目项答案"))
                     }, label: {
                         HStack {
@@ -121,10 +131,15 @@ struct MistakeItemView: View {
                     })
                     Spacer()
                     Button(action: {
-                        NetworkAPIFunctions.functions.updateMistake(mistake: self.mistake)
-                        saveButtonPressed.toggle()
+                        if questionItemSaved {
+                            NetworkAPIFunctions.functions.updateMistakeList(user: user)
+                            saveButtonPressed = true
+                            self.presentationMode.wrappedValue.dismiss()
+                        } else {
+                            mistakeUnsavedAlert = true
+                        }
                     }, label: {
-                        Text("同步")
+                        Text("保存")
                             .font(.system(size: 16))
                             .bold()
                             .foregroundColor(.white)
@@ -134,8 +149,17 @@ struct MistakeItemView: View {
                     })
                     .alert(isPresented: self.$saveButtonPressed, content: {
                         return Alert(title: Text("提醒"),
-                              message: Text("同步成功！"),
-                              dismissButton: .default(Text("确认")))
+                                     message: Text("保存成功！"),
+                                     dismissButton: .default(Text("确认")) {
+                                        saveButtonPressed = false
+                                     })
+                    })
+                    .alert(isPresented: self.$mistakeUnsavedAlert, content: {
+                        return Alert(title: Text("警告"),
+                                     message: Text("输入数据后需按回车确认！"),
+                                     dismissButton: .default(Text("确认")) {
+                                        saveButtonPressed = false
+                                     })
                     })
                     Spacer()
                 }
@@ -148,7 +172,8 @@ struct MistakeItemView: View {
 }
 
 struct MistakeItemView_Previews: PreviewProvider {
+    @StateObject static var user = User(username: "00000000", nickname: "abc", realname: "qiu", idcard: "111111111111111111", emailaddress: "1111@qq.com", password: "a88888888", avatar: "ac84bcb7d0a20cf4800d77cc74094b36acaf990f")
     static var previews: some View {
-        MistakeItemView(mistake: mistakeListExample[0])
+        MistakeItemView(user: user, mistake: mistakeListExample[0])
     }
 }

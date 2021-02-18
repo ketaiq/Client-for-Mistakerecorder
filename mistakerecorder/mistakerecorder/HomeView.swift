@@ -11,10 +11,10 @@ let screen = UIScreen.main.bounds
 
 struct HomeView: View {
     @ObservedObject var revisingMistakeStore: RevisingMistakeStore
-    @State var showingUserMenuView = false
-    @State var userMenuViewDragPosition = CGSize.zero
-    @State var fullScreenActive = false
-    @State var activeIndex = -1
+    @State private var showingUserMenuView = false
+    @State private var userMenuViewDragPosition = CGSize.zero
+    @State private var fullScreenActive = false
+    @State private var activeIndex = -1
     
     var body: some View {
         ZStack {
