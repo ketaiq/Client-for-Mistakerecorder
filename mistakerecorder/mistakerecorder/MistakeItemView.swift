@@ -20,10 +20,34 @@ struct MistakeItemView: View {
     @State private var questionItemSaved = false
     @State private var mistakeUnsavedAlert = false
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-
+    
     var body: some View {
         ScrollView {
             VStack(alignment: .leading) {
+                HStack {
+                    Text("创建时间：\(self.mistake.createdDate)")
+                    Spacer()
+                }
+                HStack {
+                    Text("下一次复习时间：\(self.mistake.nextRevisionDate)")
+                    Spacer()
+                }
+                HStack {
+                    Text("复习记录：")
+                    Image(systemName: "calendar")
+                        .font(.system(size: 32))
+                        .foregroundColor(.orange)
+//                    ScrollView(.horizontal) {
+//                        HStack {
+//                            ForEach(mistake.revisedRecords.indices, id: \.self) { index in
+//                                VStack {
+//                                    Text(mistake.revisedRecords[index].revisedDate)
+//                                    Text(mistake.revisedRecords[index].revisedPerformance)
+//                                }
+//                            }
+//                        }
+//                    }
+                }
                 ZStack {
                     HStack {
                         Text("所属学科：")
@@ -139,7 +163,7 @@ struct MistakeItemView: View {
                             mistakeUnsavedAlert = true
                         }
                     }, label: {
-                        Text("保存")
+                        Text("同步")
                             .font(.system(size: 16))
                             .bold()
                             .foregroundColor(.white)
@@ -149,7 +173,7 @@ struct MistakeItemView: View {
                     })
                     .alert(isPresented: self.$saveButtonPressed, content: {
                         return Alert(title: Text("提醒"),
-                                     message: Text("保存成功！"),
+                                     message: Text("同步成功！"),
                                      dismissButton: .default(Text("确认")) {
                                         saveButtonPressed = false
                                      })
@@ -174,6 +198,6 @@ struct MistakeItemView: View {
 struct MistakeItemView_Previews: PreviewProvider {
     @StateObject static var user = User(username: "00000000", nickname: "abc", realname: "qiu", idcard: "111111111111111111", emailaddress: "1111@qq.com", password: "a88888888", avatar: "ac84bcb7d0a20cf4800d77cc74094b36acaf990f")
     static var previews: some View {
-        MistakeItemView(user: user, mistake: mistakeListExample[0])
+        MistakeItemView(user: user, mistake: user.mistakeList[0])
     }
 }

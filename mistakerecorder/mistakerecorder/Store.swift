@@ -105,12 +105,18 @@ class Mistake: ObservableObject, Identifiable, Codable { // 错题
     @Published var category: String // 错题类型：近义词、反义词等
     @Published var questionDescription: String // 题干描述："写出下列词语的反义词。"
     @Published var questionItems: [QuestionItem] // 题目项数组
+    @Published var createdDate: String // 创建的时间
+    @Published var revisedRecords: [RevisedRecord] // 已经复习的记录
+    @Published var nextRevisionDate: String // 下一次复习的时间
     
     enum CodingKeys: CodingKey {
         case subject
         case category
         case questionDescription
         case questionItems
+        case createdDate
+        case revisedRecords
+        case nextRevisionDate
     }
     
     init(subject: String, category: String, questionDescription: String, questionItems: [QuestionItem]) {
@@ -118,6 +124,17 @@ class Mistake: ObservableObject, Identifiable, Codable { // 错题
         self.category = category
         self.questionDescription = questionDescription
         self.questionItems = questionItems
+        self.createdDate = DateFunctions.functions.currentDate()
+        self.revisedRecords = [
+            RevisedRecord(revisedDate: "6/2/21", revisedPerformance: "优"),
+            RevisedRecord(revisedDate: "6/13/21", revisedPerformance: "中"),
+            RevisedRecord(revisedDate: "6/25/21", revisedPerformance: "差"),
+            RevisedRecord(revisedDate: "6/29/21", revisedPerformance: "优"),
+            RevisedRecord(revisedDate: "7/9/21", revisedPerformance: "优"),
+            RevisedRecord(revisedDate: "7/17/21", revisedPerformance: "中"),
+            RevisedRecord(revisedDate: "7/29/21", revisedPerformance: "差"),
+            RevisedRecord(revisedDate: "8/12/21", revisedPerformance: "差")]
+        self.nextRevisionDate = DateFunctions.functions.addDate(startDate: DateFunctions.functions.currentDate(), addition: 1)
     }
     
     required init(from decoder: Decoder) throws {
@@ -126,6 +143,9 @@ class Mistake: ObservableObject, Identifiable, Codable { // 错题
         self.category = try values.decode(String.self, forKey: .category)
         self.questionDescription = try values.decode(String.self, forKey: .questionDescription)
         self.questionItems = try values.decode([QuestionItem].self, forKey: .questionItems)
+        self.createdDate = try values.decode(String.self, forKey: .createdDate)
+        self.revisedRecords = try values.decode([RevisedRecord].self, forKey: .revisedRecords)
+        self.nextRevisionDate = try values.decode(String.self, forKey: .nextRevisionDate)
     }
     
     func encode(to encoder: Encoder) throws {
@@ -134,7 +154,15 @@ class Mistake: ObservableObject, Identifiable, Codable { // 错题
         try container.encode(category, forKey: .category)
         try container.encode(questionDescription, forKey: .questionDescription)
         try container.encode(questionItems, forKey: .questionItems)
+        try container.encode(createdDate, forKey: .createdDate)
+        try container.encode(revisedRecords, forKey: .revisedRecords)
+        try container.encode(nextRevisionDate, forKey: .nextRevisionDate)
     }
+}
+
+struct RevisedRecord: Codable { // 已复习记录
+    let revisedDate: String
+    let revisedPerformance: String
 }
 
 class RevisingMistake: ObservableObject, Identifiable { // 复习题
