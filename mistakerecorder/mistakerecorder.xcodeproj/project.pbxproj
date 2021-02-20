@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0B16F4C025DF9DCD00C055DB /* DateFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B16F4BF25DF9DCD00C055DB /* DateFunctions.swift */; };
+		0B16F4C825E0D7FB00C055DB /* RevisedRecordsCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B16F4C725E0D7FB00C055DB /* RevisedRecordsCalendarView.swift */; };
 		0B22781925CA92530000FB8C /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B22781825CA92530000FB8C /* Store.swift */; };
 		0B50C43D25C402E000D392C7 /* MistakeItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B50C43C25C402E000D392C7 /* MistakeItemView.swift */; };
 		0B5B4ABA25CFB7A600686F56 /* QuestionItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B5B4AB925CFB7A600686F56 /* QuestionItemView.swift */; };
@@ -52,6 +53,7 @@
 
 /* Begin PBXFileReference section */
 		0B16F4BF25DF9DCD00C055DB /* DateFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFunctions.swift; sourceTree = "<group>"; };
+		0B16F4C725E0D7FB00C055DB /* RevisedRecordsCalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RevisedRecordsCalendarView.swift; sourceTree = "<group>"; };
 		0B22781825CA92530000FB8C /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
 		0B50C43C25C402E000D392C7 /* MistakeItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistakeItemView.swift; sourceTree = "<group>"; };
 		0B5B4AB925CFB7A600686F56 /* QuestionItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionItemView.swift; sourceTree = "<group>"; };
@@ -142,6 +144,7 @@
 				0B91505825C29CB700122F38 /* MistakeListView.swift */,
 				0B5B4AB925CFB7A600686F56 /* QuestionItemView.swift */,
 				0B50C43C25C402E000D392C7 /* MistakeItemView.swift */,
+				0B16F4C725E0D7FB00C055DB /* RevisedRecordsCalendarView.swift */,
 				0B91504B25C2974C00122F38 /* ReviseListView.swift */,
 				0B91506325C2B2E900122F38 /* ReviseItemView.swift */,
 				0B22781825CA92530000FB8C /* Store.swift */,
@@ -322,6 +325,7 @@
 				0BC474F125BAB92E001A59BE /* RegisterView.swift in Sources */,
 				0B91500125BBCAEF00122F38 /* RegisterTextField.swift in Sources */,
 				0B91501825BE734600122F38 /* TabBar.swift in Sources */,
+				0B16F4C825E0D7FB00C055DB /* RevisedRecordsCalendarView.swift in Sources */,
 				0B91503D25C015E700122F38 /* RevisingMistakeCardView.swift in Sources */,
 				0B91502525BE95A700122F38 /* PhotographView.swift in Sources */,
 				0B91500E25BE6E2400122F38 /* ForgetPasswordView.swift in Sources */,

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct RevisingMistakeCardView: View {
-    @State var answerText: String = "请在这里填写答案"
+    @State private var answerText: String = "请在这里填写答案"
     @ObservedObject var revisingMistake: RevisingMistake
     @Binding var fullScreenActive: Bool
     var index: Int
@@ -98,5 +98,16 @@ struct RevisingMistakeCardView: View {
         }
         .frame(height: revisingMistake.occupyFullScreen ? screen.height - 70 : 250)
         .animation(.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0))
+    }
+}
+
+struct RevisingMistakeCardView_Previews: PreviewProvider {
+    @StateObject static var revisingMistake = revisingMistakeExample1
+    @State static var fullScreenActive = false
+    static var index = 1
+    @State static var activeIndex = 1
+    
+    static var previews: some View {
+        RevisingMistakeCardView(revisingMistake: revisingMistake, fullScreenActive: $fullScreenActive, index: index, activeIndex: $activeIndex)
     }
 }
