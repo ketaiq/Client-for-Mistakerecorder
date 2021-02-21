@@ -126,14 +126,12 @@ class Mistake: ObservableObject, Identifiable, Codable { // 错题
         self.questionItems = questionItems
         self.createdDate = DateFunctions.functions.currentDate()
         self.revisedRecords = [
-            RevisedRecord(revisedDate: "6/2/21", revisedPerformance: "优"),
-            RevisedRecord(revisedDate: "6/13/21", revisedPerformance: "中"),
-            RevisedRecord(revisedDate: "6/25/21", revisedPerformance: "差"),
-            RevisedRecord(revisedDate: "6/29/21", revisedPerformance: "优"),
-            RevisedRecord(revisedDate: "7/9/21", revisedPerformance: "优"),
-            RevisedRecord(revisedDate: "7/17/21", revisedPerformance: "中"),
-            RevisedRecord(revisedDate: "7/29/21", revisedPerformance: "差"),
-            RevisedRecord(revisedDate: "8/12/21", revisedPerformance: "差")]
+            RevisedRecord(revisedDate: "2/3/21", revisedPerformance: "掌握"),
+            RevisedRecord(revisedDate: "2/8/21", revisedPerformance: "模糊"),
+            RevisedRecord(revisedDate: "2/13/21", revisedPerformance: "忘记"),
+            RevisedRecord(revisedDate: "2/15/21", revisedPerformance: "模糊"),
+            RevisedRecord(revisedDate: "2/17/21", revisedPerformance: "掌握"),
+            RevisedRecord(revisedDate: "2/23/21", revisedPerformance: "模糊")]
         self.nextRevisionDate = DateFunctions.functions.addDate(startDate: DateFunctions.functions.currentDate(), addition: 1)
     }
     
