@@ -57,6 +57,18 @@ struct RegisterTextField: View {
     }
 }
 
+struct RegisterTextField_Previews: PreviewProvider {
+    @State static var textContent = "889"
+    @State static var textWarningOpacity: Double = 1
+    static var previews: some View {
+        RegisterTextField(
+            textType: "昵称", textContent: $textContent,
+            textWarningOpacity: $textWarningOpacity,
+            formatRequirement: "可由1到32个汉字、大小写字母和数字组成")
+    }
+}
+
+// 预览时把该函数移动至其他文件即可
 func confirmTextTypeMatch(textType: String, textContent: String) -> Bool {// 匹配昵称格式
     var textTypeExpression = ""
     switch textType {
@@ -118,16 +130,5 @@ func confirmTextTypeMatch(textType: String, textContent: String) -> Bool {// 匹
         }
     default:
         return true
-    }
-}
-
-struct RegisterTextField_Previews: PreviewProvider {
-    @State static var textContent = "889"
-    @State static var textWarningOpacity: Double = 1
-    static var previews: some View {
-        RegisterTextField(
-            textType: "昵称", textContent: $textContent,
-            textWarningOpacity: $textWarningOpacity,
-            formatRequirement: "可由1到32个汉字、大小写字母和数字组成")
     }
 }

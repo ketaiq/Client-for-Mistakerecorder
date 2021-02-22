@@ -146,7 +146,7 @@ class DateFunctions {
     }
     
     private func date2String(date: Date) -> String {
-        dateFormatter.dateStyle = .short
+        dateFormatter.dateFormat = "M/d/yy"
         return dateFormatter.string(from: date)
     }
     

@@ -72,11 +72,12 @@ struct ForgetPasswordView: View {
                 }
             }, label: {
                 Text("确认")
-                    .font(.system(size: 16))
-                    .foregroundColor(.black)
-                    .frame(width: 300, height: 50)
-                    .background(Color.blue)
-                    .cornerRadius(13)
+                    .font(.system(size: 24, weight: .bold))
+                    .foregroundColor(.white)
+                    .frame(width: 200, height: 50)
+                    .background(Color(#colorLiteral(red: 0.3647058904, green: 0.06666667014, blue: 0.9686274529, alpha: 1)))
+                    .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
+                    .shadow(color: Color.black.opacity(0.5), radius: 10, x: 0, y: 5)
             })
             .alert(isPresented: $inputInvalidAlert, content: {
                 var alertMessage: String = ""

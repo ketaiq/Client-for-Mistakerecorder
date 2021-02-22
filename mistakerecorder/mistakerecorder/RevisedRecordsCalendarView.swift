@@ -40,6 +40,7 @@ struct RevisedRecordsCalendarView: View {
                 Text("\(DateFunctions.functions.getYearFromDate(givenDate: dateArray.dates[10]).description)年\(DateFunctions.functions.getMonthFromDate(givenDate: dateArray.dates[10]))月")
                     .font(.title2)
                     .bold()
+                    .foregroundColor(.black)
                 Spacer()
                 Button(action: {
                     DateFunctions.functions.replaceDatesWithNextMonth(givenDateArray: dateArray)
@@ -59,12 +60,19 @@ struct RevisedRecordsCalendarView: View {
             Spacer()
             LazyVGrid(columns: columns) {
                 Text("日").bold()
+                    .foregroundColor(.black)
                 Text("一").bold()
+                    .foregroundColor(.black)
                 Text("二").bold()
+                    .foregroundColor(.black)
                 Text("三").bold()
+                    .foregroundColor(.black)
                 Text("四").bold()
+                    .foregroundColor(.black)
                 Text("五").bold()
+                    .foregroundColor(.black)
                 Text("六").bold()
+                    .foregroundColor(.black)
             }
             LazyVGrid(columns: columns) {
                 ForEach(dateArray.dates, id: \.self) { date in
@@ -73,6 +81,7 @@ struct RevisedRecordsCalendarView: View {
                             Circle()
                                 .foregroundColor(dateColor(date: date))
                             Text("\(DateFunctions.functions.getDayFromDate(givenDate: date))")
+                                .foregroundColor(.black)
                         }
                         .frame(width: 40, height: 40)
                     } else {
