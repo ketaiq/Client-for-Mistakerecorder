@@ -11,7 +11,7 @@ import SwiftUI
 struct mistakerecorderApp: App {
     var body: some Scene {
         WindowGroup {
-            LoginView()
+            TabBar().environmentObject(LoginStatus())
         }
     }
 }

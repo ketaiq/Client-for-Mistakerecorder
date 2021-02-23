@@ -20,12 +20,15 @@ class NetworkAPIFunctions {
                 let userStr = String(data: response.data!, encoding: .utf8)!
                 print(userStr)
                 if userStr == "0" {
+                    loginStatus.isLoading = false
                     loginStatus.wrongPasswordAlert = true // 账号密码不匹配
                 } else if userStr == "-1" {
+                    loginStatus.isLoading = false
                     loginStatus.inexistentUsernameAlert = true // 账号不存在
                 } else {
                     self.delegate?.fetch(newData: userStr) // 登录成功
-                    loginStatus.loginSuccessfully = true
+                    loginStatus.isLoading = false
+                    loginStatus.isWelcoming = true
                 }
         }
     }
