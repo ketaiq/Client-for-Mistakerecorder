@@ -32,13 +32,14 @@
 		0B91502525BE95A700122F38 /* PhotographView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B91502425BE95A700122F38 /* PhotographView.swift */; };
 		0B91503D25C015E700122F38 /* RevisingMistakeCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B91503C25C015E700122F38 /* RevisingMistakeCardView.swift */; };
 		0B91504725C0FFFB00122F38 /* UserMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B91504625C0FFFB00122F38 /* UserMenuView.swift */; };
-		0B91504C25C2974C00122F38 /* ReviseListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B91504B25C2974C00122F38 /* ReviseListView.swift */; };
 		0B91505925C29CB700122F38 /* MistakeListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B91505825C29CB700122F38 /* MistakeListView.swift */; };
-		0B91506425C2B2E900122F38 /* ReviseItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B91506325C2B2E900122F38 /* ReviseItemView.swift */; };
 		0BB62E0325CE28380086FD60 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 0BB62E0225CE28380086FD60 /* Alamofire */; };
 		0BB62E0825CE28650086FD60 /* NetworkAPIFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BB62E0725CE28650086FD60 /* NetworkAPIFunctions.swift */; };
 		0BC4745A25B99AED001A59BE /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BC4745925B99AED001A59BE /* LoginView.swift */; };
 		0BC474F125BAB92E001A59BE /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BC474F025BAB92E001A59BE /* RegisterView.swift */; };
+		0BE1FE6025E64C22009B8631 /* EvaluationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE1FE5F25E64C22009B8631 /* EvaluationView.swift */; };
+		0BE1FE6525E64D7A009B8631 /* congratulations.json in Resources */ = {isa = PBXBuildFile; fileRef = 0BE1FE6425E64D7A009B8631 /* congratulations.json */; };
+		0BE1FE6D25E659D2009B8631 /* failed.json in Resources */ = {isa = PBXBuildFile; fileRef = 0BE1FE6C25E659D2009B8631 /* failed.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -89,12 +90,13 @@
 		0B91502425BE95A700122F38 /* PhotographView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotographView.swift; sourceTree = "<group>"; };
 		0B91503C25C015E700122F38 /* RevisingMistakeCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RevisingMistakeCardView.swift; sourceTree = "<group>"; };
 		0B91504625C0FFFB00122F38 /* UserMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserMenuView.swift; sourceTree = "<group>"; };
-		0B91504B25C2974C00122F38 /* ReviseListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviseListView.swift; sourceTree = "<group>"; };
 		0B91505825C29CB700122F38 /* MistakeListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistakeListView.swift; sourceTree = "<group>"; };
-		0B91506325C2B2E900122F38 /* ReviseItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviseItemView.swift; sourceTree = "<group>"; };
 		0BB62E0725CE28650086FD60 /* NetworkAPIFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkAPIFunctions.swift; sourceTree = "<group>"; };
 		0BC4745925B99AED001A59BE /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		0BC474F025BAB92E001A59BE /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
+		0BE1FE5F25E64C22009B8631 /* EvaluationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvaluationView.swift; sourceTree = "<group>"; };
+		0BE1FE6425E64D7A009B8631 /* congratulations.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = congratulations.json; sourceTree = "<group>"; };
+		0BE1FE6C25E659D2009B8631 /* failed.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = failed.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,6 +129,8 @@
 		0B16F4ED25E4A1C300C055DB /* Lottie */ = {
 			isa = PBXGroup;
 			children = (
+				0BE1FE6C25E659D2009B8631 /* failed.json */,
+				0BE1FE6425E64D7A009B8631 /* congratulations.json */,
 				0B16F51825E4CB7500C055DB /* welcome.json */,
 				0B16F4EE25E4A1C300C055DB /* success.json */,
 				0B16F4EF25E4A1C300C055DB /* load.json */,
@@ -172,8 +176,7 @@
 				0B50C43C25C402E000D392C7 /* MistakeItemView.swift */,
 				0B16F4C725E0D7FB00C055DB /* RevisedRecordsCalendarView.swift */,
 				0B91503C25C015E700122F38 /* RevisingMistakeCardView.swift */,
-				0B91504B25C2974C00122F38 /* ReviseListView.swift */,
-				0B91506325C2B2E900122F38 /* ReviseItemView.swift */,
+				0BE1FE5F25E64C22009B8631 /* EvaluationView.swift */,
 				0B22781825CA92530000FB8C /* Store.swift */,
 				0B91504625C0FFFB00122F38 /* UserMenuView.swift */,
 				0B91502425BE95A700122F38 /* PhotographView.swift */,
@@ -325,11 +328,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0BE1FE6D25E659D2009B8631 /* failed.json in Resources */,
 				0B6659FF25B998AA00C9DB31 /* Preview Assets.xcassets in Resources */,
 				0B16F4F125E4A1C300C055DB /* load.json in Resources */,
 				0B6659FC25B998AA00C9DB31 /* Assets.xcassets in Resources */,
 				0B16F4F025E4A1C300C055DB /* success.json in Resources */,
 				0B16F51925E4CB7500C055DB /* welcome.json in Resources */,
+				0BE1FE6525E64D7A009B8631 /* congratulations.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -366,12 +371,11 @@
 				0B91500E25BE6E2400122F38 /* ForgetPasswordView.swift in Sources */,
 				0B5B4ABA25CFB7A600686F56 /* QuestionItemView.swift in Sources */,
 				0B16F51E25E4CF1800C055DB /* WelcomeView.swift in Sources */,
-				0B91506425C2B2E900122F38 /* ReviseItemView.swift in Sources */,
 				0B91505925C29CB700122F38 /* MistakeListView.swift in Sources */,
 				0B16F50425E4A63F00C055DB /* LoadView.swift in Sources */,
+				0BE1FE6025E64C22009B8631 /* EvaluationView.swift in Sources */,
 				0BB62E0825CE28650086FD60 /* NetworkAPIFunctions.swift in Sources */,
 				0B91504725C0FFFB00122F38 /* UserMenuView.swift in Sources */,
-				0B91504C25C2974C00122F38 /* ReviseListView.swift in Sources */,
 				0B91501325BE717200122F38 /* HomeView.swift in Sources */,
 				0B22781925CA92530000FB8C /* Store.swift in Sources */,
 				0B16F4C025DF9DCD00C055DB /* DateFunctions.swift in Sources */,

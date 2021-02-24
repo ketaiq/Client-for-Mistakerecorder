@@ -23,7 +23,8 @@ class DateFunctions {
     
     func currentDate() -> String {
         let now = Date()
-        return date2String(date: now)
+        let dateComponents = calendar.dateComponents([.year, .month, .day, .timeZone], from: now)
+        return date2String(date: calendar.date(from: dateComponents)!)
     }
     
     func addDate(startDate: String, addition: Int) -> String {
@@ -86,6 +87,37 @@ class DateFunctions {
                 givenDateArray.dates.append(newDates[i])
                 i = i + 1
             }
+        }
+    }
+    
+    func greaterEqualThan(date1Str: String, date2Str: String) -> Bool { // 比较日期大小，精确到日
+        let date1 = string2Date(dateString: date1Str)
+        let date1Components = calendar.dateComponents([.year, .month, .day], from: date1)
+        let year1 = date1Components.year!
+        let month1 = date1Components.month!
+        let day1 = date1Components.day!
+        let date2 = string2Date(dateString: date2Str)
+        let date2Components = calendar.dateComponents([.year, .month, .day], from: date2)
+        let year2 = date2Components.year!
+        let month2 = date2Components.month!
+        let day2 = date2Components.day!
+        
+        if year1 > year2 {
+            return true
+        } else if year1 == year2 {
+            if month1 > month2 {
+                return true
+            } else if month1 == month2 {
+                if day1 >= day2 {
+                    return true
+                } else {
+                    return false
+                }
+            } else {
+                return false
+            }
+        } else {
+            return false
         }
     }
     

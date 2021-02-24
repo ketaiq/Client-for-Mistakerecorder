@@ -20,7 +20,6 @@ class User: ObservableObject, Codable { // 用户
     @Published var password: String
     @Published var avatar: String
     @Published var mistakeList: [Mistake] // 错题列表
-//    @Published var revisingList: [RevisingMistake] // 待复习列表
     
     enum CodingKeys: CodingKey {
         case username
@@ -31,7 +30,6 @@ class User: ObservableObject, Codable { // 用户
         case password
         case avatar
         case mistakeList
-//        case revisingList
     }
     
     init(username: String, nickname: String, realname: String, idcard: String, emailaddress: String, password: String, avatar: String) {
@@ -62,7 +60,6 @@ class User: ObservableObject, Codable { // 用户
                         QuestionItem(question: "题目三", rightAnswer: "答案三")
                     ])
         ]
-//        self.revisingList = [RevisingMistake]()
     }
     
     required init(from decoder: Decoder) throws {
@@ -75,7 +72,6 @@ class User: ObservableObject, Codable { // 用户
         self.password = try values.decode(String.self, forKey: .password)
         self.avatar = try values.decode(String.self, forKey: .avatar)
         self.mistakeList = try values.decode([Mistake].self, forKey: .mistakeList)
-//        self.revisingList = try values.decode([RevisingMistake].self, forKey: .revisingList)
     }
     
     func encode(to encoder: Encoder) throws {
@@ -88,16 +84,7 @@ class User: ObservableObject, Codable { // 用户
         try container.encode(password, forKey: .password)
         try container.encode(avatar, forKey: .avatar)
         try container.encode(mistakeList, forKey: .mistakeList)
-//        try container.encode(revisingList, forKey: .revisingList)
     }
-}
-
-class MistakeStore: ObservableObject { // 错题列表
-    @Published var list: [Mistake] = mistakeListExample
-}
-
-class RevisingMistakeStore: ObservableObject { // 复习题列表
-    @Published var list: [RevisingMistake] = revisingMistakeListExample
 }
 
 class Mistake: ObservableObject, Identifiable, Codable { // 错题
@@ -108,6 +95,7 @@ class Mistake: ObservableObject, Identifiable, Codable { // 错题
     @Published var createdDate: String // 创建的时间
     @Published var revisedRecords: [RevisedRecord] // 已经复习的记录
     @Published var nextRevisionDate: String // 下一次复习的时间
+    @Published var isRevising: Bool // 正在复习标记
     
     enum CodingKeys: CodingKey {
         case subject
@@ -117,6 +105,7 @@ class Mistake: ObservableObject, Identifiable, Codable { // 错题
         case createdDate
         case revisedRecords
         case nextRevisionDate
+        case isRevising
     }
     
     init(subject: String, category: String, questionDescription: String, questionItems: [QuestionItem]) {
@@ -132,7 +121,8 @@ class Mistake: ObservableObject, Identifiable, Codable { // 错题
             RevisedRecord(revisedDate: "2/15/21", revisedPerformance: "模糊"),
             RevisedRecord(revisedDate: "2/17/21", revisedPerformance: "掌握"),
             RevisedRecord(revisedDate: "2/23/21", revisedPerformance: "模糊")]
-        self.nextRevisionDate = DateFunctions.functions.addDate(startDate: DateFunctions.functions.currentDate(), addition: 1)
+        self.nextRevisionDate = DateFunctions.functions.currentDate()
+        self.isRevising = false
     }
     
     required init(from decoder: Decoder) throws {
@@ -144,6 +134,7 @@ class Mistake: ObservableObject, Identifiable, Codable { // 错题
         self.createdDate = try values.decode(String.self, forKey: .createdDate)
         self.revisedRecords = try values.decode([RevisedRecord].self, forKey: .revisedRecords)
         self.nextRevisionDate = try values.decode(String.self, forKey: .nextRevisionDate)
+        self.isRevising = try values.decode(Bool.self, forKey: .isRevising)
     }
     
     func encode(to encoder: Encoder) throws {
@@ -155,23 +146,13 @@ class Mistake: ObservableObject, Identifiable, Codable { // 错题
         try container.encode(createdDate, forKey: .createdDate)
         try container.encode(revisedRecords, forKey: .revisedRecords)
         try container.encode(nextRevisionDate, forKey: .nextRevisionDate)
+        try container.encode(isRevising, forKey: .isRevising)
     }
 }
 
 struct RevisedRecord: Codable { // 已复习记录
     let revisedDate: String
     let revisedPerformance: String
-}
-
-class RevisingMistake: ObservableObject, Identifiable { // 复习题
-    var _id: String
-    @Published var mistake: Mistake
-    @Published var occupyFullScreen: Bool = false
-    
-    init(_id: String, mistake: Mistake) {
-        self._id = _id
-        self.mistake = mistake
-    }
 }
 
 class QuestionItem: ObservableObject, Identifiable, Codable { // 题目项
@@ -200,53 +181,3 @@ class QuestionItem: ObservableObject, Identifiable, Codable { // 题目项
         try container.encode(rightAnswer, forKey: .rightAnswer)
     }
 }
-
-var revisingMistakeListExample = [revisingMistakeExample1, revisingMistakeExample2, revisingMistakeExample3, revisingMistakeExample4]
-var mistakeListExample = [mistakeExample1, mistakeExample2, mistakeExample3, mistakeExample4]
-var mistakeExample1 = Mistake(
-    subject: "语文",
-    category: "反义词",
-    questionDescription: "写出下列词语的反义词。",
-    questionItems: [
-        QuestionItem(question: "认真", rightAnswer: "马虎"),
-        QuestionItem(question: "长", rightAnswer: "短"),
-        QuestionItem(question: "高兴", rightAnswer: "难过"),
-        QuestionItem(question: "早", rightAnswer: "晚")]
-)
-var mistakeExample2 = Mistake(
-    subject: "语文",
-    category: "反义词",
-    questionDescription: "写出下列词语的反义词。",
-    questionItems: [
-        QuestionItem(question: "认真", rightAnswer: "马虎"),
-        QuestionItem(question: "长", rightAnswer: "短"),
-        QuestionItem(question: "高兴", rightAnswer: "难过"),
-        QuestionItem(question: "早", rightAnswer: "晚")]
-)
-var mistakeExample3 = Mistake(
-    subject: "语文",
-    category: "反义词",
-    questionDescription: "写出下列词语的反义词。",
-    questionItems: [
-        QuestionItem(question: "认真", rightAnswer: "马虎"),
-        QuestionItem(question: "长", rightAnswer: "短"),
-        QuestionItem(question: "高兴", rightAnswer: "难过"),
-        QuestionItem(question: "早", rightAnswer: "晚")]
-)
-var mistakeExample4 = Mistake(
-    subject: "语文",
-    category: "反义词",
-    questionDescription: "写出下列词语的反义词。",
-    questionItems: [
-        QuestionItem(question: "认真", rightAnswer: "马虎"),
-        QuestionItem(question: "长", rightAnswer: "短"),
-        QuestionItem(question: "高兴", rightAnswer: "难过"),
-        QuestionItem(question: "早", rightAnswer: "晚")]
-)
-var revisingMistakeExample1 = RevisingMistake(_id: "", mistake: mistakeExample1)
-var revisingMistakeExample2 = RevisingMistake(_id: "", mistake: mistakeExample2)
-var revisingMistakeExample3 = RevisingMistake(_id: "", mistake: mistakeExample3)
-var revisingMistakeExample4 = RevisingMistake(_id: "", mistake: mistakeExample4)
-
-
-

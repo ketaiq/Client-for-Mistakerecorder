@@ -8,14 +8,14 @@
 import SwiftUI
 
 class LoginStatus: ObservableObject {
-    @Published var loginSuccessfully: Bool
+    @Published var showTabView: Bool
     @Published var wrongPasswordAlert: Bool
     @Published var inexistentUsernameAlert: Bool
     @Published var isLoading: Bool
     @Published var isWelcoming: Bool
     
     init() {
-        self.loginSuccessfully = false
+        self.showTabView = false
         self.wrongPasswordAlert = false
         self.inexistentUsernameAlert = false
         self.isLoading = false
@@ -140,7 +140,7 @@ struct LoginButtonSubview: View, DataDelegate {
         NetworkAPIFunctions.functions.login(user: user, loginStatus: loginStatus)
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             loginStatus.isWelcoming = false
-            loginStatus.loginSuccessfully = true
+            loginStatus.showTabView = true
         }
     }
     

@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct UserMenuView: View {
+    @EnvironmentObject var loginStatus: LoginStatus
+    
     var body: some View {
         VStack {
             Spacer()
@@ -25,8 +27,32 @@ struct UserMenuView: View {
                     .frame(width: 150, height: 24)
                     .background(Color(#colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)).opacity(0.1))
                     .cornerRadius(12)
-                UserMenuRow(icon: "gear", title: "账户")
-                UserMenuRow(icon: "person.crop.circle.badge.minus", title: "退出登录")
+                HStack(spacing: 16) {
+                    Image(systemName: "gear")
+                        .font(.system(size: 20, weight: .light))
+                        .imageScale(.large)
+                        .frame(width: 32, height: 32)
+                        .foregroundColor(Color(#colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)))
+                    Text("账户")
+                        .font(.system(size: 20, weight: .bold, design: .default))
+                        .frame(width: 120, alignment: .leading)
+                }
+                HStack(spacing: 16) {
+                    Image(systemName: "person.crop.circle.badge.minus")
+                        .font(.system(size: 20, weight: .light))
+                        .imageScale(.large)
+                        .frame(width: 32, height: 32)
+                        .foregroundColor(Color(#colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)))
+                    Button(action: {
+                        loginStatus.showTabView = false
+                    }, label: {
+                        Text("退出登录")
+                            .font(.system(size: 20, weight: .bold, design: .default))
+                            .frame(width: 120, alignment: .leading)
+                            .foregroundColor(.black)
+                    })
+                    
+                }
             }
             .frame(maxWidth: .infinity)
             .frame(height: 300)
@@ -48,24 +74,6 @@ struct UserMenuView: View {
 
 struct UserMenuView_Previews: PreviewProvider {
     static var previews: some View {
-        UserMenuView()
+        UserMenuView().environmentObject(LoginStatus())
     }
 }
-
-struct UserMenuRow: View {
-    var icon: String
-    var title: String
-    
-    var body: some View {
-        HStack(spacing: 16) {
-            Image(systemName: icon)
-                .font(.system(size: 20, weight: .light))
-                .imageScale(.large)
-                .frame(width: 32, height: 32)
-                .foregroundColor(Color(#colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)))
-            Text(title)
-                .font(.system(size: 20, weight: .bold, design: .default))
-                .frame(width: 120, alignment: .leading)
-        }
-    }
-} 

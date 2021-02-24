@@ -10,35 +10,29 @@ import SwiftUI
 struct TabBar: View {
     @EnvironmentObject var loginStatus: LoginStatus
     @StateObject private var user = User(username: "", nickname: "", realname: "", idcard: "", emailaddress: "", password: "", avatar: "")
-    @StateObject private var revisingMistakeStore = RevisingMistakeStore()
     @State private var selected = 0
     
     var body: some View {
         ZStack {
-            if !loginStatus.loginSuccessfully {
+            if !loginStatus.showTabView {
                 LoginView(user: self.user)
             } else {
-                TabView(selection: $selected) {
-                    HomeView(revisingMistakeStore: revisingMistakeStore).tabItem {
-                        Image(systemName: (selected == 0 ? "house.fill" : "house"))
+                TabView(selection: self.$selected) {
+                    HomeView(user: user).tabItem {
+                        Image(systemName: (self.selected == 0 ? "house.fill" : "house"))
                         Text("主页")
                     }
                     .tag(0)
                     PhotographView().tabItem {
-                        Image(systemName: (selected == 1 ? "camera.fill" : "camera"))
+                        Image(systemName: (self.selected == 1 ? "camera.fill" : "camera"))
                         Text("拍照")
                     }
                     .tag(1)
-                    ReviseListView(revisingMistakeStore: revisingMistakeStore).tabItem {
-                        Image(systemName: (selected == 2 ? "doc.text.fill" : "doc.text"))
-                        Text("复习")
-                    }
-                    .tag(2)
-                    MistakeListView(user: user).tabItem {
-                        Image(systemName: (selected == 3 ? "book.fill" : "book"))
+                    MistakeListView(user: self.user).tabItem {
+                        Image(systemName: (self.selected == 3 ? "book.fill" : "book"))
                         Text("错题本")
                     }
-                    .tag(3)
+                    .tag(2)
                 }
             }
         }
