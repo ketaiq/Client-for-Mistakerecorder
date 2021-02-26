@@ -13,6 +13,7 @@ struct RevisingMistakeCardView: View {
     var index: Int
     @Binding var activeIndex: Int
     @State private var answerText: String = "请在这里按题目顺序填写答案，用空格隔开"
+    @State private var showEvaluationResult = false
     
     func evaluateAnswers() {
         var rightAnswerNum: Double = 0
@@ -73,6 +74,7 @@ struct RevisingMistakeCardView: View {
                     
                     Button(action: {
                         evaluateAnswers()
+                        self.showEvaluationResult = true
                     }, label: {
                         Text("确认")
                             .font(.headline)
@@ -132,6 +134,10 @@ struct RevisingMistakeCardView: View {
                 } else {
                     activeIndex = -1
                 }
+            }
+            
+            if self.showEvaluationResult {
+                EvaluationView(answers: self.answerText.components(separatedBy: " "), mistake: mistake, showEvaluationResult: self.$showEvaluationResult)
             }
         }
         .frame(height: mistake.isRevising ? screen.height - 70 : 250)
