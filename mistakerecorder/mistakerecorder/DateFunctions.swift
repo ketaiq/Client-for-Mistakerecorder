@@ -21,16 +21,23 @@ class DateArray: ObservableObject {
 class DateFunctions {
     static let functions = DateFunctions()
     
-    func currentDate() -> String {
+    func currentDate() -> String { // 当前日期
         let now = Date()
         let dateComponents = calendar.dateComponents([.year, .month, .day, .timeZone], from: now)
         return date2String(date: calendar.date(from: dateComponents)!)
     }
     
-    func addDate(startDate: String, addition: Int) -> String {
+    func addDate(startDate: String, addition: Int) -> String { // 日期加
         let date = string2Date(dateString: startDate)
         let resultDate = calendar.date(byAdding: .day, value: addition, to: date)!
         return date2String(date: resultDate)
+    }
+    
+    func subtractDate(startDate: String, endDate: String) -> Int { // 日期减，求间隔天数
+        let date1 = string2Date(dateString: startDate)
+        let date2 = string2Date(dateString: endDate)
+        let interval = calendar.dateComponents([.day], from: date1, to: date2)
+        return interval.day!
     }
     
     func generateDatesOfMonth(givenDate: String) -> [Date] { // 获取给定日期所在月份的所有Date

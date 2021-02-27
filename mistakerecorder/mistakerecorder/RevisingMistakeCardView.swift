@@ -15,7 +15,7 @@ struct RevisingMistakeCardView: View {
     @State private var answerText: String = "请在这里按题目顺序填写答案，用空格隔开"
     @State private var showEvaluationResult = false
     
-    func evaluateAnswers() {
+    func evaluateAnswers() { // 评价复习结果并记录
         var rightAnswerNum: Double = 0
         var wrongAnswerNum: Double = 0
         var i = 0
@@ -35,6 +35,7 @@ struct RevisingMistakeCardView: View {
             wrongAnswerNum = wrongAnswerNum + 1
             i = i + 1
         }
+        // 记录复习结果
         let accurateRatio = rightAnswerNum / (rightAnswerNum + wrongAnswerNum)
         if accurateRatio >= 0.8 {
             mistake.revisedRecords.append(RevisedRecord(revisedDate: DateFunctions.functions.currentDate(), revisedPerformance: "掌握"))
@@ -45,7 +46,26 @@ struct RevisingMistakeCardView: View {
         }
     }
     
-    func showRightAnswers() {
+    func planNextRevisionDate() { // 计算下一次复习时间
+        let revisedCount = mistake.revisedRecords.count
+        let lastRevisedPerformance = mistake.revisedRecords[revisedCount - 1].revisedPerformance
+        let lastRevisedDate = mistake.revisedRecords[revisedCount - 1].revisedDate
+        if revisedCount == 1 { // 第一次复习
+            mistake.nextRevisionDate = DateFunctions.functions.addDate(startDate: lastRevisedDate, addition: 1) // 无论第一次复习结果如何，都是第二天继续需要复习
+        } else { // 复习次数 >= 2
+            let secondToLastRevisedDate = mistake.revisedRecords[revisedCount - 2].revisedDate // 倒数第二次的复习日期
+            let intervalDays = DateFunctions.functions.subtractDate(startDate: secondToLastRevisedDate, endDate: lastRevisedDate) // 最后两次复习之间的间隔天数
+            if lastRevisedPerformance == "掌握" {
+                mistake.nextRevisionDate = DateFunctions.functions.addDate(startDate: lastRevisedDate, addition: Int((Double(intervalDays) * 1.5).rounded()))
+            } else if lastRevisedPerformance == "模糊" {
+                mistake.nextRevisionDate = DateFunctions.functions.addDate(startDate: lastRevisedDate, addition: intervalDays)
+            } else { // 忘记
+                mistake.nextRevisionDate = DateFunctions.functions.addDate(startDate: lastRevisedDate, addition: 1)
+            }
+        }
+    }
+    
+    func showRightAnswers() { // 显示正确答案
         self.answerText.append("\n正确答案：")
         for item in mistake.questionItems {
             self.answerText.append("\(item.rightAnswer) ")
@@ -73,8 +93,9 @@ struct RevisingMistakeCardView: View {
                     .cornerRadius(20)
                     
                     Button(action: {
-                        evaluateAnswers()
+                        self.evaluateAnswers()
                         self.showEvaluationResult = true
+                        self.planNextRevisionDate()
                     }, label: {
                         Text("确认")
                             .font(.headline)
