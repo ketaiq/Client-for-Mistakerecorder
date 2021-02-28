@@ -8,34 +8,36 @@
 import SwiftUI
 
 struct UserMenuView: View {
+    @ObservedObject var user: User
     @EnvironmentObject var loginStatus: LoginStatus
     
     var body: some View {
+        
         VStack {
             Spacer()
             VStack(spacing: 16) {
-                Text("邱珂泰 - 37% 已完成复习")
-                    .font(.caption)
-                Color.white
-                    .frame(width: 38, height: 6)
-                    .cornerRadius(/*@START_MENU_TOKEN@*/3.0/*@END_MENU_TOKEN@*/)
-                    .offset(x: -20, y: 0)
-                    .frame(width: 130, height: 6)
-                    .background(Color(#colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)).opacity(0.08))
-                    .cornerRadius(/*@START_MENU_TOKEN@*/3.0/*@END_MENU_TOKEN@*/)
-                    .padding()
-                    .frame(width: 150, height: 24)
-                    .background(Color(#colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)).opacity(0.1))
-                    .cornerRadius(12)
+                Spacer()
+                Text("\(user.nickname)")
+                    .font(.title)
+                Text("账号：\(user.username)")
+                    .frame(width: 200, alignment: .leading)
+                Text("真实姓名：\(user.realname)")
+                    .frame(width: 200, alignment: .leading)
                 HStack(spacing: 16) {
                     Image(systemName: "gear")
                         .font(.system(size: 20, weight: .light))
                         .imageScale(.large)
                         .frame(width: 32, height: 32)
                         .foregroundColor(Color(#colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)))
-                    Text("账户")
-                        .font(.system(size: 20, weight: .bold, design: .default))
-                        .frame(width: 120, alignment: .leading)
+                    NavigationLink(
+                        destination: EditUserInfoView(user: user),
+                        label: {
+                            Text("编辑资料")
+                                .font(.system(size: 20, weight: .bold))
+                                .foregroundColor(.black)
+                        })
+                        .navigationTitle(Text("主页"))
+                        .navigationBarHidden(true)
                 }
                 HStack(spacing: 16) {
                     Image(systemName: "person.crop.circle.badge.minus")
@@ -47,12 +49,11 @@ struct UserMenuView: View {
                         loginStatus.showTabView = false
                     }, label: {
                         Text("退出登录")
-                            .font(.system(size: 20, weight: .bold, design: .default))
-                            .frame(width: 120, alignment: .leading)
+                            .font(.system(size: 20, weight: .bold))
                             .foregroundColor(.black)
                     })
-                    
                 }
+                Spacer()
             }
             .frame(maxWidth: .infinity)
             .frame(height: 300)
@@ -61,7 +62,7 @@ struct UserMenuView: View {
             .shadow(color: Color/*@START_MENU_TOKEN@*/.black/*@END_MENU_TOKEN@*/.opacity(0.2), radius: 20, x: /*@START_MENU_TOKEN@*/0.0/*@END_MENU_TOKEN@*/, y: 20)
             .padding(.horizontal, 30)
             .overlay(
-                Image("ac84bcb7d0a20cf4800d77cc74094b36acaf990f")
+                Image(user.avatar)
                     .resizable()
                     .aspectRatio(contentMode: /*@START_MENU_TOKEN@*/.fill/*@END_MENU_TOKEN@*/)
                     .frame(width: 60, height: 60)
@@ -73,7 +74,8 @@ struct UserMenuView: View {
 }
 
 struct UserMenuView_Previews: PreviewProvider {
+    @StateObject static var user = User(username: "00000000", nickname: "abc", realname: "qiu", idcard: "111111111111111111", emailaddress: "1111@qq.com", password: "a88888888", avatar: "ac84bcb7d0a20cf4800d77cc74094b36acaf990f")
     static var previews: some View {
-        UserMenuView().environmentObject(LoginStatus())
+        UserMenuView(user: user).environmentObject(LoginStatus())
     }
 }

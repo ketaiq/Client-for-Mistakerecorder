@@ -60,5 +60,29 @@ class NetworkAPIFunctions {
             parameters: user,
             encoder: JSONParameterEncoder.default).response { response in }
     }
+    func updateNickname(user: User) {
+        AF.request("http://47.100.54.54:8080/updateNickname",
+            method: .post,
+            parameters: user,
+            encoder: JSONParameterEncoder.default).response { response in }
+    }
+    func updatePassword(user: User) {
+        AF.request("http://47.100.54.54:8080/updatePassword",
+            method: .post,
+            parameters: user,
+            encoder: JSONParameterEncoder.default).response { response in }
+    }
+    func updateAvatar(user: User) {
+        AF.request("http://47.100.54.54:8080/updateAvatar",
+            method: .post,
+            parameters: user,
+            encoder: JSONParameterEncoder.default).response { response in }
+    }
+    func updateEmailaddress(user: User) {
+        AF.request("http://47.100.54.54:8080/updateEmailaddress",
+            method: .post,
+            parameters: user,
+            encoder: JSONParameterEncoder.default).response { response in }
+    }
 }
 

@@ -45,7 +45,7 @@ struct RevisingMistakeCardView: View {
             mistake.revisedRecords.append(RevisedRecord(revisedDate: DateFunctions.functions.currentDate(), revisedPerformance: "忘记"))
         }
     }
-    
+
     func planNextRevisionDate() { // 计算下一次复习时间
         let revisedCount = mistake.revisedRecords.count
         let lastRevisedPerformance = mistake.revisedRecords[revisedCount - 1].revisedPerformance
@@ -64,14 +64,14 @@ struct RevisingMistakeCardView: View {
             }
         }
     }
-    
+
     func showRightAnswers() { // 显示正确答案
         self.answerText.append("\n正确答案：")
         for item in mistake.questionItems {
             self.answerText.append("\(item.rightAnswer) ")
         }
     }
-    
+
     var body: some View {
         ZStack(alignment: .top) {
             VStack {

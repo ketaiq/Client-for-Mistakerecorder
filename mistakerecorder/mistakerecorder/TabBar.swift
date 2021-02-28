@@ -10,29 +10,28 @@ import SwiftUI
 struct TabBar: View {
     @EnvironmentObject var loginStatus: LoginStatus
     @StateObject private var user = User(username: "", nickname: "", realname: "", idcard: "", emailaddress: "", password: "", avatar: "")
-    @State private var selected = 0
+    @State private var selected = "主页"
     
     var body: some View {
         ZStack {
             if !loginStatus.showTabView {
                 LoginView(user: self.user)
             } else {
-                TabView(selection: self.$selected) {
-                    HomeView(user: user).tabItem {
-                        Image(systemName: (self.selected == 0 ? "house.fill" : "house"))
-                        Text("主页")
+                NavigationView {
+                    TabView(selection: self.$selected) {
+                        HomeView(user: user).tabItem {
+                            Image(systemName: (self.selected == "主页" ? "house.fill" : "house"))
+                            Text("主页")
+                        }
+                        .tag("主页")
+                        MistakeListView(user: self.user).tabItem {
+                            Image(systemName: (self.selected == "错题本" ? "book.fill" : "book"))
+                            Text("错题本")
+                        }
+                        .tag("错题本")
                     }
-                    .tag(0)
-                    PhotographView().tabItem {
-                        Image(systemName: (self.selected == 1 ? "camera.fill" : "camera"))
-                        Text("拍照")
-                    }
-                    .tag(1)
-                    MistakeListView(user: self.user).tabItem {
-                        Image(systemName: (self.selected == 3 ? "book.fill" : "book"))
-                        Text("错题本")
-                    }
-                    .tag(2)
+                    .navigationTitle(self.selected)
+                    .navigationBarHidden(true)
                 }
             }
         }

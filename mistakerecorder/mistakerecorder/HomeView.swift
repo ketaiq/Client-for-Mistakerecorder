@@ -23,7 +23,7 @@ struct HomeView: View {
             VStack(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/, spacing: 0, content: {
                 ScrollView(showsIndicators: false) {
                     VStack {
-                        TitleSubview(showingUserMenuView: self.$showingUserMenuView,
+                        TitleSubview(user: user, showingUserMenuView: self.$showingUserMenuView,
                                      fullScreenActive: self.$fullScreenActive)
                         CardsSubview(user: user, fullScreenActive: self.$fullScreenActive)
                     }
@@ -32,9 +32,9 @@ struct HomeView: View {
                 }
             })
             .background(Color.white)
-            .clipShape(RoundedRectangle(cornerRadius: self.showingUserMenuView ? 30 : 0, style: /*@START_MENU_TOKEN@*/.continuous/*@END_MENU_TOKEN@*/))
-            .shadow(color: Color.black.opacity(0.2), radius: 20, x: /*@START_MENU_TOKEN@*/0.0/*@END_MENU_TOKEN@*/, y: 20)
-            .offset(y: self.showingUserMenuView ? -370 : 0)
+            .clipShape(RoundedRectangle(cornerRadius: self.showingUserMenuView ? 30 : 0, style: .continuous))
+            .shadow(color: Color.black.opacity(0.2), radius: 20, x: 0.0, y: 20)
+            .offset(y: self.showingUserMenuView ? -430 : 0)
             .offset(y: self.userMenuViewDragPosition.height)
             .rotation3DEffect(
                 Angle(degrees: self.showingUserMenuView ? Double(self.userMenuViewDragPosition.height / 10) - 10 : 0),
@@ -44,14 +44,11 @@ struct HomeView: View {
             .animation(.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0))
             .edgesIgnoringSafeArea(.all)
             
-            UserMenuView()
+            UserMenuView(user: user)
                 .background(Color.black.opacity(0.001))
                 .offset(y: self.showingUserMenuView ? 0 : screen.height)
                 .offset(y: self.userMenuViewDragPosition.height)
                 .animation(.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0))
-                .onTapGesture {
-                    self.showingUserMenuView.toggle()
-                }
                 .gesture(
                     DragGesture()
                         .onChanged { value in
@@ -76,6 +73,7 @@ struct HomeView_Previews: PreviewProvider {
 }
 
 struct TitleSubview: View {
+    @ObservedObject var user: User
     @Binding var showingUserMenuView: Bool
     @Binding var fullScreenActive: Bool
     
@@ -90,7 +88,7 @@ struct TitleSubview: View {
             Button(action: {
                 showingUserMenuView.toggle()
             }, label: {
-                Image("ac84bcb7d0a20cf4800d77cc74094b36acaf990f")
+                Image(user.avatar)
                     .resizable()
                     .frame(width: 40, height: 40)
                     .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)

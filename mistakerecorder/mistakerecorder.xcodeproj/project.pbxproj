@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0B0255C325EA09AB002B4AB0 /* EditUserInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B0255C225EA09AB002B4AB0 /* EditUserInfoView.swift */; };
 		0B16F4C025DF9DCD00C055DB /* DateFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B16F4BF25DF9DCD00C055DB /* DateFunctions.swift */; };
 		0B16F4C825E0D7FB00C055DB /* RevisedRecordsCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B16F4C725E0D7FB00C055DB /* RevisedRecordsCalendarView.swift */; };
 		0B16F4F025E4A1C300C055DB /* success.json in Resources */ = {isa = PBXBuildFile; fileRef = 0B16F4EE25E4A1C300C055DB /* success.json */; };
@@ -40,6 +41,7 @@
 		0BE1FE6025E64C22009B8631 /* EvaluationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE1FE5F25E64C22009B8631 /* EvaluationView.swift */; };
 		0BE1FE6525E64D7A009B8631 /* congratulations.json in Resources */ = {isa = PBXBuildFile; fileRef = 0BE1FE6425E64D7A009B8631 /* congratulations.json */; };
 		0BE1FE6D25E659D2009B8631 /* failed.json in Resources */ = {isa = PBXBuildFile; fileRef = 0BE1FE6C25E659D2009B8631 /* failed.json */; };
+		0BFFA38025EB74AE00623666 /* EditAvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BFFA37F25EB74AE00623666 /* EditAvatarView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +62,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0B0255C225EA09AB002B4AB0 /* EditUserInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditUserInfoView.swift; sourceTree = "<group>"; };
 		0B16F4BF25DF9DCD00C055DB /* DateFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFunctions.swift; sourceTree = "<group>"; };
 		0B16F4C725E0D7FB00C055DB /* RevisedRecordsCalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RevisedRecordsCalendarView.swift; sourceTree = "<group>"; };
 		0B16F4EE25E4A1C300C055DB /* success.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = success.json; sourceTree = "<group>"; };
@@ -97,6 +100,7 @@
 		0BE1FE5F25E64C22009B8631 /* EvaluationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvaluationView.swift; sourceTree = "<group>"; };
 		0BE1FE6425E64D7A009B8631 /* congratulations.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = congratulations.json; sourceTree = "<group>"; };
 		0BE1FE6C25E659D2009B8631 /* failed.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = failed.json; sourceTree = "<group>"; };
+		0BFFA37F25EB74AE00623666 /* EditAvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditAvatarView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -179,6 +183,8 @@
 				0BE1FE5F25E64C22009B8631 /* EvaluationView.swift */,
 				0B22781825CA92530000FB8C /* Store.swift */,
 				0B91504625C0FFFB00122F38 /* UserMenuView.swift */,
+				0B0255C225EA09AB002B4AB0 /* EditUserInfoView.swift */,
+				0BFFA37F25EB74AE00623666 /* EditAvatarView.swift */,
 				0B91502425BE95A700122F38 /* PhotographView.swift */,
 				0B16F4BF25DF9DCD00C055DB /* DateFunctions.swift */,
 				0BB62E0725CE28650086FD60 /* NetworkAPIFunctions.swift */,
@@ -374,10 +380,12 @@
 				0B91505925C29CB700122F38 /* MistakeListView.swift in Sources */,
 				0B16F50425E4A63F00C055DB /* LoadView.swift in Sources */,
 				0BE1FE6025E64C22009B8631 /* EvaluationView.swift in Sources */,
+				0BFFA38025EB74AE00623666 /* EditAvatarView.swift in Sources */,
 				0BB62E0825CE28650086FD60 /* NetworkAPIFunctions.swift in Sources */,
 				0B91504725C0FFFB00122F38 /* UserMenuView.swift in Sources */,
 				0B91501325BE717200122F38 /* HomeView.swift in Sources */,
 				0B22781925CA92530000FB8C /* Store.swift in Sources */,
+				0B0255C325EA09AB002B4AB0 /* EditUserInfoView.swift in Sources */,
 				0B16F4C025DF9DCD00C055DB /* DateFunctions.swift in Sources */,
 				0B50C43D25C402E000D392C7 /* MistakeItemView.swift in Sources */,
 				0B6659F825B998A800C9DB31 /* mistakerecorderApp.swift in Sources */,
