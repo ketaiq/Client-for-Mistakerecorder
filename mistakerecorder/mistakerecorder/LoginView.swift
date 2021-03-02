@@ -27,42 +27,45 @@ struct LoginView: View {
     @EnvironmentObject var loginStatus: LoginStatus
     @ObservedObject var user: User
     
+    
     var body: some View {
-        ZStack {
-            VStack {
-                RegisterButtonSubview()
-                Spacer()
-                AppNameSubview()
-                InputTextSubview(user: self.user)
-                Spacer()
-                HStack {
-                    ForgetPasswordButtonSubview()
+        NavigationView {
+            ZStack {
+                VStack {
+                    RegisterButtonSubview()
                     Spacer()
-                    LoginButtonSubview(user: self.user, loginStatus: self.loginStatus)
+                    AppNameSubview()
+                    InputTextSubview(user: self.user)
+                    Spacer()
+                    HStack {
+                        ForgetPasswordButtonSubview()
+                        Spacer()
+                        LoginButtonSubview(user: self.user, loginStatus: self.loginStatus)
+                    }
+                    Spacer()
                 }
-                Spacer()
-            }
-            .frame(maxWidth: .infinity)
-            .background(Color.white)
-            .navigationBarHidden(true)
-            .animation(.easeInOut)
-            .onTapGesture {
-                hideKeyboard()
-            }
-            
-            if loginStatus.isLoading {
-                LoadView()
-            }
-            
-            if loginStatus.isWelcoming {
-                WelcomeView()
+                .frame(maxWidth: .infinity)
+                .background(Color.white)
+                .navigationBarHidden(true)
+                .animation(.easeInOut)
+                .onTapGesture {
+                    hideKeyboard()
+                }
+                
+                if loginStatus.isLoading {
+                    LoadView()
+                }
+                
+                if loginStatus.isWelcoming {
+                    WelcomeView()
+                }
             }
         }
     }
 }
 
 struct LoginView_Previews: PreviewProvider {
-    @StateObject static var user = User(username: "", nickname: "", realname: "", idcard: "", emailaddress: "", password: "", avatar: "")
+    @StateObject static var user = User(username: "", nickname: "", realname: "", idcard: "", emailaddress: "", password: "", avatar: Data())
     static var previews: some View {
         LoginView(user: user).environmentObject(LoginStatus())
     }
@@ -114,6 +117,9 @@ struct AppNameSubview: View {
 struct LoginButtonSubview: View, DataDelegate {
     @ObservedObject var user: User
     @ObservedObject var loginStatus: LoginStatus
+    @State var showAlert = false
+    @State var emptyInputAlert = false
+    @State var wrongFormatAlert = false
     
     func fetch(newData: String) {
         var fetchedUser: User
@@ -147,7 +153,17 @@ struct LoginButtonSubview: View, DataDelegate {
     var body: some View {
         Button(action: {
             hideKeyboard()
-            login()
+            if user.username == "" || user.password == "" {
+                self.emptyInputAlert = true
+            }
+            if !confirmTextTypeMatch(textType: "账号", textContent: user.username) || !confirmTextTypeMatch(textType: "密码", textContent: user.password) {
+                self.wrongFormatAlert = true
+            }
+            if self.emptyInputAlert || self.wrongFormatAlert || loginStatus.wrongPasswordAlert || loginStatus.inexistentUsernameAlert {
+                self.showAlert = true
+            } else {
+                login()
+            }
         }, label: {
             Text("登录")
                 .font(.system(size: 24, weight: .bold))
@@ -158,19 +174,42 @@ struct LoginButtonSubview: View, DataDelegate {
                 .shadow(color: Color.black.opacity(0.5), radius: 10, x: 0, y: 5)
                 .padding(.horizontal)
         })
-        .alert(isPresented: $loginStatus.wrongPasswordAlert, content: {
-            return Alert(title: Text("提示"),
-                         message: Text("账号与密码不匹配！"),
-                         dismissButton: .default(Text("确认")) {
-                            loginStatus.wrongPasswordAlert = false
-                         })
-        })
-        .alert(isPresented: $loginStatus.inexistentUsernameAlert, content: {
-            return Alert(title: Text("提示"),
-                         message: Text("账号不存在！"),
-                         dismissButton: .default(Text("确认")) {
-                            loginStatus.inexistentUsernameAlert = false
-                         })
+        .alert(isPresented: self.$showAlert, content: {
+            if loginStatus.wrongPasswordAlert {
+                return Alert(title: Text("警告"),
+                             message: Text("账号与密码不匹配！"),
+                             dismissButton: .default(Text("确认")) {
+                                loginStatus.wrongPasswordAlert = false
+                                self.showAlert = false
+                             })
+            } else if loginStatus.inexistentUsernameAlert {
+                return Alert(title: Text("警告"),
+                             message: Text("账号不存在！"),
+                             dismissButton: .default(Text("确认")) {
+                                loginStatus.inexistentUsernameAlert = false
+                                self.showAlert = false
+                             })
+            } else if self.emptyInputAlert {
+                return Alert(title: Text("警告"),
+                             message: Text("账号或密码不能为空！"),
+                             dismissButton: .default(Text("确认")) {
+                                self.emptyInputAlert = false
+                                self.showAlert = false
+                             })
+            } else if self.wrongFormatAlert {
+                return Alert(title: Text("警告"),
+                             message: Text("账号或密码格式不符合要求！账号为8位数字，密码为字母和数字的组合。"),
+                             dismissButton: .default(Text("确认")) {
+                                self.wrongFormatAlert = false
+                                self.showAlert = false
+                             })
+            } else {
+                return Alert(title: Text("警告！"),
+                             message: Text("未知错误！"),
+                             dismissButton: .default(Text("确认")) {
+                                showAlert = false
+                             })
+            }
         })
     }
 }

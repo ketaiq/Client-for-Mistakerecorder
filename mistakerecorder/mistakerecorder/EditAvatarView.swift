@@ -10,6 +10,8 @@ import SwiftUI
 struct EditAvatarView: View {
     @ObservedObject var user: User
     @State private var avatar = UIImage()
+    @State private var newAvatarEmptyAlert = false
+    
     var body: some View {
         NavigationView {
             VStack {
@@ -19,7 +21,12 @@ struct EditAvatarView: View {
                         .foregroundColor(.black)
                     Spacer()
                     Button(action: {
-                        
+                        if self.avatar.pngData() == nil {
+                            self.newAvatarEmptyAlert = true
+                        } else {
+                            user.avatar = self.avatar.pngData()!
+                            NetworkAPIFunctions.functions.updateAvatar(user: user)
+                        }
                     }, label: {
                         Text("替换")
                             .font(.headline)
@@ -29,9 +36,16 @@ struct EditAvatarView: View {
                             .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
                             .shadow(color: Color.black.opacity(0.5), radius: 10, x: 0, y: 5)
                     })
+                    .alert(isPresented: self.$newAvatarEmptyAlert, content: {
+                        return Alert(title: Text("警告"),
+                                     message: Text("新头像不能为空！"),
+                                     dismissButton: .default(Text("确认")) {
+                                        self.newAvatarEmptyAlert = false
+                                     })
+                    })
                 }
                 .padding(.horizontal)
-                Image(user.avatar)
+                Image(uiImage: UIImage(data: user.avatar)!)
                     .resizable()
                     .frame(width: 200, height: 200)
                     .clipShape(Circle())
@@ -93,7 +107,7 @@ struct EditAvatarView: View {
 }
 
 struct EditAvatarView_Previews: PreviewProvider {
-    @StateObject static var user = User(username: "00000000", nickname: "abc", realname: "qiu", idcard: "111111111111111111", emailaddress: "1111@qq.com", password: "a88888888", avatar: "ac84bcb7d0a20cf4800d77cc74094b36acaf990f")
+    @StateObject static var user = User(username: "00000000", nickname: "abc", realname: "qiu", idcard: "111111111111111111", emailaddress: "1111@qq.com", password: "a88888888", avatar: UIImage(named: "ac84bcb7d0a20cf4800d77cc74094b36acaf990f")!.pngData()!)
     static var previews: some View {
         EditAvatarView(user: user)
     }

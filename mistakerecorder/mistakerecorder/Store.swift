@@ -18,7 +18,7 @@ class User: ObservableObject, Codable { // 用户
     @Published var idcard: String
     @Published var emailaddress: String
     @Published var password: String
-    @Published var avatar: String
+    @Published var avatar: Data
     @Published var mistakeList: [Mistake] // 错题列表
     
     enum CodingKeys: CodingKey {
@@ -32,7 +32,7 @@ class User: ObservableObject, Codable { // 用户
         case mistakeList
     }
     
-    init(username: String, nickname: String, realname: String, idcard: String, emailaddress: String, password: String, avatar: String) {
+    init(username: String, nickname: String, realname: String, idcard: String, emailaddress: String, password: String, avatar: Data) {
         self.username = username
         self.nickname = nickname
         self.realname = realname
@@ -70,7 +70,7 @@ class User: ObservableObject, Codable { // 用户
         self.idcard = try values.decode(String.self, forKey: .idcard)
         self.emailaddress = try values.decode(String.self, forKey: .emailaddress)
         self.password = try values.decode(String.self, forKey: .password)
-        self.avatar = try values.decode(String.self, forKey: .avatar)
+        self.avatar = try values.decode(Data.self, forKey: .avatar)
         self.mistakeList = try values.decode([Mistake].self, forKey: .mistakeList)
     }
     
@@ -115,12 +115,12 @@ class Mistake: ObservableObject, Identifiable, Codable { // 错题
         self.questionItems = questionItems
         self.createdDate = DateFunctions.functions.currentDate()
         self.revisedRecords = [
-            RevisedRecord(revisedDate: "2/3/21", revisedPerformance: "掌握"),
-            RevisedRecord(revisedDate: "2/8/21", revisedPerformance: "模糊"),
-            RevisedRecord(revisedDate: "2/13/21", revisedPerformance: "忘记"),
-            RevisedRecord(revisedDate: "2/15/21", revisedPerformance: "模糊"),
-            RevisedRecord(revisedDate: "2/17/21", revisedPerformance: "掌握"),
-            RevisedRecord(revisedDate: "2/23/21", revisedPerformance: "模糊")]
+            RevisedRecord(revisedDate: "3/3/21", revisedPerformance: "掌握"),
+            RevisedRecord(revisedDate: "3/8/21", revisedPerformance: "模糊"),
+            RevisedRecord(revisedDate: "3/13/21", revisedPerformance: "忘记"),
+            RevisedRecord(revisedDate: "3/15/21", revisedPerformance: "模糊"),
+            RevisedRecord(revisedDate: "3/17/21", revisedPerformance: "掌握"),
+            RevisedRecord(revisedDate: "3/23/21", revisedPerformance: "模糊")]
         self.nextRevisionDate = DateFunctions.functions.currentDate()
         self.isRevising = false
     }

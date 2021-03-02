@@ -9,30 +9,28 @@ import SwiftUI
 
 struct TabBar: View {
     @EnvironmentObject var loginStatus: LoginStatus
-    @StateObject private var user = User(username: "", nickname: "", realname: "", idcard: "", emailaddress: "", password: "", avatar: "")
+    @StateObject private var user = User(username: "", nickname: "", realname: "", idcard: "", emailaddress: "", password: "", avatar: UIImage(named: "ac84bcb7d0a20cf4800d77cc74094b36acaf990f")!.pngData()!)
     @State private var selected = "主页"
     
     var body: some View {
-        ZStack {
-            if !loginStatus.showTabView {
-                LoginView(user: self.user)
-            } else {
-                NavigationView {
-                    TabView(selection: self.$selected) {
-                        HomeView(user: user).tabItem {
-                            Image(systemName: (self.selected == "主页" ? "house.fill" : "house"))
-                            Text("主页")
-                        }
-                        .tag("主页")
-                        MistakeListView(user: self.user).tabItem {
-                            Image(systemName: (self.selected == "错题本" ? "book.fill" : "book"))
-                            Text("错题本")
-                        }
-                        .tag("错题本")
+        if !loginStatus.showTabView {
+            LoginView(user: self.user)
+        } else {
+            NavigationView {
+                TabView(selection: self.$selected) {
+                    HomeView(user: user).tabItem {
+                        Image(systemName: (self.selected == "主页" ? "house.fill" : "house"))
+                        Text("主页")
                     }
-                    .navigationTitle(self.selected)
-                    .navigationBarHidden(true)
+                    .tag("主页")
+                    MistakeListView(user: self.user).tabItem {
+                        Image(systemName: (self.selected == "错题本" ? "book.fill" : "book"))
+                        Text("错题本")
+                    }
+                    .tag("错题本")
                 }
+                .navigationTitle(self.selected)
+                .navigationBarHidden(true)
             }
         }
     }

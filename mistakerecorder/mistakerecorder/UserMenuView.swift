@@ -62,7 +62,7 @@ struct UserMenuView: View {
             .shadow(color: Color/*@START_MENU_TOKEN@*/.black/*@END_MENU_TOKEN@*/.opacity(0.2), radius: 20, x: /*@START_MENU_TOKEN@*/0.0/*@END_MENU_TOKEN@*/, y: 20)
             .padding(.horizontal, 30)
             .overlay(
-                Image(user.avatar)
+                Image(uiImage: UIImage(data: user.avatar)!)
                     .resizable()
                     .aspectRatio(contentMode: /*@START_MENU_TOKEN@*/.fill/*@END_MENU_TOKEN@*/)
                     .frame(width: 60, height: 60)
@@ -74,7 +74,7 @@ struct UserMenuView: View {
 }
 
 struct UserMenuView_Previews: PreviewProvider {
-    @StateObject static var user = User(username: "00000000", nickname: "abc", realname: "qiu", idcard: "111111111111111111", emailaddress: "1111@qq.com", password: "a88888888", avatar: "ac84bcb7d0a20cf4800d77cc74094b36acaf990f")
+    @StateObject static var user = User(username: "00000000", nickname: "abc", realname: "qiu", idcard: "111111111111111111", emailaddress: "1111@qq.com", password: "a88888888", avatar: UIImage(named: "ac84bcb7d0a20cf4800d77cc74094b36acaf990f")!.pngData()!)
     static var previews: some View {
         UserMenuView(user: user).environmentObject(LoginStatus())
     }

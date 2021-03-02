@@ -18,7 +18,7 @@ class ForgetPasswordStatus: ObservableObject {
 }
 
 struct ForgetPasswordView: View {
-    @StateObject private var user = User(username: "", nickname: "", realname: "", idcard: "", emailaddress: "", password: "", avatar: "")
+    @StateObject private var user = User(username: "", nickname: "", realname: "", idcard: "", emailaddress: "", password: "", avatar: Data())
     @StateObject private var forgetPasswordStatus = ForgetPasswordStatus(findPasswordSuccessfully: false, invalidInfoAlert: false)
     @State private var username = ""
     @State private var realname = ""
@@ -32,9 +32,9 @@ struct ForgetPasswordView: View {
     @State private var emailaddressWarningOpacity: Double = 0
     @State private var passwordWarningOpacity: Double = 0
     @State private var repeatPasswordWarningOpacity: Double = 0
+    @State private var showAlert = false
     @State private var wrongFormatAlert = false
     @State private var repeatPasswordDifferentAlert = false
-    @State private var inputInvalidAlert = false
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
     var body: some View {
@@ -51,18 +51,11 @@ struct ForgetPasswordView: View {
                     !confirmTextTypeMatch(textType: "邮箱", textContent: emailaddress) ||
                     !confirmTextTypeMatch(textType: "新密码", textContent: newPassword) {
                     wrongFormatAlert = true
-                } else {
-                    wrongFormatAlert = false
                 }
                 if newPassword != repeatNewPassword {
                     repeatPasswordDifferentAlert = true
-                } else {
-                    repeatPasswordDifferentAlert = false
                 }
-                if repeatPasswordDifferentAlert || wrongFormatAlert {
-                    inputInvalidAlert = true
-                } else {
-                    inputInvalidAlert = false
+                if !repeatPasswordDifferentAlert && !wrongFormatAlert {
                     user.username = username
                     user.realname = realname
                     user.idcard = id
@@ -79,31 +72,43 @@ struct ForgetPasswordView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
                     .shadow(color: Color.black.opacity(0.5), radius: 10, x: 0, y: 5)
             })
-            .alert(isPresented: $inputInvalidAlert, content: {
-                var alertMessage: String = ""
+            .alert(isPresented: $showAlert, content: {
                 if wrongFormatAlert {
-                    alertMessage = "输入格式无效！请按正确格式输入！"
+                    return Alert(title: Text("警告"),
+                                 message: Text("输入格式无效！请按正确格式输入！"),
+                                 dismissButton: .default(Text("确认")) {
+                                    wrongFormatAlert = false
+                                    showAlert = false
+                                 })
+                } else if repeatPasswordDifferentAlert {
+                    return Alert(title: Text("警告"),
+                                 message: Text("再次输入的密码与设置的密码不一致！"),
+                                 dismissButton: .default(Text("确认")) {
+                                    repeatPasswordDifferentAlert = false
+                                    showAlert = false
+                                 })
+                } else if forgetPasswordStatus.invalidInfoAlert {
+                    return Alert(title: Text("警告"),
+                                 message: Text("提供的信息无效！"),
+                                 dismissButton: .default(Text("确认")) {
+                                    forgetPasswordStatus.invalidInfoAlert = false
+                                    showAlert = false
+                                 })
+                } else if forgetPasswordStatus.findPasswordSuccessfully {
+                    return Alert(title: Text("欢迎！"),
+                                 message: Text("账号已找回，新密码为\(user.password)，请牢记！"),
+                                 dismissButton: .default(Text("确认")) {
+                                    forgetPasswordStatus.findPasswordSuccessfully = false
+                                    showAlert = false
+                                    self.presentationMode.wrappedValue.dismiss()
+                                 })
+                } else {
+                    return Alert(title: Text("警告！"),
+                                 message: Text("未知错误！"),
+                                 dismissButton: .default(Text("确认")) {
+                                    showAlert = false
+                                 })
                 }
-                else if repeatPasswordDifferentAlert {
-                    alertMessage = "再次输入的密码与设置的密码不一致！"
-                }
-                return Alert(title: Text("警告"),
-                             message: Text(alertMessage),
-                             dismissButton: .default(Text("确认")))
-            })
-            .alert(isPresented: $forgetPasswordStatus.invalidInfoAlert, content: {
-                return Alert(title: Text("提示"),
-                             message: Text("提供的信息无效！"),
-                             dismissButton: .default(Text("确认")) {
-                                forgetPasswordStatus.invalidInfoAlert = false
-                             })
-            })
-            .alert(isPresented: $forgetPasswordStatus.findPasswordSuccessfully, content: {
-                return Alert(title: Text("欢迎！"),
-                             message: Text("账号已找回，新密码为\(user.password)，请牢记！"),
-                             dismissButton: .default(Text("确认")) {
-                                self.presentationMode.wrappedValue.dismiss()
-                             })
             })
         })
         .frame(maxWidth: .infinity, maxHeight: .infinity)

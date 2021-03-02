@@ -66,7 +66,7 @@ struct HomeView: View {
 }
 
 struct HomeView_Previews: PreviewProvider {
-    @StateObject static var user = User(username: "00000000", nickname: "abc", realname: "qiu", idcard: "111111111111111111", emailaddress: "1111@qq.com", password: "a88888888", avatar: "ac84bcb7d0a20cf4800d77cc74094b36acaf990f")
+    @StateObject static var user = User(username: "00000000", nickname: "abc", realname: "qiu", idcard: "111111111111111111", emailaddress: "1111@qq.com", password: "a88888888", avatar: UIImage(named: "ac84bcb7d0a20cf4800d77cc74094b36acaf990f")!.pngData()!)
     static var previews: some View {
         HomeView(user: user)
     }
@@ -88,7 +88,7 @@ struct TitleSubview: View {
             Button(action: {
                 showingUserMenuView.toggle()
             }, label: {
-                Image(user.avatar)
+                Image(uiImage: UIImage(data: user.avatar)!)
                     .resizable()
                     .frame(width: 40, height: 40)
                     .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)

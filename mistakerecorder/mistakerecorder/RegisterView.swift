@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct RegisterView: View {
-    @StateObject var user = User(username: "", nickname: "", realname: "", idcard: "", emailaddress: "", password: "", avatar: "ac84bcb7d0a20cf4800d77cc74094b36acaf990f")
+    @StateObject var user = User(username: "", nickname: "", realname: "", idcard: "", emailaddress: "", password: "", avatar: Data())
     @State var nickname = ""
     @State var realname = ""
     @State var id = ""
@@ -21,9 +21,9 @@ struct RegisterView: View {
     @State var emailaddressWarningOpacity: Double = 0
     @State var passwordWarningOpacity: Double = 0
     @State var repeatPasswordWarningOpacity: Double = 0
+    @State var showAlert = false
     @State var wrongFormatAlert = false
     @State var repeatPasswordDifferentAlert = false
-    @State var inputInvalidAlert = false
     @State var confirmAlert = false
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
@@ -41,18 +41,11 @@ struct RegisterView: View {
                     !confirmTextTypeMatch(textType: "邮箱", textContent: emailaddress) ||
                     !confirmTextTypeMatch(textType: "密码", textContent: password) {
                     wrongFormatAlert = true
-                } else {
-                    wrongFormatAlert = false
                 }
                 if password != repeatPassword {
                     repeatPasswordDifferentAlert = true
-                } else {
-                    repeatPasswordDifferentAlert = false
                 }
-                if repeatPasswordDifferentAlert || wrongFormatAlert {
-                    inputInvalidAlert = true
-                } else {
-                    inputInvalidAlert = false
+                if !repeatPasswordDifferentAlert && !wrongFormatAlert {
                     user.nickname = nickname
                     user.realname = realname
                     user.idcard = id
@@ -60,6 +53,9 @@ struct RegisterView: View {
                     user.password = password
                     NetworkAPIFunctions.functions.register(user: user)
                     confirmAlert = true
+                }
+                if wrongFormatAlert || repeatPasswordDifferentAlert || confirmAlert {
+                    showAlert = true
                 }
             }, label: {
                 Text("确认")
@@ -71,25 +67,36 @@ struct RegisterView: View {
                     .shadow(color: Color.black.opacity(0.5), radius: 10, x: 0, y: 5)
                     .padding(.horizontal)
             })
-            .alert(isPresented: $inputInvalidAlert, content: {
-                var alertMessage: String = ""
+            .alert(isPresented: $showAlert, content: {
                 if wrongFormatAlert {
-                    alertMessage = "输入格式无效！请按正确格式输入！"
+                    return Alert(title: Text("警告"),
+                                 message: Text("输入格式无效！请按正确格式输入！"),
+                                 dismissButton: .default(Text("确认")) {
+                                    wrongFormatAlert = false
+                                    showAlert = false
+                                 })
+                } else if repeatPasswordDifferentAlert {
+                    return Alert(title: Text("警告"),
+                                 message: Text("再次输入的密码与设置的密码不一致！"),
+                                 dismissButton: .default(Text("确认")) {
+                                    repeatPasswordDifferentAlert = false
+                                    showAlert = false
+                                 })
+                } else if confirmAlert {
+                    return Alert(title: Text("欢迎！"),
+                                 message: Text("新账号已创建成功，账号为\(user.username)，请牢记！"),
+                                 dismissButton: .default(Text("确认")) {
+                                    confirmAlert = false
+                                    showAlert = false
+                                    self.presentationMode.wrappedValue.dismiss()
+                                 })
+                } else {
+                    return Alert(title: Text("警告！"),
+                                 message: Text("未知错误！"),
+                                 dismissButton: .default(Text("确认")) {
+                                    showAlert = false
+                                 })
                 }
-                else if repeatPasswordDifferentAlert {
-                    alertMessage = "再次输入的密码与设置的密码不一致！"
-                }
-                return Alert(title: Text("警告"),
-                      message: Text(alertMessage),
-                      dismissButton: .default(Text("确认")))
-            })
-            .alert(isPresented: $confirmAlert, content: {
-                return Alert(title: Text("欢迎！"),
-                    message: Text("新账号已创建成功，账号为\(user.username)，请牢记！"),
-                    dismissButton: .default(Text("确认")) {
-                        self.presentationMode.wrappedValue.dismiss()
-                    }
-                )
             })
         })
         .frame(maxWidth: .infinity, maxHeight: .infinity)
