@@ -19,7 +19,6 @@
 		0B16F51E25E4CF1800C055DB /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B16F51D25E4CF1800C055DB /* WelcomeView.swift */; };
 		0B16F52E25E4F8E100C055DB /* OtherFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B16F52D25E4F8E000C055DB /* OtherFunctions.swift */; };
 		0B22781925CA92530000FB8C /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B22781825CA92530000FB8C /* Store.swift */; };
-		0B33996D25EF8C3B00642DD3 /* Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B33996C25EF8C3B00642DD3 /* Test.swift */; };
 		0B50C43D25C402E000D392C7 /* MistakeItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B50C43C25C402E000D392C7 /* MistakeItemView.swift */; };
 		0B5B4ABA25CFB7A600686F56 /* QuestionItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B5B4AB925CFB7A600686F56 /* QuestionItemView.swift */; };
 		0B6659F825B998A800C9DB31 /* mistakerecorderApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6659F725B998A800C9DB31 /* mistakerecorderApp.swift */; };
@@ -74,7 +73,6 @@
 		0B16F51D25E4CF1800C055DB /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		0B16F52D25E4F8E000C055DB /* OtherFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherFunctions.swift; sourceTree = "<group>"; };
 		0B22781825CA92530000FB8C /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
-		0B33996C25EF8C3B00642DD3 /* Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test.swift; sourceTree = "<group>"; };
 		0B50C43C25C402E000D392C7 /* MistakeItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistakeItemView.swift; sourceTree = "<group>"; };
 		0B5B4AB925CFB7A600686F56 /* QuestionItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionItemView.swift; sourceTree = "<group>"; };
 		0B6659F425B998A800C9DB31 /* mistakerecorder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = mistakerecorder.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -169,7 +167,6 @@
 			children = (
 				0B6659F725B998A800C9DB31 /* mistakerecorderApp.swift */,
 				0BC4745925B99AED001A59BE /* LoginView.swift */,
-				0B33996C25EF8C3B00642DD3 /* Test.swift */,
 				0B16F51D25E4CF1800C055DB /* WelcomeView.swift */,
 				0BC474F025BAB92E001A59BE /* RegisterView.swift */,
 				0B91500025BBCAEF00122F38 /* RegisterTextField.swift */,
@@ -390,7 +387,6 @@
 				0B22781925CA92530000FB8C /* Store.swift in Sources */,
 				0B0255C325EA09AB002B4AB0 /* EditUserInfoView.swift in Sources */,
 				0B16F4C025DF9DCD00C055DB /* DateFunctions.swift in Sources */,
-				0B33996D25EF8C3B00642DD3 /* Test.swift in Sources */,
 				0B50C43D25C402E000D392C7 /* MistakeItemView.swift in Sources */,
 				0B6659F825B998A800C9DB31 /* mistakerecorderApp.swift in Sources */,
 			);
