@@ -18,7 +18,7 @@ class User: ObservableObject, Codable { // 用户
     @Published var idcard: String
     @Published var emailaddress: String
     @Published var password: String
-    @Published var avatar: Data
+    @Published var avatar: String
     @Published var mistakeList: [Mistake] // 错题列表
     
     enum CodingKeys: CodingKey {
@@ -32,7 +32,7 @@ class User: ObservableObject, Codable { // 用户
         case mistakeList
     }
     
-    init(username: String, nickname: String, realname: String, idcard: String, emailaddress: String, password: String, avatar: Data) {
+    init(username: String, nickname: String, realname: String, idcard: String, emailaddress: String, password: String, avatar: String) {
         self.username = username
         self.nickname = nickname
         self.realname = realname
@@ -70,7 +70,7 @@ class User: ObservableObject, Codable { // 用户
         self.idcard = try values.decode(String.self, forKey: .idcard)
         self.emailaddress = try values.decode(String.self, forKey: .emailaddress)
         self.password = try values.decode(String.self, forKey: .password)
-        self.avatar = try values.decode(Data.self, forKey: .avatar)
+        self.avatar = try values.decode(String.self, forKey: .avatar)
         self.mistakeList = try values.decode([Mistake].self, forKey: .mistakeList)
     }
     
@@ -95,7 +95,23 @@ class Mistake: ObservableObject, Identifiable, Codable { // 错题
     @Published var createdDate: String // 创建的时间
     @Published var revisedRecords: [RevisedRecord] // 已经复习的记录
     @Published var nextRevisionDate: String // 下一次复习的时间
-    @Published var isRevising: Bool // 正在复习标记
+    @Published var revisionStatus: String // 正在复习标记
+    
+    func isRevising() -> Bool {
+        if self.revisionStatus == "true" {
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    func toggleRevisionStatus() {
+        if self.revisionStatus == "true" {
+            self.revisionStatus = "false"
+        } else {
+            self.revisionStatus = "true"
+        }
+    }
     
     enum CodingKeys: CodingKey {
         case subject
@@ -105,7 +121,7 @@ class Mistake: ObservableObject, Identifiable, Codable { // 错题
         case createdDate
         case revisedRecords
         case nextRevisionDate
-        case isRevising
+        case revisionStatus
     }
     
     init(subject: String, category: String, questionDescription: String, questionItems: [QuestionItem]) {
@@ -122,7 +138,7 @@ class Mistake: ObservableObject, Identifiable, Codable { // 错题
             RevisedRecord(revisedDate: "3/17/21", revisedPerformance: "掌握"),
             RevisedRecord(revisedDate: "3/23/21", revisedPerformance: "模糊")]
         self.nextRevisionDate = DateFunctions.functions.currentDate()
-        self.isRevising = false
+        self.revisionStatus = "false"
     }
     
     required init(from decoder: Decoder) throws {
@@ -134,7 +150,7 @@ class Mistake: ObservableObject, Identifiable, Codable { // 错题
         self.createdDate = try values.decode(String.self, forKey: .createdDate)
         self.revisedRecords = try values.decode([RevisedRecord].self, forKey: .revisedRecords)
         self.nextRevisionDate = try values.decode(String.self, forKey: .nextRevisionDate)
-        self.isRevising = try values.decode(Bool.self, forKey: .isRevising)
+        self.revisionStatus = try values.decode(String.self, forKey: .revisionStatus)
     }
     
     func encode(to encoder: Encoder) throws {
@@ -146,7 +162,7 @@ class Mistake: ObservableObject, Identifiable, Codable { // 错题
         try container.encode(createdDate, forKey: .createdDate)
         try container.encode(revisedRecords, forKey: .revisedRecords)
         try container.encode(nextRevisionDate, forKey: .nextRevisionDate)
-        try container.encode(isRevising, forKey: .isRevising)
+        try container.encode(revisionStatus, forKey: .revisionStatus)
     }
 }
 

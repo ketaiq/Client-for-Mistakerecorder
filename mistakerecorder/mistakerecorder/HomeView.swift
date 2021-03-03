@@ -66,7 +66,7 @@ struct HomeView: View {
 }
 
 struct HomeView_Previews: PreviewProvider {
-    @StateObject static var user = User(username: "00000000", nickname: "abc", realname: "qiu", idcard: "111111111111111111", emailaddress: "1111@qq.com", password: "a88888888", avatar: UIImage(named: "ac84bcb7d0a20cf4800d77cc74094b36acaf990f")!.pngData()!)
+    @StateObject static var user = User(username: "00000000", nickname: "abc", realname: "qiu", idcard: "111111111111111111", emailaddress: "1111@qq.com", password: "a88888888", avatar: UIImage(named: "ac84bcb7d0a20cf4800d77cc74094b36acaf990f")!.pngData()!.base64EncodedString())
     static var previews: some View {
         HomeView(user: user)
     }
@@ -88,10 +88,10 @@ struct TitleSubview: View {
             Button(action: {
                 showingUserMenuView.toggle()
             }, label: {
-                Image(uiImage: UIImage(data: user.avatar)!)
+                Image(uiImage: UIImage(data: Data(base64Encoded: user.avatar)!)!)
                     .resizable()
                     .frame(width: 40, height: 40)
-                    .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
+                    .clipShape(Circle())
             })
         }
         .padding(.horizontal)
@@ -116,14 +116,14 @@ struct CardsSubview: View {
                         fullScreenActive: $fullScreenActive,
                         index: index,
                         activeIndex: $activeIndex)
-                        .offset(y: mistake.isRevising ? -geometry.frame(in: .global).minY : 0)
+                        .offset(y: mistake.isRevising() ? -geometry.frame(in: .global).minY : 0)
                         .opacity(self.activeIndex != index && self.fullScreenActive ? 0 : 1)
                         .scaleEffect(self.activeIndex != index && self.fullScreenActive ? 0.5 : 1)
                         .offset(x: self.activeIndex != index && self.fullScreenActive ? screen.width : 0)
                 }
                 .frame(height: 250)
-                .frame(maxWidth: mistake.isRevising ? .infinity : 320)
-                .zIndex(mistake.isRevising ? 1 : 0)
+                .frame(maxWidth: mistake.isRevising() ? .infinity : 320)
+                .zIndex(mistake.isRevising() ? 1 : 0)
             }
         }
         .padding()

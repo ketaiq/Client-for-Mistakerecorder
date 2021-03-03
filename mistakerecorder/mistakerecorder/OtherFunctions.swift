@@ -31,8 +31,8 @@ func confirmTextTypeMatch(textType: String, textContent: String) -> Bool {// 匹
         } else {
             return true
         }
-    case "真实姓名": // 可由2到5位汉字组成
-        textTypeExpression = "^[\u{4e00}-\u{9fa5}]{2,5}|[A-Za-z]{1,32}$"
+    case "真实姓名": // 可由2到5个汉字或1到32位大小写字母及空格组成
+        textTypeExpression = "^[\u{4e00}-\u{9fa5}]{2,5}|[A-Za-z\\s]{1,32}$"
         let predicate = NSPredicate(format: "SELF MATCHES %@", textTypeExpression)
         if !predicate.evaluate(with: textContent) {
             return false

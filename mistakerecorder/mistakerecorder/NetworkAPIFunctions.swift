@@ -17,6 +17,7 @@ class NetworkAPIFunctions {
             method: .post,
             parameters: user,
             encoder: JSONParameterEncoder.default).response { response in
+                debugPrint(response)
                 let userStr = String(data: response.data!, encoding: .utf8)!
                 print(userStr)
                 if userStr == "0" {

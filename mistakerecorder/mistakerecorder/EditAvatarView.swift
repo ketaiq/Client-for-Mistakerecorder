@@ -24,7 +24,7 @@ struct EditAvatarView: View {
                         if self.avatar.pngData() == nil {
                             self.newAvatarEmptyAlert = true
                         } else {
-                            user.avatar = self.avatar.pngData()!
+                            user.avatar = self.avatar.pngData()!.base64EncodedString()
                             NetworkAPIFunctions.functions.updateAvatar(user: user)
                         }
                     }, label: {
@@ -45,7 +45,7 @@ struct EditAvatarView: View {
                     })
                 }
                 .padding(.horizontal)
-                Image(uiImage: UIImage(data: user.avatar)!)
+                Image(uiImage: UIImage(data: Data(base64Encoded: user.avatar)!)!)
                     .resizable()
                     .frame(width: 200, height: 200)
                     .clipShape(Circle())
@@ -107,7 +107,7 @@ struct EditAvatarView: View {
 }
 
 struct EditAvatarView_Previews: PreviewProvider {
-    @StateObject static var user = User(username: "00000000", nickname: "abc", realname: "qiu", idcard: "111111111111111111", emailaddress: "1111@qq.com", password: "a88888888", avatar: UIImage(named: "ac84bcb7d0a20cf4800d77cc74094b36acaf990f")!.pngData()!)
+    @StateObject static var user = User(username: "00000000", nickname: "abc", realname: "qiu", idcard: "111111111111111111", emailaddress: "1111@qq.com", password: "a88888888", avatar: UIImage(named: "ac84bcb7d0a20cf4800d77cc74094b36acaf990f")!.pngData()!.base64EncodedString())
     static var previews: some View {
         EditAvatarView(user: user)
     }

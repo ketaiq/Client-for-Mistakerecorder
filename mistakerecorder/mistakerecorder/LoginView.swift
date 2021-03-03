@@ -65,7 +65,7 @@ struct LoginView: View {
 }
 
 struct LoginView_Previews: PreviewProvider {
-    @StateObject static var user = User(username: "", nickname: "", realname: "", idcard: "", emailaddress: "", password: "", avatar: Data())
+    @StateObject static var user = User(username: "", nickname: "", realname: "", idcard: "", emailaddress: "", password: "", avatar: "")
     static var previews: some View {
         LoginView(user: user).environmentObject(LoginStatus())
     }
@@ -122,11 +122,8 @@ struct LoginButtonSubview: View, DataDelegate {
     @State var wrongFormatAlert = false
     
     func fetch(newData: String) {
-        var fetchedUser: User
         do {
-            fetchedUser = try JSONDecoder().decode(
-                User.self,
-                from: newData.data(using: .utf8)!)
+            let fetchedUser = try JSONDecoder().decode(User.self, from: newData.data(using: .utf8)!)
             user.username = fetchedUser.username
             user.nickname = fetchedUser.nickname
             user.realname = fetchedUser.realname

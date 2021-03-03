@@ -18,7 +18,7 @@ class ForgetPasswordStatus: ObservableObject {
 }
 
 struct ForgetPasswordView: View {
-    @StateObject private var user = User(username: "", nickname: "", realname: "", idcard: "", emailaddress: "", password: "", avatar: Data())
+    @StateObject private var user = User(username: "", nickname: "", realname: "", idcard: "", emailaddress: "", password: "", avatar: "")
     @StateObject private var forgetPasswordStatus = ForgetPasswordStatus(findPasswordSuccessfully: false, invalidInfoAlert: false)
     @State private var username = ""
     @State private var realname = ""

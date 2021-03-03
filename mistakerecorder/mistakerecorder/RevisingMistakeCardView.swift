@@ -109,13 +109,13 @@ struct RevisingMistakeCardView: View {
                 Rectangle().foregroundColor(.white)
             }
             .padding()
-            .frame(maxWidth: mistake.isRevising ? .infinity : 200,
-                   maxHeight: mistake.isRevising ? .infinity : 200)
-            .offset(y: mistake.isRevising ? 300: 0)
+            .frame(maxWidth: mistake.isRevising() ? .infinity : 200,
+                   maxHeight: mistake.isRevising() ? .infinity : 200)
+            .offset(y: mistake.isRevising() ? 300: 0)
             .background(Color.white)
             .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous))
             .shadow(color: Color.black.opacity(0.2), radius: 20, x: 0.0, y: 20)
-            .opacity(mistake.isRevising ? 1 : 0)
+            .opacity(mistake.isRevising() ? 1 : 0)
             
             VStack(alignment: .leading, spacing: 10) {
                 HStack {
@@ -125,7 +125,7 @@ struct RevisingMistakeCardView: View {
                     Image(systemName: "xmark.circle")
                         .font(.title)
                         .foregroundColor(Color(#colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)))
-                        .opacity(mistake.isRevising ? 1 : 0)
+                        .opacity(mistake.isRevising() ? 1 : 0)
                 }
                 .padding(.top)
                 Text(mistake.questionDescription)
@@ -142,15 +142,15 @@ struct RevisingMistakeCardView: View {
             }
             .padding(.horizontal)
             .frame(
-                width: mistake.isRevising ? .infinity : 320,
-                height: mistake.isRevising ? 300 : 250)
+                width: mistake.isRevising() ? .infinity : 320,
+                height: mistake.isRevising() ? 300 : 250)
             .background(Color.green)
             .clipShape(RoundedRectangle(cornerRadius: 20, style: /*@START_MENU_TOKEN@*/.continuous/*@END_MENU_TOKEN@*/))
             .shadow(color: Color.green.opacity(0.8), radius: 20, x: 0, y: 20)
             .onTapGesture {
-                mistake.isRevising.toggle()
+                mistake.toggleRevisionStatus()
                 fullScreenActive.toggle()
-                if mistake.isRevising {
+                if mistake.isRevising() {
                     activeIndex = index
                 } else {
                     activeIndex = -1
@@ -161,13 +161,13 @@ struct RevisingMistakeCardView: View {
                 EvaluationView(answers: self.answerText.components(separatedBy: " "), mistake: mistake, showEvaluationResult: self.$showEvaluationResult)
             }
         }
-        .frame(height: mistake.isRevising ? screen.height - 70 : 250)
+        .frame(height: mistake.isRevising() ? screen.height - 70 : 250)
         .animation(.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0))
     }
 }
 
 struct RevisingMistakeCardView_Previews: PreviewProvider {
-    @StateObject static var user = User(username: "00000000", nickname: "abc", realname: "qiu", idcard: "111111111111111111", emailaddress: "1111@qq.com", password: "a88888888", avatar: UIImage(named: "ac84bcb7d0a20cf4800d77cc74094b36acaf990f")!.pngData()!)
+    @StateObject static var user = User(username: "00000000", nickname: "abc", realname: "qiu", idcard: "111111111111111111", emailaddress: "1111@qq.com", password: "a88888888", avatar: UIImage(named: "ac84bcb7d0a20cf4800d77cc74094b36acaf990f")!.pngData()!.base64EncodedString())
     @State static var fullScreenActive = false
     static var index = 1
     @State static var activeIndex = 1

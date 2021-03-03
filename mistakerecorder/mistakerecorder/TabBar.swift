@@ -9,7 +9,7 @@ import SwiftUI
 
 struct TabBar: View {
     @EnvironmentObject var loginStatus: LoginStatus
-    @StateObject private var user = User(username: "", nickname: "", realname: "", idcard: "", emailaddress: "", password: "", avatar: UIImage(named: "ac84bcb7d0a20cf4800d77cc74094b36acaf990f")!.pngData()!)
+    @StateObject private var user = User(username: "", nickname: "", realname: "", idcard: "", emailaddress: "", password: "", avatar: "")
     @State private var selected = "主页"
     
     var body: some View {
