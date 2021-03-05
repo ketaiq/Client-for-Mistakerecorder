@@ -342,7 +342,7 @@ struct EditUserInfoView: View {
 }
 
 struct EditUserInfoView_Previews: PreviewProvider {
-    @StateObject static var user = User(username: "00000000", nickname: "abc", realname: "qiu", idcard: "111111111111111111", emailaddress: "1111@qq.com", password: "a88888888", avatar: UIImage(named: "ac84bcb7d0a20cf4800d77cc74094b36acaf990f")!.pngData()!.base64EncodedString())
+    @StateObject static var user = User(username: "00000000", nickname: "abc", realname: "qiu", idcard: "111111111111111111", emailaddress: "1111@qq.com", password: "a88888888", avatar: UIImage(systemName: "person.circle")!.pngData()!.base64EncodedString())
     static var previews: some View {
         EditUserInfoView(user: user)
     }

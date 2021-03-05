@@ -26,6 +26,7 @@
 		0B6659FF25B998AA00C9DB31 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0B6659FE25B998AA00C9DB31 /* Preview Assets.xcassets */; };
 		0B665A0A25B998AA00C9DB31 /* mistakerecorderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B665A0925B998AA00C9DB31 /* mistakerecorderTests.swift */; };
 		0B665A1525B998AA00C9DB31 /* mistakerecorderUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B665A1425B998AA00C9DB31 /* mistakerecorderUITests.swift */; };
+		0B6AF26325F2109F00D19D45 /* GeneratePaperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6AF26225F2109F00D19D45 /* GeneratePaperView.swift */; };
 		0B91500125BBCAEF00122F38 /* RegisterTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B91500025BBCAEF00122F38 /* RegisterTextField.swift */; };
 		0B91500E25BE6E2400122F38 /* ForgetPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B91500D25BE6E2400122F38 /* ForgetPasswordView.swift */; };
 		0B91501325BE717200122F38 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B91501225BE717200122F38 /* HomeView.swift */; };
@@ -86,6 +87,7 @@
 		0B665A1025B998AA00C9DB31 /* mistakerecorderUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = mistakerecorderUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0B665A1425B998AA00C9DB31 /* mistakerecorderUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mistakerecorderUITests.swift; sourceTree = "<group>"; };
 		0B665A1625B998AA00C9DB31 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0B6AF26225F2109F00D19D45 /* GeneratePaperView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratePaperView.swift; sourceTree = "<group>"; };
 		0B91500025BBCAEF00122F38 /* RegisterTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterTextField.swift; sourceTree = "<group>"; };
 		0B91500D25BE6E2400122F38 /* ForgetPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgetPasswordView.swift; sourceTree = "<group>"; };
 		0B91501225BE717200122F38 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -176,6 +178,7 @@
 				0B91501725BE734600122F38 /* TabBar.swift */,
 				0B91501225BE717200122F38 /* HomeView.swift */,
 				0B91505825C29CB700122F38 /* MistakeListView.swift */,
+				0B6AF26225F2109F00D19D45 /* GeneratePaperView.swift */,
 				0B5B4AB925CFB7A600686F56 /* QuestionItemView.swift */,
 				0B50C43C25C402E000D392C7 /* MistakeItemView.swift */,
 				0B16F4C725E0D7FB00C055DB /* RevisedRecordsCalendarView.swift */,
@@ -384,6 +387,7 @@
 				0BB62E0825CE28650086FD60 /* NetworkAPIFunctions.swift in Sources */,
 				0B91504725C0FFFB00122F38 /* UserMenuView.swift in Sources */,
 				0B91501325BE717200122F38 /* HomeView.swift in Sources */,
+				0B6AF26325F2109F00D19D45 /* GeneratePaperView.swift in Sources */,
 				0B22781925CA92530000FB8C /* Store.swift in Sources */,
 				0B0255C325EA09AB002B4AB0 /* EditUserInfoView.swift in Sources */,
 				0B16F4C025DF9DCD00C055DB /* DateFunctions.swift in Sources */,

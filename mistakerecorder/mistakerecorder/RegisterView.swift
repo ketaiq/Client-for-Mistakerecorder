@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct RegisterView: View {
-    @StateObject var user = User(username: "", nickname: "", realname: "", idcard: "", emailaddress: "", password: "", avatar: UIImage(named: "ac84bcb7d0a20cf4800d77cc74094b36acaf990f")!.pngData()!.base64EncodedString())
+    @StateObject var user = User(username: "", nickname: "", realname: "", idcard: "", emailaddress: "", password: "", avatar: UIImage(systemName: "person.circle")!.pngData()!.base64EncodedString())
     @State var nickname = ""
     @State var realname = ""
     @State var id = ""
@@ -65,8 +65,8 @@ struct RegisterView: View {
                     .background(Color(#colorLiteral(red: 0.3647058904, green: 0.06666667014, blue: 0.9686274529, alpha: 1)))
                     .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
                     .shadow(color: Color.black.opacity(0.5), radius: 10, x: 0, y: 5)
-                    .padding(.horizontal)
             })
+            .padding(.horizontal)
             .alert(isPresented: $showAlert, content: {
                 if wrongFormatAlert {
                     return Alert(title: Text("警告"),

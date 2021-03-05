@@ -88,8 +88,8 @@ struct RegisterButtonSubview: View {
                         .background(Color(#colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1)))
                         .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
                         .shadow(color: Color.black.opacity(0.5), radius: 10, x: 0, y: 5)
-                        .padding()
                 })
+                .padding()
                 NavigationLink(
                     destination: RegisterView(),
                     isActive: $registerButtonPressed) {
@@ -169,8 +169,8 @@ struct LoginButtonSubview: View, DataDelegate {
                 .background(Color(#colorLiteral(red: 0.3647058904, green: 0.06666667014, blue: 0.9686274529, alpha: 1)))
                 .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
                 .shadow(color: Color.black.opacity(0.5), radius: 10, x: 0, y: 5)
-                .padding(.horizontal)
         })
+        .padding(.horizontal)
         .alert(isPresented: self.$showAlert, content: {
             if loginStatus.wrongPasswordAlert {
                 return Alert(title: Text("警告"),
@@ -222,8 +222,8 @@ struct ForgetPasswordButtonSubview: View {
                 Text("忘记密码")
                     .font(.system(size: 20, weight: .bold))
                     .foregroundColor(Color(#colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)))
-                    .padding(.horizontal)
             })
+            .padding(.horizontal)
             NavigationLink(
                 destination: ForgetPasswordView(),
                 isActive: $forgetPasswordButtonPressed) {
