@@ -80,7 +80,7 @@ struct MistakeListView: View {
                             .frame(width: 60, height: 30)
                             .background(Color(#colorLiteral(red: 0.3647058904, green: 0.06666667014, blue: 0.9686274529, alpha: 1)))
                             .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
-                            .shadow(color: Color.black.opacity(0.3), radius: 10, x: 0, y: 5)
+                            .shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: 3)
                     })
                     NavigationLink(
                         destination: MistakeItemView(user: user, mistake: user.mistakeList[user.mistakeList.count - 1]),
@@ -89,18 +89,22 @@ struct MistakeListView: View {
                     }
                 }, trailing:
                 HStack(spacing: 20) {
-                    Button(action: {
-                        self.generatePaperButtonPressed = true
-                    }, label: {
-                        Text("组卷")
-                            .foregroundColor(.white)
-                            .frame(width: 60, height: 30)
-                            .background(Color(#colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1)))
-                            .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
-                            .shadow(color: Color.black.opacity(0.3), radius: 10, x: 0, y: 5)
-                    })
-                    .sheet(isPresented: self.$generatePaperButtonPressed) {
-                        GeneratePaperView(user: user)
+                    ZStack {
+                        Button(action: {
+                            self.generatePaperButtonPressed = true
+                        }, label: {
+                            Text("组卷")
+                                .foregroundColor(.white)
+                                .frame(width: 60, height: 30)
+                                .background(Color(#colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1)))
+                                .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+                                .shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: 3)
+                        })
+                        NavigationLink(
+                            destination: GeneratePaperView(user: user).navigationBarTitleDisplayMode(.inline),
+                            isActive: self.$generatePaperButtonPressed) {
+                            EmptyView()
+                        }
                     }
                     Divider()
                     Button(action: {
@@ -111,7 +115,7 @@ struct MistakeListView: View {
                             .frame(width: 60, height: 30)
                             .background(Color(#colorLiteral(red: 0.3647058904, green: 0.06666667014, blue: 0.9686274529, alpha: 1)))
                             .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
-                            .shadow(color: Color.black.opacity(0.3), radius: 10, x: 0, y: 5)
+                            .shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: 3)
                     })
                 }
             )
