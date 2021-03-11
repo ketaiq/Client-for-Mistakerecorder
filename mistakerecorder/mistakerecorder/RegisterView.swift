@@ -73,29 +73,25 @@ struct RegisterView: View {
                                  message: Text("输入格式无效！请按正确格式输入！"),
                                  dismissButton: .default(Text("确认")) {
                                     wrongFormatAlert = false
-                                    showAlert = false
                                  })
                 } else if repeatPasswordDifferentAlert {
                     return Alert(title: Text("警告"),
                                  message: Text("再次输入的密码与设置的密码不一致！"),
                                  dismissButton: .default(Text("确认")) {
                                     repeatPasswordDifferentAlert = false
-                                    showAlert = false
                                  })
                 } else if confirmAlert {
                     return Alert(title: Text("欢迎！"),
                                  message: Text("新账号已创建成功，账号为\(user.username)，请牢记！"),
                                  dismissButton: .default(Text("确认")) {
                                     confirmAlert = false
-                                    showAlert = false
                                     self.presentationMode.wrappedValue.dismiss()
                                  })
                 } else {
                     return Alert(title: Text("警告！"),
                                  message: Text("未知错误！"),
-                                 dismissButton: .default(Text("确认")) {
-                                    showAlert = false
-                                 })
+                                 dismissButton: .default(Text("确认"))
+                    )
                 }
             })
         })

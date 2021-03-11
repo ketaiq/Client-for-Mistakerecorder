@@ -15,6 +15,19 @@ class SelectedMistakes: ObservableObject {
     }
 }
 
+class NumbersOnly: ObservableObject {
+    @Published var value = "" {
+        didSet {
+            let filtered = value.filter {
+                $0.isNumber
+            }
+            if value != filtered {
+                value = filtered
+            }
+        }
+    }
+}
+
 struct GeneratePaperView: View {
     @ObservedObject var user: User
     @StateObject private var selectedMistakes = SelectedMistakes()
@@ -23,13 +36,12 @@ struct GeneratePaperView: View {
     @State private var showPDF = false
     @State private var showActivityView = false
     
-    
-    
     var body: some View {
         ZStack {
             VStack {
                 HStack {
                     Button(action: {
+                        self.selectedMistakes.list.removeAll()
                         showAutoSelectSubview = true
                     }, label: {
                         Text("自动挑选错题")
@@ -109,7 +121,7 @@ struct GeneratePaperView: View {
                     }
                 }
             }
-            AutoSelectSubview(user: user, selectedMistakes: self.selectedMistakes, showAutoSelectSubview: self.$showAutoSelectSubview)
+            AutoSelectSubview(user: user, selectedMistakes: self.selectedMistakes, showAutoSelectSubview: self.$showAutoSelectSubview, showPDF: self.$showPDF)
         }
     }
 }
@@ -133,12 +145,7 @@ struct SelectMistakeSubview: View {
                 selectedMistakes.list.append(mistake)
             } else {
                 selectedMistakes.list.removeAll(where: {
-                    $0.subject == mistake.subject &&
-                    $0.category == mistake.category &&
-                    $0.questionDescription == mistake.questionDescription &&
-                    $0.createdDate == mistake.createdDate &&
-                    $0.nextRevisionDate == mistake.nextRevisionDate &&
-                    $0.revisionStatus == mistake.revisionStatus
+                    $0.equals(mistake: mistake)
                 })
             }
         }, label: {
@@ -154,7 +161,9 @@ struct AutoSelectSubview: View {
     @ObservedObject var user: User
     @ObservedObject var selectedMistakes: SelectedMistakes
     @Binding var showAutoSelectSubview: Bool
-    @State private var selectedNum = ""
+    @Binding var showPDF: Bool
+    @StateObject var mistakesNum = NumbersOnly()
+    @State var emptySelectedMistakesAlert = false
     
     func selectMistakesAutomatically(_ num: Int) {
         if num == 0 {
@@ -168,13 +177,13 @@ struct AutoSelectSubview: View {
             var selectedNum = 0 // 已经选中的错题数
             var evaluationArray = [Double]() // 排序数组
             for i in 1...user.mistakeList.count {
-                evaluationArray.append(user.mistakeList[i].totalRevisionEvaluation())
+                evaluationArray.append(user.mistakeList[i - 1].totalRevisionEvaluation())
             }
             evaluationArray.sort() // 按从小到大排序
             for value in evaluationArray {
                 for i in 1...user.mistakeList.count {
-                    if user.mistakeList[i].totalRevisionEvaluation() == value {
-                        self.selectedMistakes.list.append(user.mistakeList[i])
+                    if user.mistakeList[i - 1].totalRevisionEvaluation() == value {
+                        self.selectedMistakes.list.append(user.mistakeList[i - 1])
                         selectedNum += 1
                         break
                     }
@@ -201,7 +210,7 @@ struct AutoSelectSubview: View {
             Spacer()
             Text("请输入挑选的错题数目。")
                 .font(.system(size: 20))
-            TextField("", text: self.$selectedNum)
+            TextField("", text: self.$mistakesNum.value)
                 .keyboardType(.decimalPad)
                 .padding()
                 .foregroundColor(Color(red: 132 / 255, green: 132 / 255, blue: 132 / 255))
@@ -211,7 +220,13 @@ struct AutoSelectSubview: View {
                 .shadow(color: Color(red: 255 / 255, green: 255 / 255, blue: 255 / 255), radius: 3, x: -2, y: -2)
                 .padding()
             Button(action: {
-                selectMistakesAutomatically(Int(self.selectedNum) ?? 0)
+                selectMistakesAutomatically(Int(self.mistakesNum.value) ?? 0)
+                if selectedMistakes.list.count > 0 {
+                    showPDF = true
+                    showAutoSelectSubview = false
+                } else {
+                    self.emptySelectedMistakesAlert = true
+                }
             }, label: {
                 Text("完成")
                     .bold()
@@ -224,6 +239,13 @@ struct AutoSelectSubview: View {
                     .shadow(color: Color(red: 255 / 255, green: 255 / 255, blue: 255 / 255), radius: 3, x: -2, y: -2)
                     .padding()
             })
+            .alert(isPresented: self.$emptySelectedMistakesAlert) {
+                return Alert(
+                    title: Text("警告"),
+                    message: Text("错题数目不能为0！"),
+                    dismissButton: .default(Text("确认"))
+                )
+            }
             Spacer()
         }
         .frame(width: 300, height: 350)

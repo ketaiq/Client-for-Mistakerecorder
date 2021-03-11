@@ -111,12 +111,14 @@ class PDFCreator {
         var currentPage = 1
         var done = false
         repeat {
+            if currentPage > 1 {
+                context.beginPage()
+            }
             addPageNumber(currentPage)
             currentRange = renderPage(textTop: textTop, pageNumber: currentPage, withTextRange: currentRange, andFramesetter: framesetter)
             if currentRange.location == CFAttributedStringGetLength(attributedText) {
                 done = true
             }
-            context.beginPage()
             currentPage += 1
         } while !done
     }
