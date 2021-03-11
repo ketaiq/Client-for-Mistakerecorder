@@ -97,6 +97,31 @@ class Mistake: ObservableObject, Identifiable, Codable { // 错题
     @Published var nextRevisionDate: String // 下一次复习的时间
     @Published var revisionStatus: String // 正在复习标记
     
+    func totalRevisionEvaluation() -> Double { // 根据所有复习记录计算总的复习进度，返回值在[0, 1]之间
+        var progress: Double = 0
+        
+        let familiar: Double = 100 // 掌握为100分
+        let vague: Double = 50 // 模糊为50分
+        let forgotten: Double = 0 // 忘记为0分
+        
+        for record in self.revisedRecords {
+            if record.revisedPerformance == "掌握" {
+                progress += familiar
+            } else if record.revisedPerformance == "模糊" {
+                progress += vague
+            } else {
+                progress += forgotten
+            }
+        }
+        if self.revisedRecords.count != 0 {
+            progress /= Double(self.revisedRecords.count) * 100.0
+        } else {
+            progress = 0
+        }
+        
+        return progress
+    }
+    
     func isRevising() -> Bool {
         if self.revisionStatus == "true" {
             return true
