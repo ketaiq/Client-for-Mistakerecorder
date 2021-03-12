@@ -211,6 +211,7 @@ struct AutoSelectSubview: View {
             Text("请输入挑选的错题数目。")
                 .font(.system(size: 20))
             TextField("", text: self.$mistakesNum.value)
+                .font(.system(size: 20))
                 .keyboardType(.decimalPad)
                 .padding()
                 .foregroundColor(Color(red: 132 / 255, green: 132 / 255, blue: 132 / 255))

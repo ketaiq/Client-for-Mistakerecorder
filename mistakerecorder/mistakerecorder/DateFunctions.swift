@@ -137,6 +137,16 @@ class DateFunctions {
         }
     }
     
+    func changeNextRevisionDate(mistake: Mistake, date: Date) -> Bool {
+        let newNextRevisionDate = date2String(date: date)
+        if greaterEqualThan(date1Str: newNextRevisionDate, date2Str: currentDate()) {
+            mistake.nextRevisionDate = newNextRevisionDate
+            return true
+        } else {
+            return false
+        }
+    }
+    
     func getDayFromDate(givenDate: Date) -> Int {
         let dateComponents = calendar.dateComponents([.day], from: givenDate)
         return dateComponents.day!

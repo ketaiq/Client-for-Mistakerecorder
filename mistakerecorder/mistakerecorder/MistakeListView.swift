@@ -40,11 +40,14 @@ struct MistakeListView: View {
                                     .lineLimit(2)
                                     .font(.system(size: 16))
                                 Text(mistake.category)
-                                    .font(.system(size: 16))
+                                    .lineLimit(1)
+                                    .font(.system(size: 14))
                                     .fontWeight(.bold)
+                                    .padding(.horizontal, 10)
+                                    .padding(.vertical, 5)
                                     .foregroundColor(.white)
                                     .background(Color.red)
-                                    .cornerRadius(5)
+                                    .cornerRadius(7)
                             }
                             .padding(.vertical)
                         }

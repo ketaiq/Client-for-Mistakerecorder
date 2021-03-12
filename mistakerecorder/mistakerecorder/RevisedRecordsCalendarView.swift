@@ -22,15 +22,15 @@ struct RevisedRecordsCalendarView: View {
             let thisYear = DateFunctions.functions.getYearFromDate(givenDate: date)
             if revisedDay == thisDay && revisedMonth == thisMonth && revisedYear == thisYear {
                 if record.revisedPerformance == "掌握" {
-                    return Color(#colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1))
+                    return Color(#colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1))
                 } else if record.revisedPerformance == "模糊" {
-                    return Color(#colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1))
+                    return Color(#colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1))
                 } else if record.revisedPerformance == "忘记" {
-                    return Color(#colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1))
+                    return Color(#colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1))
                 }
             }
         }
-        return Color(#colorLiteral(red: 0.9764705896, green: 0.850980401, blue: 0.5490196347, alpha: 1))
+        return Color(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1))
     }
     
     
@@ -60,18 +60,25 @@ struct RevisedRecordsCalendarView: View {
             Spacer()
             LazyVGrid(columns: columns) {
                 Text("日").bold()
+                    .font(.system(size: 20))
                     .foregroundColor(.black)
                 Text("一").bold()
+                    .font(.system(size: 20))
                     .foregroundColor(.black)
                 Text("二").bold()
+                    .font(.system(size: 20))
                     .foregroundColor(.black)
                 Text("三").bold()
+                    .font(.system(size: 20))
                     .foregroundColor(.black)
                 Text("四").bold()
+                    .font(.system(size: 20))
                     .foregroundColor(.black)
                 Text("五").bold()
+                    .font(.system(size: 20))
                     .foregroundColor(.black)
                 Text("六").bold()
+                    .font(.system(size: 20))
                     .foregroundColor(.black)
             }
             LazyVGrid(columns: columns) {
@@ -83,10 +90,10 @@ struct RevisedRecordsCalendarView: View {
                             Text("\(DateFunctions.functions.getDayFromDate(givenDate: date))")
                                 .foregroundColor(.black)
                         }
-                        .frame(width: 40, height: 40)
+                        .frame(width: 30, height: 30)
                     } else {
                         Text("")
-                            .frame(width: 40, height: 40)
+                            .frame(width: 30, height: 30)
                             .hidden()
                     }
                 }
@@ -96,33 +103,33 @@ struct RevisedRecordsCalendarView: View {
                 Spacer()
                 Circle()
                     .frame(width: 30, height: 30)
-                    .foregroundColor(Color(#colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)))
+                    .foregroundColor(Color(#colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)))
                 Text("掌握")
                     .font(.system(size: 20))
-                    .foregroundColor(.white)
+                    .foregroundColor(.black)
                 Spacer()
                 Circle()
                     .frame(width: 30, height: 30)
-                    .foregroundColor(Color(#colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)))
+                    .foregroundColor(Color(#colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1)))
                 Text("模糊")
                     .font(.system(size: 20))
-                    .foregroundColor(.white)
+                    .foregroundColor(.black)
                 Spacer()
                 Circle()
                     .frame(width: 30, height: 30)
-                    .foregroundColor(Color(#colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)))
+                    .foregroundColor(Color(#colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1)))
                 Text("忘记")
                     .font(.system(size: 20))
-                    .foregroundColor(.white)
+                    .foregroundColor(.black)
                 Spacer()
             }
             Spacer()
         }
         .padding()
-        .frame(width: screen.width, height: 450)
-        .background(Color.orange)
-        .clipShape(RoundedRectangle(cornerRadius: 20, style: /*@START_MENU_TOKEN@*/.continuous/*@END_MENU_TOKEN@*/))
-        .shadow(color: Color.orange.opacity(0.8), radius: 20, x: 0, y: 20)
+        .frame(width: 350, height: 400)
+        .background(Color.white)
+        .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous))
+        .shadow(color: Color.black.opacity(0.2), radius: 20, x: 0, y: 20)
     }
 }
 

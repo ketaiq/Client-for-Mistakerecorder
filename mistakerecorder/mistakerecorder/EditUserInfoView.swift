@@ -106,9 +106,7 @@ struct EditUserInfoView: View {
                             .alert(isPresented: self.$nicknameWrongFormatAlert, content: {
                                 return Alert(title: Text("警告！"),
                                     message: Text("输入格式无效！请按正确格式输入！昵称可由1到32个汉字、大小写字母和数字组成。"),
-                                    dismissButton: .default(Text("确认")) {
-                                        self.nicknameWrongFormatAlert = false
-                                    }
+                                    dismissButton: .default(Text("确认"))
                                 )
                             })
                     }
@@ -255,9 +253,7 @@ struct EditUserInfoView: View {
                             .alert(isPresented: self.$emailaddressWrongFormatAlert, content: {
                                 return Alert(title: Text("警告！"),
                                     message: Text("输入格式无效！请按正确邮箱格式输入！例如1234@qq.com。"),
-                                    dismissButton: .default(Text("确认")) {
-                                        self.emailaddressWrongFormatAlert = false
-                                    }
+                                    dismissButton: .default(Text("确认"))
                                 )
                             })
                     }
@@ -326,9 +322,7 @@ struct EditUserInfoView: View {
                             .alert(isPresented: self.$passwordWrongFormatAlert, content: {
                                 return Alert(title: Text("警告！"),
                                     message: Text("输入格式无效！请按正确邮箱格式输入！密码可由字母和数字组成，至少8位密码，最多32位。"),
-                                    dismissButton: .default(Text("确认")) {
-                                        self.passwordWrongFormatAlert = false
-                                    }
+                                    dismissButton: .default(Text("确认"))
                                 )
                             })
                     }
