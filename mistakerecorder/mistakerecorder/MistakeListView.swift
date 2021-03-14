@@ -32,7 +32,7 @@ struct MistakeListView: View {
             List {
                 ForEach(user.mistakeList) { mistake in
                     HStack {
-                        NavigationLink(destination: MistakeItemView(user: user, mistake: mistake)) {
+                        NavigationLink(destination: MistakeItemView(user: user, mistake: mistake).navigationBarTitleDisplayMode(.inline)) {
                             VStack(alignment: .leading, spacing: 8) {
                                 Text(mistake.subject)
                                     .font(.system(size: 25, weight: .bold))
@@ -40,18 +40,16 @@ struct MistakeListView: View {
                                     .lineLimit(2)
                                     .font(.system(size: 16))
                                 Text(mistake.category)
-                                    .lineLimit(1)
                                     .font(.system(size: 14))
                                     .fontWeight(.bold)
-                                    .padding(.horizontal, 10)
-                                    .padding(.vertical, 5)
+                                    .padding(.horizontal, 5)
+                                    .padding(.vertical, 2)
                                     .foregroundColor(.white)
                                     .background(Color.red)
-                                    .cornerRadius(7)
+                                    .cornerRadius(10)
                             }
                             .padding(.vertical)
                         }
-                        
                     }
                 }
                 .onMove(perform: { indices, newOffset in

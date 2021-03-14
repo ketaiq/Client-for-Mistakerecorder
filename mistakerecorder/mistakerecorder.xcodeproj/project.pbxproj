@@ -34,6 +34,8 @@
 		0B91503D25C015E700122F38 /* RevisingMistakeCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B91503C25C015E700122F38 /* RevisingMistakeCardView.swift */; };
 		0B91504725C0FFFB00122F38 /* UserMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B91504625C0FFFB00122F38 /* UserMenuView.swift */; };
 		0B91505925C29CB700122F38 /* MistakeListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B91505825C29CB700122F38 /* MistakeListView.swift */; };
+		0B967FDE25FC94B900A6D704 /* MistakeOCRView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B967FDD25FC94B900A6D704 /* MistakeOCRView.swift */; };
+		0B967FE325FC950A00A6D704 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B967FE225FC950A00A6D704 /* ImagePicker.swift */; };
 		0BADDC0025F321D300067F02 /* PDFCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BADDBFF25F321D300067F02 /* PDFCreator.swift */; };
 		0BADDC1525F32D9400067F02 /* PDFReaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BADDC1425F32D9400067F02 /* PDFReaderView.swift */; };
 		0BADDC3225F4B19500067F02 /* PDFActivityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BADDC3125F4B19500067F02 /* PDFActivityViewController.swift */; };
@@ -97,6 +99,8 @@
 		0B91503C25C015E700122F38 /* RevisingMistakeCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RevisingMistakeCardView.swift; sourceTree = "<group>"; };
 		0B91504625C0FFFB00122F38 /* UserMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserMenuView.swift; sourceTree = "<group>"; };
 		0B91505825C29CB700122F38 /* MistakeListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistakeListView.swift; sourceTree = "<group>"; };
+		0B967FDD25FC94B900A6D704 /* MistakeOCRView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistakeOCRView.swift; sourceTree = "<group>"; };
+		0B967FE225FC950A00A6D704 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		0BADDBFF25F321D300067F02 /* PDFCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFCreator.swift; sourceTree = "<group>"; };
 		0BADDC1425F32D9400067F02 /* PDFReaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFReaderView.swift; sourceTree = "<group>"; };
 		0BADDC3125F4B19500067F02 /* PDFActivityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFActivityViewController.swift; sourceTree = "<group>"; };
@@ -188,6 +192,7 @@
 				0BADDC3125F4B19500067F02 /* PDFActivityViewController.swift */,
 				0B50C43C25C402E000D392C7 /* MistakeItemView.swift */,
 				0B16F4C725E0D7FB00C055DB /* RevisedRecordsCalendarView.swift */,
+				0B967FDD25FC94B900A6D704 /* MistakeOCRView.swift */,
 				0B91503C25C015E700122F38 /* RevisingMistakeCardView.swift */,
 				0BE1FE5F25E64C22009B8631 /* EvaluationView.swift */,
 				0B22781825CA92530000FB8C /* Store.swift */,
@@ -195,6 +200,7 @@
 				0B0255C225EA09AB002B4AB0 /* EditUserInfoView.swift */,
 				0BFFA37F25EB74AE00623666 /* EditAvatarView.swift */,
 				0B91502425BE95A700122F38 /* PhotographView.swift */,
+				0B967FE225FC950A00A6D704 /* ImagePicker.swift */,
 				0B16F4BF25DF9DCD00C055DB /* DateFunctions.swift */,
 				0BB62E0725CE28650086FD60 /* NetworkAPIFunctions.swift */,
 				0B16F52D25E4F8E000C055DB /* OtherFunctions.swift */,
@@ -391,6 +397,7 @@
 				0BE1FE6025E64C22009B8631 /* EvaluationView.swift in Sources */,
 				0BADDC3225F4B19500067F02 /* PDFActivityViewController.swift in Sources */,
 				0BFFA38025EB74AE00623666 /* EditAvatarView.swift in Sources */,
+				0B967FE325FC950A00A6D704 /* ImagePicker.swift in Sources */,
 				0BB62E0825CE28650086FD60 /* NetworkAPIFunctions.swift in Sources */,
 				0B91504725C0FFFB00122F38 /* UserMenuView.swift in Sources */,
 				0B91501325BE717200122F38 /* HomeView.swift in Sources */,
@@ -398,6 +405,7 @@
 				0B22781925CA92530000FB8C /* Store.swift in Sources */,
 				0BADDC1525F32D9400067F02 /* PDFReaderView.swift in Sources */,
 				0B0255C325EA09AB002B4AB0 /* EditUserInfoView.swift in Sources */,
+				0B967FDE25FC94B900A6D704 /* MistakeOCRView.swift in Sources */,
 				0B16F4C025DF9DCD00C055DB /* DateFunctions.swift in Sources */,
 				0B50C43D25C402E000D392C7 /* MistakeItemView.swift in Sources */,
 				0B6659F825B998A800C9DB31 /* mistakerecorderApp.swift in Sources */,

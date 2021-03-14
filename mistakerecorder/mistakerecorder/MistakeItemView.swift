@@ -27,9 +27,7 @@ struct MistakeItemView: View {
                     ForEach(mistake.questionItems) { item in
                         ItemQuestionAndAnswerSubview(questionItem: item)
                     }
-                    
                 }
-                .navigationBarTitleDisplayMode(.inline)
             }
             
             RevisedRecordsCalendarView(mistake: mistake, dateArray: DateArray(dates: DateFunctions.functions.generateDatesOfMonth(givenDate: mistake.createdDate)))
@@ -185,13 +183,9 @@ struct ItemRevisedRecordsSubview: View {
                 Text("复习记录")
                     .font(.system(size: 20))
                 Spacer()
-                Button(action: {
-                    self.showRevisedRecordsCalendar = true
-                }, label: {
-                    Image(systemName: "calendar")
-                        .font(.system(size: 40))
-                        .foregroundColor(Color(#colorLiteral(red: 0.2196078449, green: 0.007843137719, blue: 0.8549019694, alpha: 1)))
-                })
+                Image(systemName: "calendar")
+                    .font(.system(size: 40))
+                    .foregroundColor(Color(#colorLiteral(red: 0.2196078449, green: 0.007843137719, blue: 0.8549019694, alpha: 1)))
                 Image(systemName: "info.circle")
                     .font(.system(size: 20))
                     .frame(width: 30, height: 30)
@@ -199,6 +193,9 @@ struct ItemRevisedRecordsSubview: View {
                     .onTapGesture {
                         self.showInfo = true
                     }
+            }
+            .onTapGesture {
+                self.showRevisedRecordsCalendar = true
             }
             .offset(x: self.showInfo ? -500 : 0)
             .animation(.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0))
@@ -387,9 +384,10 @@ struct ItemCategorySubview: View {
 
 struct ItemQuestionDescriptionSubview: View {
     @Binding var questionDescription: String
-    @State private var text = "请在此输入..."
+    @State private var text = "请在此输入题干描述..."
     @State private var editStatus = false
     @State private var emptyAlert = false
+    @State private var showOCRView = false
     
     var body: some View {
         ZStack {
@@ -411,7 +409,9 @@ struct ItemQuestionDescriptionSubview: View {
             .offset(x: self.editStatus ? -500 : 0)
             .animation(.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0))
             .padding(.vertical)
-            .sheet(isPresented: self.$editStatus) {
+            .sheet(isPresented: self.$editStatus, onDismiss: {
+                self.text = "请在此输入题干描述..."
+            }) {
                 VStack {
                     HStack {
                         Text("请输入题干描述")
@@ -419,7 +419,9 @@ struct ItemQuestionDescriptionSubview: View {
                         Spacer()
                         Button(action: {
                             if self.text != "" {
-                                questionDescription = self.text
+                                if self.text != "请在此输入题干描述..." {
+                                    questionDescription = self.text
+                                }
                                 self.editStatus = false
                             } else {
                                 self.emptyAlert = true
@@ -434,7 +436,6 @@ struct ItemQuestionDescriptionSubview: View {
                                 .cornerRadius(10)
                                 .shadow(color: Color(red: 163 / 255, green: 177 / 255, blue: 198 / 255), radius: 3, x: 2, y: 2)
                                 .shadow(color: Color(red: 255 / 255, green: 255 / 255, blue: 255 / 255), radius: 3, x: -2, y: -2)
-                                .padding()
                         })
                         .alert(isPresented: self.$emptyAlert) {
                             return Alert(
@@ -444,14 +445,49 @@ struct ItemQuestionDescriptionSubview: View {
                             )
                         }
                     }
-                    .padding()
+                    .padding(.horizontal)
+                    .padding(.top)
                     
+                    HStack {
+                        Text("题干描述：\(questionDescription)")
+                            .padding()
+                        Spacer()
+                    }
+                    HStack {
+                        Button(action: {
+                            self.showOCRView = true
+                        }, label: {
+                            Image(systemName: "camera")
+                                .foregroundColor(Color(#colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)))
+                                .font(.system(size: 30))
+                                .padding(.horizontal)
+                        })
+                        Button(action: {
+                            self.text = ""
+                        }, label: {
+                            Image(systemName: "clear")
+                                .foregroundColor(Color(#colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)))
+                                .font(.system(size: 30))
+                                .padding(.horizontal)
+                        })
+                        Spacer()
+                    }
                     TextEditor(text: self.$text)
                         .lineSpacing(5)
                         .autocapitalization(.none)
                         .disableAutocorrection(true)
                         .foregroundColor(.black)
+                        .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
                         .padding()
+                        .background(RadialGradient(gradient: Gradient(colors: [Color(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)), Color(#colorLiteral(red: 0.2196078449, green: 0.007843137719, blue: 0.8549019694, alpha: 1))]), center: .center, startRadius: 100, endRadius: 500))
+                        .onTapGesture {
+                            if self.text == "请在此输入题干描述..." {
+                                self.text = ""
+                            }
+                        }
+                }
+                .sheet(isPresented: self.$showOCRView) {
+                    MistakeOCRView(text: self.$text)
                 }
             }
         }
@@ -464,6 +500,7 @@ struct ItemQuestionAndAnswerSubview: View {
     @State private var answerText = "请在此输入答案..."
     @State private var editStatus = false
     @State private var emptyAlert = false
+    @State private var showOCRView = false
     
     var body: some View {
         ZStack {
@@ -516,7 +553,6 @@ struct ItemQuestionAndAnswerSubview: View {
                                 .cornerRadius(10)
                                 .shadow(color: Color(red: 163 / 255, green: 177 / 255, blue: 198 / 255), radius: 3, x: 2, y: 2)
                                 .shadow(color: Color(red: 255 / 255, green: 255 / 255, blue: 255 / 255), radius: 3, x: -2, y: -2)
-                                .padding()
                         })
                         .alert(isPresented: self.$emptyAlert) {
                             return Alert(
@@ -526,34 +562,86 @@ struct ItemQuestionAndAnswerSubview: View {
                             )
                         }
                     }
-                    .padding()
+                    .padding(.horizontal)
+                    .padding(.top)
                     
-                    Text("题目：\(questionItem.question)")
+                    HStack {
+                        Text("题目：\(questionItem.question)")
+                            .padding()
+                        Spacer()
+                    }
+                    HStack {
+                        Button(action: {
+                            self.showOCRView = true
+                        }, label: {
+                            Image(systemName: "camera")
+                                .foregroundColor(Color(#colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)))
+                                .font(.system(size: 30))
+                                .padding(.horizontal)
+                        })
+                        Button(action: {
+                            self.questionText = ""
+                        }, label: {
+                            Image(systemName: "clear")
+                                .foregroundColor(Color(#colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)))
+                                .font(.system(size: 30))
+                                .padding(.horizontal)
+                        })
+                        Spacer()
+                    }
                     TextEditor(text: self.$questionText)
                         .lineSpacing(5)
                         .autocapitalization(.none)
                         .disableAutocorrection(true)
                         .foregroundColor(.black)
+                        .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
                         .padding()
-                        .border(Color.red)
+                        .background(RadialGradient(gradient: Gradient(colors: [Color(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)), Color(#colorLiteral(red: 0.2196078449, green: 0.007843137719, blue: 0.8549019694, alpha: 1))]), center: .center, startRadius: 10, endRadius: 400))
                         .onTapGesture {
                             if self.questionText == "请在此输入题目..." {
                                 self.questionText = ""
                             }
                         }
-                    Text("答案：\(questionItem.rightAnswer)")
+                    HStack {
+                        Text("答案：\(questionItem.rightAnswer)")
+                            .padding()
+                        Spacer()
+                    }
+                    HStack {
+                        Button(action: {
+                            self.showOCRView = true
+                        }, label: {
+                            Image(systemName: "camera")
+                                .foregroundColor(Color(#colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)))
+                                .font(.system(size: 30))
+                                .padding(.horizontal)
+                        })
+                        Button(action: {
+                            self.answerText = ""
+                        }, label: {
+                            Image(systemName: "clear")
+                                .foregroundColor(Color(#colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)))
+                                .font(.system(size: 30))
+                                .padding(.horizontal)
+                        })
+                        Spacer()
+                    }
                     TextEditor(text: self.$answerText)
                         .lineSpacing(5)
                         .autocapitalization(.none)
                         .disableAutocorrection(true)
                         .foregroundColor(.black)
+                        .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
                         .padding()
-                        .border(Color.red)
+                        .background(RadialGradient(gradient: Gradient(colors: [Color(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)), Color(#colorLiteral(red: 0.2196078449, green: 0.007843137719, blue: 0.8549019694, alpha: 1))]), center: .center, startRadius: 10, endRadius: 400))
                         .onTapGesture {
                             if self.answerText == "请在此输入答案..." {
                                 self.answerText = ""
                             }
                         }
+                }
+                .sheet(isPresented: self.$showOCRView) {
+                    MistakeOCRView(text: self.$answerText)
                 }
             }
         }
