@@ -11,6 +11,7 @@ struct MistakeOCRView: View {
     @Binding var text: String // 识别得到的文字
     @State private var image = UIImage()
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    @State private var showPhotoLibrary = false
     
     var body: some View {
         ZStack {
@@ -59,14 +60,20 @@ struct MistakeOCRView: View {
                     }
                     Spacer()
                     Button(action: {
-                        
+                        self.showPhotoLibrary = true
                     }) {
                         Image(systemName: "photo.fill")
                             .font(.system(size: 30))
                             .foregroundColor(Color(#colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1)))
                     }
+                    .sheet(isPresented: self.$showPhotoLibrary) {
+                        ImagePicker(sourceType: .photoLibrary, selectedImage: self.$image)
+                    }
                 }
                 .padding()
+            }
+            if self.image != UIImage() {
+                ImageEditView(image: self.$image)
             }
         }
         .edgesIgnoringSafeArea(.all)
