@@ -9,17 +9,63 @@ import SwiftUI
 
 struct ImageEditView: View {
     @Binding var image: UIImage
+    @StateObject private var cropper = Cropper(parentSize: CGSize.zero)
+    @State var croppedImage = UIImage()
+    @State var showCroppedImage = false
     
     var body: some View {
         ZStack {
-            Color.black.opacity(0.5)
-            Image(uiImage: image)
-                .resizable()
-                .scaledToFit()
-                .overlay(GeometryReader { parentProxy in
-                    CropperView(cropper: Cropper(parentProxy: parentProxy))
-                })
-                .padding(30)
+            Color.black
+            VStack {
+                Spacer()
+                Image(uiImage: image)
+                    .resizable()
+                    .scaledToFit()
+                    .overlay(GeometryReader { parentProxy in
+                        CropperView(cropper: self.cropper).onAppear {
+                            self.cropper.update(parentSize: parentProxy.size)
+                        }
+                    })
+                    .padding(30)
+                Spacer()
+                HStack {
+                    Button(action: {
+                        self.image = UIImage()
+                    }, label: {
+                        Text("返回")
+                            .foregroundColor(.white)
+                            .padding(10)
+                            .padding(.horizontal, 10)
+                            .background(Color(#colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)))
+                            .cornerRadius(10)
+                    })
+                    Spacer()
+                    Button(action: {
+                        let cgImage = image.cgImage!
+                        let scaler = CGFloat(cgImage.width) / self.cropper.parentSize.width
+                        let x = (self.cropper.rect.origin.x - self.cropper.rect.width / 2) * scaler
+                        let y = (self.cropper.rect.origin.y - self.cropper.rect.height / 2) * scaler
+                        let width = self.cropper.rect.width * scaler
+                        let height = self.cropper.rect.height * scaler
+                        let croppedCGImage = cgImage.cropping(to: CGRect(x: x, y: y, width: width, height: height))!
+                        self.croppedImage = UIImage(cgImage: croppedCGImage)
+                        self.showCroppedImage = true
+                    }, label: {
+                        Text("完成")
+                            .foregroundColor(.white)
+                            .padding(10)
+                            .padding(.horizontal, 10)
+                            .background(Color(#colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)))
+                            .cornerRadius(10)
+                    })
+                    .sheet(isPresented: self.$showCroppedImage) {
+                        Image(uiImage: self.croppedImage)
+                            .resizable()
+                            .scaledToFit()
+                    }
+                }
+                .padding()
+            }
             
         }
         .edgesIgnoringSafeArea(.all)
@@ -31,11 +77,27 @@ struct CropperView: View {
     
     var body: some View {
         ZStack {
-            Text("x = \(cropper.rect.origin.x)\ny = \(cropper.rect.origin.y)\nwidth = \(cropper.rect.width)")
-                .offset(y: 300)
+            Group {
+                Rectangle()
+                    .frame(width: cropper.topRect.width, height: cropper.topRect.height)
+                    .position(x: cropper.topRect.origin.x, y: cropper.topRect.origin.y)
+                    .foregroundColor(Color(#colorLiteral(red: 0.2196078449, green: 0.007843137719, blue: 0.8549019694, alpha: 1)).opacity(0.3))
+                Rectangle()
+                    .frame(width: cropper.leftRect.width, height: cropper.leftRect.height)
+                    .position(x: cropper.leftRect.origin.x, y: cropper.leftRect.origin.y)
+                    .foregroundColor(Color(#colorLiteral(red: 0.2196078449, green: 0.007843137719, blue: 0.8549019694, alpha: 1)).opacity(0.3))
+                Rectangle()
+                    .frame(width: cropper.bottomRect.width, height: cropper.bottomRect.height)
+                    .position(x: cropper.bottomRect.origin.x, y: cropper.bottomRect.origin.y)
+                    .foregroundColor(Color(#colorLiteral(red: 0.2196078449, green: 0.007843137719, blue: 0.8549019694, alpha: 1)).opacity(0.3))
+                Rectangle()
+                    .frame(width: cropper.rightRect.width, height: cropper.rightRect.height)
+                    .position(x: cropper.rightRect.origin.x, y: cropper.rightRect.origin.y)
+                    .foregroundColor(Color(#colorLiteral(red: 0.2196078449, green: 0.007843137719, blue: 0.8549019694, alpha: 1)).opacity(0.3))
+            }
             Rectangle()
-                .frame(width: min(cropper.parentProxy.size.width, cropper.rect.width),
-                       height: min(cropper.parentProxy.size.height, cropper.rect.height))
+                .frame(width: min(cropper.parentSize.width, cropper.rect.width),
+                       height: min(cropper.parentSize.height, cropper.rect.height))
                 .foregroundColor(Color.white.opacity(0.05))
                 .border(Color(#colorLiteral(red: 0.2196078449, green: 0.007843137719, blue: 0.8549019694, alpha: 1)), width: 3)
                 .position(x: cropper.rect.origin.x, y: cropper.rect.origin.y)
@@ -53,6 +115,7 @@ struct CropperView: View {
                                       y: cropper.topLeftCorner.y)
                             .gesture(DragGesture().onChanged { value in
                                 cropper.topLeftCornerChange(location: value.location)
+                                cropper.surroundingRectChange()
                             })
                         }
                         HStack {
@@ -67,6 +130,7 @@ struct CropperView: View {
                                       y: cropper.topRightCorner.y)
                             .gesture(DragGesture().onChanged { value in
                                 cropper.topRightCornerChange(location: value.location)
+                                cropper.surroundingRectChange()
                             })
                         }
                         HStack {
@@ -80,14 +144,8 @@ struct CropperView: View {
                             .position(x: cropper.bottomLeftCorner.x,
                                       y: cropper.bottomLeftCorner.y)
                             .gesture(DragGesture().onChanged { value in
-                                if value.location.x > (cropper.cornerLong / 2 - cropper.cornerShort) {
-                                    cropper.bottomLeftCorner.x = min(value.location.x, cropper.bottomRightCorner.x - cropper.cornerLong)
-                                    cropper.topLeftCorner.x = cropper.bottomLeftCorner.x
-                                }
-                                if value.location.y > cropper.cornerLong / 2 {
-                                    cropper.bottomLeftCorner.y = min(max(value.location.y, cropper.topLeftCorner.y + cropper.cornerLong), cropper.parentProxy.size.height - (cropper.cornerLong / 2 - cropper.cornerShort))
-                                    cropper.bottomRightCorner.y = cropper.bottomLeftCorner.y
-                                }
+                                cropper.bottomLeftCornerChange(location: value.location)
+                                cropper.surroundingRectChange()
                             })
                         }
                         HStack {
@@ -101,14 +159,8 @@ struct CropperView: View {
                             .position(x: cropper.bottomRightCorner.x,
                                       y: cropper.bottomRightCorner.y)
                             .gesture(DragGesture().onChanged { value in
-                                if value.location.x > cropper.cornerLong / 2 {
-                                    cropper.bottomRightCorner.x = min(max(value.location.x, cropper.bottomLeftCorner.x + cropper.cornerLong), cropper.parentProxy.size.width - (cropper.cornerLong / 2 - cropper.cornerShort))
-                                    cropper.topRightCorner.x = cropper.bottomRightCorner.x
-                                }
-                                if value.location.y > cropper.cornerLong / 2 {
-                                    cropper.bottomRightCorner.y = min(max(value.location.y, cropper.topRightCorner.y + cropper.cornerLong), cropper.parentProxy.size.height - (cropper.cornerLong / 2 - cropper.cornerShort))
-                                    cropper.bottomLeftCorner.y = cropper.bottomRightCorner.y
-                                }
+                                cropper.bottomRightCornerChange(location: value.location)
+                                cropper.surroundingRectChange()
                             })
                         }
                     }
