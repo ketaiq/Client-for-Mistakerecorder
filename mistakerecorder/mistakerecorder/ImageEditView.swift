@@ -66,15 +66,7 @@ struct CropperView: View {
                             .position(x: cropper.topRightCorner.x,
                                       y: cropper.topRightCorner.y)
                             .gesture(DragGesture().onChanged { value in
-                                if value.location.x > cropper.cornerLong / 2 {
-                                    // 更新对应边角的位置
-                                    cropper.topRightCorner.x = min(max(value.location.x, cropper.topLeftCorner.x + cropper.cornerLong), cropper.parentProxy.size.width - (cropper.cornerLong / 2 - cropper.cornerShort))
-                                }
-                                cropper.bottomRightCorner.x = cropper.topRightCorner.x
-                                if value.location.y > (cropper.cornerLong / 2 - cropper.cornerShort) {
-                                    cropper.topRightCorner.y = min(value.location.y, cropper.bottomRightCorner.y - cropper.cornerLong)
-                                    cropper.topLeftCorner.y = cropper.topRightCorner.y
-                                }
+                                cropper.topRightCornerChange(location: value.location)
                             })
                         }
                         HStack {
