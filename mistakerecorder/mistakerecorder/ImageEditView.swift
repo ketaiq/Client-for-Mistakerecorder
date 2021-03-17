@@ -10,8 +10,25 @@ import SwiftUI
 struct ImageEditView: View {
     @Binding var image: UIImage
     @StateObject private var cropper = Cropper(parentSize: CGSize.zero)
-    @State var croppedImage = UIImage()
-    @State var showCroppedImage = false
+    @State private var croppedImage = UIImage()
+    @State private var showCroppedImage = false
+    
+    private func rotate90degrees() -> UIImage {
+        let ciimage = CIImage(image: self.image)
+        let filter = CIFilter(name: "CIAffineTransform")!
+        filter.setValue(ciimage, forKey: kCIInputImageKey)
+        filter.setDefaults()
+
+        var transform = CATransform3DIdentity
+        transform = CATransform3DRotate(transform, .pi / 2, 0, 0, 1)
+        let affineTransform = CATransform3DGetAffineTransform(transform)
+        filter.setValue(NSValue(cgAffineTransform: affineTransform), forKey: "inputTransform")
+
+        let context = CIContext(options: [CIContextOption.useSoftwareRenderer: true])
+        let outputImage = filter.outputImage!
+        let cgImage = context.createCGImage(outputImage, from: outputImage.extent)!
+        return UIImage(cgImage: cgImage)
+    }
     
     var body: some View {
         ZStack {
@@ -24,9 +41,12 @@ struct ImageEditView: View {
                     .overlay(GeometryReader { parentProxy in
                         CropperView(cropper: self.cropper).onAppear {
                             self.cropper.update(parentSize: parentProxy.size)
+                        }.onChange(of: parentProxy.size) { value in
+                            self.cropper.update(parentSize: parentProxy.size)
                         }
                     })
                     .padding(30)
+                
                 Spacer()
                 HStack {
                     Button(action: {
@@ -38,6 +58,14 @@ struct ImageEditView: View {
                             .padding(.horizontal, 10)
                             .background(Color(#colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)))
                             .cornerRadius(10)
+                    })
+                    Spacer()
+                    Button(action: {
+                        self.image = self.rotate90degrees()
+                    }, label: {
+                        Image(systemName: "rotate.left.fill")
+                            .font(.system(size: 25))
+                            .foregroundColor(.white)
                     })
                     Spacer()
                     Button(action: {
