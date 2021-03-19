@@ -13,6 +13,7 @@ struct ImageEditView: View {
     @State private var croppedImage = UIImage()
     @State private var showCroppedImage = false
     
+    // 逆时针旋转90度
     private func rotate90degrees() -> UIImage {
         let ciimage = CIImage(image: self.image)
         let filter = CIFilter(name: "CIAffineTransform")!
@@ -28,6 +29,18 @@ struct ImageEditView: View {
         let outputImage = filter.outputImage!
         let cgImage = context.createCGImage(outputImage, from: outputImage.extent)!
         return UIImage(cgImage: cgImage)
+    }
+    
+    // 裁剪图片
+    private func cropImage() {
+        let cgImage = image.cgImage!
+        let scaler = CGFloat(cgImage.width) / self.cropper.parentSize.width
+        let x = (self.cropper.rect.origin.x - self.cropper.rect.width / 2) * scaler
+        let y = (self.cropper.rect.origin.y - self.cropper.rect.height / 2) * scaler
+        let width = self.cropper.rect.width * scaler
+        let height = self.cropper.rect.height * scaler
+        let croppedCGImage = cgImage.cropping(to: CGRect(x: x, y: y, width: width, height: height))!
+        self.croppedImage = UIImage(cgImage: croppedCGImage)
     }
     
     var body: some View {
@@ -68,15 +81,9 @@ struct ImageEditView: View {
                     })
                     Spacer()
                     Button(action: {
-                        let cgImage = image.cgImage!
-                        let scaler = CGFloat(cgImage.width) / self.cropper.parentSize.width
-                        let x = (self.cropper.rect.origin.x - self.cropper.rect.width / 2) * scaler
-                        let y = (self.cropper.rect.origin.y - self.cropper.rect.height / 2) * scaler
-                        let width = self.cropper.rect.width * scaler
-                        let height = self.cropper.rect.height * scaler
-                        let croppedCGImage = cgImage.cropping(to: CGRect(x: x, y: y, width: width, height: height))!
-                        self.croppedImage = UIImage(cgImage: croppedCGImage)
+                        self.cropImage()
                         self.showCroppedImage = true
+                        NetworkAPIFunctions.functions.baiduOCR(croppedImage: self.croppedImage)
                     }, label: {
                         Text("完成")
                             .foregroundColor(.white)

@@ -96,6 +96,8 @@
 		0B6C06D925FDAA0800976FBC /* ImageEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageEditView.swift; sourceTree = "<group>"; };
 		0B6C06F326006B9B00976FBC /* Cropper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cropper.swift; sourceTree = "<group>"; };
 		0B6C073B2602F79E00976FBC /* CropperView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CropperView.swift; sourceTree = "<group>"; };
+		0B6C076A2603121200976FBC /* AipBase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AipBase.framework; path = mistakerecorder/OCRlib/AipBase.framework; sourceTree = "<group>"; };
+		0B6C076B2603121300976FBC /* AipOcrSdk.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AipOcrSdk.framework; path = mistakerecorder/OCRlib/AipOcrSdk.framework; sourceTree = "<group>"; };
 		0B91500025BBCAEF00122F38 /* RegisterTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterTextField.swift; sourceTree = "<group>"; };
 		0B91500D25BE6E2400122F38 /* ForgetPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgetPasswordView.swift; sourceTree = "<group>"; };
 		0B91501225BE717200122F38 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -163,6 +165,7 @@
 				0B665A0825B998AA00C9DB31 /* mistakerecorderTests */,
 				0B665A1325B998AA00C9DB31 /* mistakerecorderUITests */,
 				0B6659F525B998A800C9DB31 /* Products */,
+				0B6C07512602FE8400976FBC /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -306,6 +309,15 @@
 				0B967FE225FC950A00A6D704 /* ImagePicker.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		0B6C07512602FE8400976FBC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0B6C076A2603121200976FBC /* AipBase.framework */,
+				0B6C076B2603121300976FBC /* AipOcrSdk.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -642,6 +654,10 @@
 				DEVELOPMENT_ASSET_PATHS = "\"mistakerecorder/Preview Content\"";
 				DEVELOPMENT_TEAM = 5CKVWTN25D;
 				ENABLE_PREVIEWS = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/mistakerecorder/OCRlib",
+				);
 				INFOPLIST_FILE = mistakerecorder/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -665,6 +681,10 @@
 				DEVELOPMENT_ASSET_PATHS = "\"mistakerecorder/Preview Content\"";
 				DEVELOPMENT_TEAM = 5CKVWTN25D;
 				ENABLE_PREVIEWS = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/mistakerecorder/OCRlib",
+				);
 				INFOPLIST_FILE = mistakerecorder/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
 				LD_RUNPATH_SEARCH_PATHS = (

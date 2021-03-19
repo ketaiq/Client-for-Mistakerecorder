@@ -21,21 +21,25 @@ struct MistakeOCRView: View {
             HStack {
                 Rectangle()
                     .foregroundColor(.yellow)
-                    .frame(width: 1, height: .infinity)
+                    .frame(width: 1)
+                    .frame(maxHeight: .infinity)
                     .offset(x: screen.width / 2 - screen.width * 2 / 3)
                 Rectangle()
                     .foregroundColor(.yellow)
-                    .frame(width: 1, height: .infinity)
+                    .frame(width: 1)
+                    .frame(maxHeight: .infinity)
                     .offset(x: screen.width / 2 - screen.width * 1 / 3)
             }
             VStack {
                 Rectangle()
                     .foregroundColor(.yellow)
-                    .frame(width: .infinity, height: 1)
+                    .frame(height: 1)
+                    .frame(maxWidth: .infinity)
                     .offset(y: screen.height / 2 - screen.height * 2 / 3)
                 Rectangle()
                     .foregroundColor(.yellow)
-                    .frame(width: .infinity, height: 1)
+                    .frame(height: 1)
+                    .frame(maxWidth: .infinity)
                     .offset(y: screen.height / 2 - screen.height * 1 / 3)
             }
             VStack {
