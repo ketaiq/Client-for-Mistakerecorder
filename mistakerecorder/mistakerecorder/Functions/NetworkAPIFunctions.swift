@@ -9,6 +9,14 @@ import Foundation
 import Alamofire
 import SwiftUI
 
+class ObservableString: ObservableObject {
+    @Published var content: String
+    
+    init(content: String) {
+        self.content = content
+    }
+}
+
 struct AccessToken: Codable {
     let expires_in: Int // Access Token的有效期(秒为单位，一般为1个月)
     let access_token: String
@@ -117,39 +125,38 @@ class NetworkAPIFunctions {
             encoder: JSONParameterEncoder.default).response { response in }
     }
     
-    func baiduOCR(croppedImage: UIImage) {
-        var accessToken = ""
-        let accessTokenUrl = "https://aip.baidubce.com/oauth/2.0/token"
-        let parameters = [
+    func baiduOCR(ocr_result: ObservableString, croppedImage: UIImage) {
+        let access_token_url = "https://aip.baidubce.com/oauth/2.0/token"
+        let access_token_url_parameters = [
             "grant_type": "client_credentials",
             "client_id": "sv9WXhUIaScOkQL9NAqfZ7HD",
             "client_secret": "jy8rqIM7VbUn6n7OjKvNCnOaH7r83Gmk"
         ]
-        AF.request(accessTokenUrl,
-                   method: .get,
-                   parameters: parameters).response { accessTokenResponse in
-            debugPrint(accessTokenResponse)
-            let accessTokenResponseStr = String(data: accessTokenResponse.data!, encoding: .utf8)!
+        var ocr_url = "https://aip.baidubce.com/rest/2.0/ocr/v1/handwriting" + "?access_token="
+        let imgStr = croppedImage.pngData()!.base64EncodedString()
+        let ocr_headers: HTTPHeaders = [
+            "content-type": "application/x-www-form-urlencoded"
+        ]
+        
+        AF.request(access_token_url, method: .get, parameters: access_token_url_parameters).response { access_token_response in
+            debugPrint(access_token_response)
+            let access_token_response_str = String(data: access_token_response.data!, encoding: .utf8)!
             do {
-                let accessTokenJson = try JSONDecoder().decode(AccessToken.self, from: accessTokenResponseStr.data(using: .utf8)!)
-                accessToken = accessTokenJson.access_token
-                
-                let OCRurl = "https://aip.baidubce.com/rest/2.0/ocr/v1/handwriting" + "?access_token=" + accessToken
-                let imgStr = croppedImage.pngData()!.base64EncodedString()
-                let headers: HTTPHeaders = [
-                    "content-type": "application/x-www-form-urlencoded"
-                ]
-                AF.request(OCRurl,
+                let access_token_json = try JSONDecoder().decode(AccessToken.self, from: access_token_response_str.data(using: .utf8)!)
+                ocr_url += access_token_json.access_token
+                AF.request(ocr_url,
                            method: .post,
                            parameters: ["image": imgStr],
                            encoder: URLEncodedFormParameterEncoder(destination: .httpBody),
-                           headers: headers).response { OCRresponse in
+                           headers: ocr_headers).response { OCRresponse in
                     debugPrint(OCRresponse)
                     let OCRstr = String(data: OCRresponse.data!, encoding: .utf8)!
                     do {
                         let OCRjson = try JSONDecoder().decode(OCRresult.self, from: OCRstr.data(using: .utf8)!)
-                        for item in OCRjson.words_result {
-                            print(item.words) // 输出识别结果
+                        var i = 0
+                        while i < OCRjson.words_result_num { // 得到识别结果
+                            ocr_result.content.append(OCRjson.words_result[i].words)
+                            i += 1
                         }
                     } catch {
                         print("OCR解码失败")

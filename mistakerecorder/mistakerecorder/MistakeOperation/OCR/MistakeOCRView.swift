@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct MistakeOCRView: View {
-    @Binding var text: String // 识别得到的文字
+    @ObservedObject var text: ObservableString // 识别得到的文字
     @State private var image = UIImage()
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @State private var showPhotoLibrary = false
@@ -77,7 +77,7 @@ struct MistakeOCRView: View {
                 .padding()
             }
             if self.image != UIImage() {
-                ImageEditView(image: self.$image)
+                ImageEditView(text: self.text, image: self.$image)
             }
         }
         .edgesIgnoringSafeArea(.all)
@@ -85,9 +85,9 @@ struct MistakeOCRView: View {
 }
 
 struct MistakeOCRView_Previews: PreviewProvider {
-    @State static var text = "测试文字"
+    @State static var text = ObservableString(content: "测试文字")
     
     static var previews: some View {
-        MistakeOCRView(text: $text)
+        MistakeOCRView(text: text)
     }
 }

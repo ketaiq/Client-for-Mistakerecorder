@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ImageEditView: View {
+    @ObservedObject var text: ObservableString // 识别得到的文字
     @Binding var image: UIImage
     @StateObject private var cropper = Cropper(parentSize: CGSize.zero)
     @State private var croppedImage = UIImage()
@@ -83,7 +84,7 @@ struct ImageEditView: View {
                     Button(action: {
                         self.cropImage()
                         self.showCroppedImage = true
-                        NetworkAPIFunctions.functions.baiduOCR(croppedImage: self.croppedImage)
+                        NetworkAPIFunctions.functions.baiduOCR(ocr_result: self.text, croppedImage: self.croppedImage)
                     }, label: {
                         Text("完成")
                             .foregroundColor(.white)
@@ -107,8 +108,9 @@ struct ImageEditView: View {
 }
 
 struct ImageEditView_Previews: PreviewProvider {
+    @State static var text = ObservableString(content: "测试文字")
     @State static var image = UIImage(named: "ac84bcb7d0a20cf4800d77cc74094b36acaf990f")!
     static var previews: some View {
-        ImageEditView(image: $image)
+        ImageEditView(text: text, image: $image)
     }
 }
