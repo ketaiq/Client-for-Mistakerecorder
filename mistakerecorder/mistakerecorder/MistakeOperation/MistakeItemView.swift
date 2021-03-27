@@ -13,6 +13,7 @@ struct MistakeItemView: View {
     @State private var showRevisedRecordsCalendar = false
     @State private var revisedRecordsCalendarViewDragPosition = CGSize.zero
     @State private var subjectEditStatus = false
+    @State private var categoryEditStatus = false
     
     var body: some View {
         ZStack {
@@ -23,7 +24,7 @@ struct MistakeItemView: View {
                     ItemNextRevisionDateSubview(mistake: mistake)
                     ItemRevisedRecordsSubview(showRevisedRecordsCalendar: self.$showRevisedRecordsCalendar)
                     ItemSubjectSubview(subject: $mistake.subject, subjectEditStatu: self.$subjectEditStatus)
-                    ItemCategorySubview(category: $mistake.category)
+                    ItemCategorySubview(category: $mistake.category, categoryEditStatus: self.$categoryEditStatus)
                     ItemQuestionDescriptionSubview(questionDescription: $mistake.questionDescription)
                     ForEach(mistake.questionItems) { item in
                         ItemQuestionAndAnswerSubview(questionItem: item)
@@ -54,7 +55,7 @@ struct MistakeItemView: View {
                 .edgesIgnoringSafeArea(.all)
             
             MistakeSubjectEditView(show: self.$subjectEditStatus, subject: $mistake.subject)
-                .opacity(self.subjectEditStatus ? 1 : 0)
+            MistakeCategoryEditView(show: self.$categoryEditStatus, category: $mistake.category, questionDescription: $mistake.questionDescription)
         }
     }
 }
@@ -252,81 +253,25 @@ struct ItemSubjectSubview: View {
 
 struct ItemCategorySubview: View {
     @Binding var category: String
-    @State var text = ""
-    @State private var editStatus = false
-    @State private var emptyAlert = false
+    @Binding var categoryEditStatus: Bool
     
     var body: some View {
-        ZStack {
-            HStack {
-                Text("题型")
-                    .font(.system(size: 20))
-                Spacer()
-                Text("\(category)")
-                    .font(.system(size: 20))
-                    .lineLimit(1)
-                Image(systemName: "chevron.right")
-                    .font(.system(size: 20))
-                    .frame(width: 30, height: 30)
-                    .foregroundColor(Color(#colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)))
-            }
-            .onTapGesture {
-                self.editStatus = true
-            }
-            .offset(x: self.editStatus ? -500 : 0)
-            .animation(.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0))
-            .padding(.vertical)
-            
-            ZStack {
-                TextField("\(category)", text: $text)
-                    .font(.system(size: 20))
-                    .autocapitalization(.none)
-                    .disableAutocorrection(true)
-                HStack {
-                    Spacer()
-                    Text("返回")
-                        .font(.system(size: 20))
-                        .foregroundColor(.white)
-                        .frame(width: 50, height: 30)
-                        .background(Color(#colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)))
-                        .clipShape(RoundedRectangle(cornerRadius: 5, style: .continuous))
-                        .onTapGesture {
-                            self.editStatus = false
-                        }
-                    Text("清空")
-                        .font(.system(size: 20))
-                        .foregroundColor(.white)
-                        .frame(width: 50, height: 30)
-                        .background(Color(.red))
-                        .clipShape(RoundedRectangle(cornerRadius: 5, style: .continuous))
-                        .onTapGesture {
-                            text = ""
-                        }
-                    Text("保存")
-                        .font(.system(size: 20))
-                        .foregroundColor(.white)
-                        .frame(width: 50, height: 30)
-                        .background(Color(#colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)))
-                        .clipShape(RoundedRectangle(cornerRadius: 5, style: .continuous))
-                        .onTapGesture {
-                            if self.text != "" {
-                                category = self.text
-                            } else {
-                                self.emptyAlert = true
-                            }
-                        }
-                        .alert(isPresented: self.$emptyAlert, content: {
-                            return Alert(title: Text("警告！"),
-                                message: Text("题型不能为空！"),
-                                dismissButton: .default(Text("确认"))
-                            )
-                        })
-                }
-            }
-            .offset(x: self.editStatus ? 0 : 500)
-            .animation(.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0))
-            .padding(.vertical)
+        HStack {
+            Text("题型")
+                .font(.system(size: 20))
+            Spacer()
+            Text("\(category)")
+                .font(.system(size: 20))
+                .lineLimit(1)
+            Image(systemName: "chevron.right")
+                .font(.system(size: 20))
+                .frame(width: 30, height: 30)
+                .foregroundColor(Color(#colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)))
         }
+        .onTapGesture {
+            self.categoryEditStatus = true
+        }
+        .padding(.vertical)
     }
 }
 
@@ -362,7 +307,7 @@ struct ItemQuestionDescriptionSubview: View {
             }) {
                 VStack {
                     HStack {
-                        Text("请输入题干描述")
+                        Text("编辑题干描述")
                             .font(.title2)
                         Spacer()
                         Button(action: {
