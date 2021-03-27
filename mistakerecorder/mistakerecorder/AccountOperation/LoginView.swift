@@ -103,13 +103,18 @@ struct RegisterButtonSubview: View {
 
 struct AppNameSubview: View {
     var body: some View {
-        HStack {
-            Text("错题拍拍")
-                .font(.system(size: 55, weight: .bold))
+        VStack {
+            HStack {
+                Text("错题拍拍")
+                    .font(.system(size: 55, weight: .bold))
+                    .foregroundColor(Color(#colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1)))
+                Image(systemName: "doc.text.magnifyingglass")
+                    .font(Font.system(size: 100))
+                    .foregroundColor(Color(#colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1)))
+            }
+            Text("一款专门面向小低年级的语文错题整理APP")
                 .foregroundColor(Color(#colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1)))
-            Image(systemName: "doc.text.magnifyingglass")
-                .font(Font.system(size: 100))
-                .foregroundColor(Color(#colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1)))
+                .padding(.bottom, 50)
         }
     }
 }
@@ -250,6 +255,7 @@ struct InputTextSubview: View {
                     .autocapitalization(.none)
                     .disableAutocorrection(true)
                     .font(.system(size: 20))
+                    .foregroundColor(.black)
             }
             Divider()
                 .padding(.horizontal)
@@ -265,6 +271,7 @@ struct InputTextSubview: View {
                     .autocapitalization(.none)
                     .disableAutocorrection(true)
                     .font(.system(size: 20))
+                    .foregroundColor(.black)
             }
         })
         .frame(height: 150)

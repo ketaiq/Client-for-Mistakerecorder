@@ -12,6 +12,7 @@ struct MistakeItemView: View {
     @ObservedObject var mistake: Mistake
     @State private var showRevisedRecordsCalendar = false
     @State private var revisedRecordsCalendarViewDragPosition = CGSize.zero
+    @State private var subjectEditStatus = false
     
     var body: some View {
         ZStack {
@@ -21,7 +22,7 @@ struct MistakeItemView: View {
                     ItemCreatedDateSubview(createdDate: $mistake.createdDate)
                     ItemNextRevisionDateSubview(mistake: mistake)
                     ItemRevisedRecordsSubview(showRevisedRecordsCalendar: self.$showRevisedRecordsCalendar)
-                    ItemSubjectSubview(subject: $mistake.subject)
+                    ItemSubjectSubview(subject: $mistake.subject, subjectEditStatu: self.$subjectEditStatus)
                     ItemCategorySubview(category: $mistake.category)
                     ItemQuestionDescriptionSubview(questionDescription: $mistake.questionDescription)
                     ForEach(mistake.questionItems) { item in
@@ -51,6 +52,9 @@ struct MistakeItemView: View {
                 .background(Color.black.opacity(self.showRevisedRecordsCalendar ? 0.3 : 0))
                 .animation(.linear(duration: 0.5))
                 .edgesIgnoringSafeArea(.all)
+            
+            MistakeSubjectEditView(show: self.$subjectEditStatus, subject: $mistake.subject)
+                .opacity(self.subjectEditStatus ? 1 : 0)
         }
     }
 }
@@ -224,81 +228,25 @@ struct ItemRevisedRecordsSubview: View {
 
 struct ItemSubjectSubview: View {
     @Binding var subject: String
-    @State var text = ""
-    @State private var editStatus = false
-    @State private var emptyAlert = false
+    @Binding var subjectEditStatu: Bool
     
     var body: some View {
-        ZStack {
-            HStack {
-                Text("所属学科")
-                    .font(.system(size: 20))
-                Spacer()
-                Text("\(subject)")
-                    .font(.system(size: 20))
-                    .lineLimit(1)
-                Image(systemName: "chevron.right")
-                    .font(.system(size: 20))
-                    .frame(width: 30, height: 30)
-                    .foregroundColor(Color(#colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)))
-            }
-            .onTapGesture {
-                self.editStatus = true
-            }
-            .offset(x: self.editStatus ? -500 : 0)
-            .animation(.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0))
-            .padding(.vertical)
-            
-            ZStack {
-                TextField("\(subject)", text: $text)
-                    .font(.system(size: 20))
-                    .autocapitalization(.none)
-                    .disableAutocorrection(true)
-                HStack {
-                    Spacer()
-                    Text("返回")
-                        .font(.system(size: 20))
-                        .foregroundColor(.white)
-                        .frame(width: 50, height: 30)
-                        .background(Color(#colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)))
-                        .clipShape(RoundedRectangle(cornerRadius: 5, style: .continuous))
-                        .onTapGesture {
-                            self.editStatus = false
-                        }
-                    Text("清空")
-                        .font(.system(size: 20))
-                        .foregroundColor(.white)
-                        .frame(width: 50, height: 30)
-                        .background(Color(.red))
-                        .clipShape(RoundedRectangle(cornerRadius: 5, style: .continuous))
-                        .onTapGesture {
-                            text = ""
-                        }
-                    Text("保存")
-                        .font(.system(size: 20))
-                        .foregroundColor(.white)
-                        .frame(width: 50, height: 30)
-                        .background(Color(#colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)))
-                        .clipShape(RoundedRectangle(cornerRadius: 5, style: .continuous))
-                        .onTapGesture {
-                            if self.text != "" {
-                                subject = self.text
-                            } else {
-                                self.emptyAlert = true
-                            }
-                        }
-                        .alert(isPresented: self.$emptyAlert, content: {
-                            return Alert(title: Text("警告！"),
-                                message: Text("所属学科不能为空！"),
-                                dismissButton: .default(Text("确认"))
-                            )
-                        })
-                }
-            }
-            .offset(x: self.editStatus ? 0 : 500)
-            .animation(.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0))
-            .padding(.vertical)
+        HStack {
+            Text("所属学科")
+                .font(.system(size: 20))
+            Spacer()
+            Text("\(subject)")
+                .font(.system(size: 20))
+                .lineLimit(1)
+            Image(systemName: "chevron.right")
+                .font(.system(size: 20))
+                .frame(width: 30, height: 30)
+                .foregroundColor(Color(#colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)))
         }
+        .onTapGesture {
+            self.subjectEditStatu = true
+        }
+        .padding(.vertical)
     }
 }
 
@@ -487,7 +435,7 @@ struct ItemQuestionDescriptionSubview: View {
                         }
                 }
                 .sheet(isPresented: self.$showOCRView) {
-                    MistakeOCRView(text: self.text)
+                    MistakeOCRView(text: self.text, showMistakeOCRView: self.$showOCRView)
                 }
             }
         }
@@ -581,7 +529,7 @@ struct ItemQuestionAndAnswerSubview: View {
                                 .padding(.horizontal)
                         })
                         .sheet(isPresented: self.$showQuestionOCRView) {
-                            MistakeOCRView(text: self.questionText)
+                            MistakeOCRView(text: self.questionText, showMistakeOCRView: self.$showQuestionOCRView)
                         }
                         Button(action: {
                             self.questionText.content = ""
@@ -621,7 +569,7 @@ struct ItemQuestionAndAnswerSubview: View {
                                 .padding(.horizontal)
                         })
                         .sheet(isPresented: self.$showAnswerOCRView) {
-                            MistakeOCRView(text: self.answerText)
+                            MistakeOCRView(text: self.answerText, showMistakeOCRView: self.$showAnswerOCRView)
                         }
                         Button(action: {
                             self.answerText.content = ""

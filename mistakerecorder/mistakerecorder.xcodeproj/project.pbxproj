@@ -29,6 +29,8 @@
 		0B6C06DA25FDAA0800976FBC /* ImageEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6C06D925FDAA0800976FBC /* ImageEditView.swift */; };
 		0B6C06F426006B9B00976FBC /* Cropper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6C06F326006B9B00976FBC /* Cropper.swift */; };
 		0B6C073C2602F79E00976FBC /* CropperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6C073B2602F79E00976FBC /* CropperView.swift */; };
+		0B808749260EDAFB0065B42D /* MistakeSubjectEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B808748260EDAFB0065B42D /* MistakeSubjectEditView.swift */; };
+		0B80874E260EDD650065B42D /* MistakeCategoryEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B80874D260EDD650065B42D /* MistakeCategoryEditView.swift */; };
 		0B91500125BBCAEF00122F38 /* RegisterTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B91500025BBCAEF00122F38 /* RegisterTextField.swift */; };
 		0B91500E25BE6E2400122F38 /* ForgetPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B91500D25BE6E2400122F38 /* ForgetPasswordView.swift */; };
 		0B91501325BE717200122F38 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B91501225BE717200122F38 /* HomeView.swift */; };
@@ -98,6 +100,8 @@
 		0B6C073B2602F79E00976FBC /* CropperView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CropperView.swift; sourceTree = "<group>"; };
 		0B6C076A2603121200976FBC /* AipBase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AipBase.framework; path = mistakerecorder/OCRlib/AipBase.framework; sourceTree = "<group>"; };
 		0B6C076B2603121300976FBC /* AipOcrSdk.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AipOcrSdk.framework; path = mistakerecorder/OCRlib/AipOcrSdk.framework; sourceTree = "<group>"; };
+		0B808748260EDAFB0065B42D /* MistakeSubjectEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistakeSubjectEditView.swift; sourceTree = "<group>"; };
+		0B80874D260EDD650065B42D /* MistakeCategoryEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistakeCategoryEditView.swift; sourceTree = "<group>"; };
 		0B91500025BBCAEF00122F38 /* RegisterTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterTextField.swift; sourceTree = "<group>"; };
 		0B91500D25BE6E2400122F38 /* ForgetPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgetPasswordView.swift; sourceTree = "<group>"; };
 		0B91501225BE717200122F38 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -262,6 +266,8 @@
 			children = (
 				0B91505825C29CB700122F38 /* MistakeListView.swift */,
 				0B50C43C25C402E000D392C7 /* MistakeItemView.swift */,
+				0B808748260EDAFB0065B42D /* MistakeSubjectEditView.swift */,
+				0B80874D260EDD650065B42D /* MistakeCategoryEditView.swift */,
 				0B16F4C725E0D7FB00C055DB /* RevisedRecordsCalendarView.swift */,
 				0B6C07342602F75100976FBC /* OCR */,
 				0B6C07272602F68C00976FBC /* PDF */,
@@ -484,6 +490,7 @@
 				0B91504725C0FFFB00122F38 /* UserMenuView.swift in Sources */,
 				0B6C06DA25FDAA0800976FBC /* ImageEditView.swift in Sources */,
 				0B6C073C2602F79E00976FBC /* CropperView.swift in Sources */,
+				0B808749260EDAFB0065B42D /* MistakeSubjectEditView.swift in Sources */,
 				0B91501325BE717200122F38 /* HomeView.swift in Sources */,
 				0B6AF26325F2109F00D19D45 /* GeneratePaperView.swift in Sources */,
 				0B22781925CA92530000FB8C /* Store.swift in Sources */,
@@ -492,6 +499,7 @@
 				0B967FDE25FC94B900A6D704 /* MistakeOCRView.swift in Sources */,
 				0B16F4C025DF9DCD00C055DB /* DateFunctions.swift in Sources */,
 				0B50C43D25C402E000D392C7 /* MistakeItemView.swift in Sources */,
+				0B80874E260EDD650065B42D /* MistakeCategoryEditView.swift in Sources */,
 				0B6659F825B998A800C9DB31 /* mistakerecorderApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

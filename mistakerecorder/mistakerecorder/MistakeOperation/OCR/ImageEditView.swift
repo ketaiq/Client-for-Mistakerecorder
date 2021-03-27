@@ -10,6 +10,7 @@ import SwiftUI
 struct ImageEditView: View {
     @ObservedObject var text: ObservableString // 识别得到的文字
     @Binding var image: UIImage
+    @Binding var showMistakeOCRView: Bool
     @StateObject private var cropper = Cropper(parentSize: CGSize.zero)
     @State private var croppedImage = UIImage()
     @State private var showCroppedImage = false
@@ -84,7 +85,6 @@ struct ImageEditView: View {
                     Button(action: {
                         self.cropImage()
                         self.showCroppedImage = true
-                        NetworkAPIFunctions.functions.baiduOCR(ocr_result: self.text, croppedImage: self.croppedImage)
                     }, label: {
                         Text("完成")
                             .foregroundColor(.white)
@@ -94,9 +94,32 @@ struct ImageEditView: View {
                             .cornerRadius(10)
                     })
                     .sheet(isPresented: self.$showCroppedImage) {
-                        Image(uiImage: self.croppedImage)
-                            .resizable()
-                            .scaledToFit()
+                        VStack {
+                            HStack {
+                                Spacer()
+                                Button(action: {
+                                    NetworkAPIFunctions.functions.baiduOCR(ocr_result: self.text, croppedImage: self.croppedImage)
+                                    self.showCroppedImage = false
+                                    self.showMistakeOCRView = false
+                                }, label: {
+                                    Text("识别")
+                                        .bold()
+                                        .foregroundColor(Color(#colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)))
+                                        .padding(.horizontal, 10)
+                                        .padding(10)
+                                        .background(Color(red: 224 / 255, green: 229 / 255, blue: 236 / 255))
+                                        .cornerRadius(10)
+                                        .shadow(color: Color(red: 163 / 255, green: 177 / 255, blue: 198 / 255), radius: 3, x: 2, y: 2)
+                                        .shadow(color: Color(red: 255 / 255, green: 255 / 255, blue: 255 / 255), radius: 3, x: -2, y: -2)
+                                })
+                            }
+                            .padding()
+                            Image(uiImage: self.croppedImage)
+                                .resizable()
+                                .scaledToFit()
+                                .padding(.horizontal)
+                            Spacer()
+                        }
                     }
                 }
                 .padding()
@@ -110,7 +133,9 @@ struct ImageEditView: View {
 struct ImageEditView_Previews: PreviewProvider {
     @State static var text = ObservableString(content: "测试文字")
     @State static var image = UIImage(named: "ac84bcb7d0a20cf4800d77cc74094b36acaf990f")!
+    @State static var showMistakeOCRView = true
+    
     static var previews: some View {
-        ImageEditView(text: text, image: $image)
+        ImageEditView(text: text, image: $image, showMistakeOCRView: $showMistakeOCRView)
     }
 }
