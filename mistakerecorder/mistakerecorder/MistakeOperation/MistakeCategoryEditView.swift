@@ -32,20 +32,20 @@ struct MistakeCategoryEditView: View {
             
             VStack(alignment: .leading, spacing: 20) {
                 HStack(spacing: 12) {
-                    MistakeEditSelectionSubview(text: self.$text, content: "拼音写词")
-                    MistakeEditSelectionSubview(text: self.$text, content: "成语意思")
+                    MistakeEditSelectionSubview(text: self.$text, content: MistakeCategory.PinYinXieCi.toString())
+                    MistakeEditSelectionSubview(text: self.$text, content: MistakeCategory.ChengYuYiSi.toString())
                 }
                 HStack(spacing: 12) {
-                    MistakeEditSelectionSubview(text: self.$text, content: "近义词")
-                    MistakeEditSelectionSubview(text: self.$text, content: "反义词")
+                    MistakeEditSelectionSubview(text: self.$text, content: MistakeCategory.JinYiCi.toString())
+                    MistakeEditSelectionSubview(text: self.$text, content: MistakeCategory.FanYiCi.toString())
                 }
                 HStack(spacing: 12) {
-                    MistakeEditSelectionSubview(text: self.$text, content: "默写古诗")
-                    MistakeEditSelectionSubview(text: self.$text, content: "组词")
+                    MistakeEditSelectionSubview(text: self.$text, content: MistakeCategory.MoXieGuShi.toString())
+                    MistakeEditSelectionSubview(text: self.$text, content: MistakeCategory.ZuCi.toString())
                 }
                 HStack(spacing: 12) {
-                    MistakeEditSelectionSubview(text: self.$text, content: "多音字")
-                    MistakeEditSelectionSubview(text: self.$text, content: "修改病句")
+                    MistakeEditSelectionSubview(text: self.$text, content: MistakeCategory.DuoYinZi.toString())
+                    MistakeEditSelectionSubview(text: self.$text, content: MistakeCategory.XiuGaiBingJu.toString())
                 }
             }
             Spacer()
@@ -66,22 +66,22 @@ struct MistakeCategoryEditView: View {
                     } else {
                         category = self.text
                         
-                        if self.text == "拼音写词" {
-                            questionDescription = "认真拼读音节，写出下列词语。"
-                        } else if self.text == "成语意思" {
-                            questionDescription = "根据意思写成语。"
-                        } else if self.text == "近义词" {
-                            questionDescription = "请写出下列词语的近义词。"
-                        } else if self.text == "反义词" {
-                            questionDescription = "请写出下列词语的反义词。"
-                        } else if self.text == "默写古诗" {
-                            questionDescription = "默写所学的古诗。"
-                        } else if self.text == "组词" {
-                            questionDescription = "比较字形，然后组词。"
-                        } else if self.text == "多音字" {
-                            questionDescription = "给带点字选择正确的读音。"
-                        } else if self.text == "修改病句" {
-                            questionDescription = "修改下列病句。"
+                        if self.text == MistakeCategory.PinYinXieCi.toString() {
+                            questionDescription = MistakeCategory.PinYinXieCi.generateDescription()
+                        } else if self.text == MistakeCategory.ChengYuYiSi.toString() {
+                            questionDescription = MistakeCategory.ChengYuYiSi.generateDescription()
+                        } else if self.text == MistakeCategory.JinYiCi.toString() {
+                            questionDescription = MistakeCategory.JinYiCi.generateDescription()
+                        } else if self.text == MistakeCategory.FanYiCi.toString() {
+                            questionDescription = MistakeCategory.FanYiCi.generateDescription()
+                        } else if self.text == MistakeCategory.MoXieGuShi.toString() {
+                            questionDescription = MistakeCategory.MoXieGuShi.generateDescription()
+                        } else if self.text == MistakeCategory.ZuCi.toString() {
+                            questionDescription = MistakeCategory.ZuCi.generateDescription()
+                        } else if self.text == MistakeCategory.DuoYinZi.toString() {
+                            questionDescription = MistakeCategory.DuoYinZi.generateDescription()
+                        } else if self.text == MistakeCategory.XiuGaiBingJu.toString() {
+                            questionDescription = MistakeCategory.XiuGaiBingJu.generateDescription()
                         }
                         
                         self.show = false

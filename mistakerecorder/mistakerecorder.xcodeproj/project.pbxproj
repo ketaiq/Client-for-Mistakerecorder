@@ -19,6 +19,10 @@
 		0B16F51E25E4CF1800C055DB /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B16F51D25E4CF1800C055DB /* WelcomeView.swift */; };
 		0B16F52E25E4F8E100C055DB /* OtherFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B16F52D25E4F8E000C055DB /* OtherFunctions.swift */; };
 		0B22781925CA92530000FB8C /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B22781825CA92530000FB8C /* Store.swift */; };
+		0B36923226105A5300D33F42 /* MistakeCategoryEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B36923126105A5300D33F42 /* MistakeCategoryEnum.swift */; };
+		0B3692372610631C00D33F42 /* MistakePinYinXieCiEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B3692362610631C00D33F42 /* MistakePinYinXieCiEditView.swift */; };
+		0B36923C261063D500D33F42 /* MistakeStandardEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B36923B261063D500D33F42 /* MistakeStandardEditView.swift */; };
+		0B36924126116F2E00D33F42 /* PinYinXieCi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B36924026116F2E00D33F42 /* PinYinXieCi.swift */; };
 		0B50C43D25C402E000D392C7 /* MistakeItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B50C43C25C402E000D392C7 /* MistakeItemView.swift */; };
 		0B6659F825B998A800C9DB31 /* mistakerecorderApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6659F725B998A800C9DB31 /* mistakerecorderApp.swift */; };
 		0B6659FC25B998AA00C9DB31 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0B6659FB25B998AA00C9DB31 /* Assets.xcassets */; };
@@ -82,6 +86,10 @@
 		0B16F51D25E4CF1800C055DB /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		0B16F52D25E4F8E000C055DB /* OtherFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherFunctions.swift; sourceTree = "<group>"; };
 		0B22781825CA92530000FB8C /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
+		0B36923126105A5300D33F42 /* MistakeCategoryEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistakeCategoryEnum.swift; sourceTree = "<group>"; };
+		0B3692362610631C00D33F42 /* MistakePinYinXieCiEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistakePinYinXieCiEditView.swift; sourceTree = "<group>"; };
+		0B36923B261063D500D33F42 /* MistakeStandardEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistakeStandardEditView.swift; sourceTree = "<group>"; };
+		0B36924026116F2E00D33F42 /* PinYinXieCi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinYinXieCi.swift; sourceTree = "<group>"; };
 		0B50C43C25C402E000D392C7 /* MistakeItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistakeItemView.swift; sourceTree = "<group>"; };
 		0B6659F425B998A800C9DB31 /* mistakerecorder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = mistakerecorder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0B6659F725B998A800C9DB31 /* mistakerecorderApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mistakerecorderApp.swift; sourceTree = "<group>"; };
@@ -268,6 +276,8 @@
 				0B50C43C25C402E000D392C7 /* MistakeItemView.swift */,
 				0B808748260EDAFB0065B42D /* MistakeSubjectEditView.swift */,
 				0B80874D260EDD650065B42D /* MistakeCategoryEditView.swift */,
+				0B3692362610631C00D33F42 /* MistakePinYinXieCiEditView.swift */,
+				0B36923B261063D500D33F42 /* MistakeStandardEditView.swift */,
 				0B16F4C725E0D7FB00C055DB /* RevisedRecordsCalendarView.swift */,
 				0B6C07342602F75100976FBC /* OCR */,
 				0B6C07272602F68C00976FBC /* PDF */,
@@ -310,6 +320,8 @@
 			isa = PBXGroup;
 			children = (
 				0B22781825CA92530000FB8C /* Store.swift */,
+				0B36924026116F2E00D33F42 /* PinYinXieCi.swift */,
+				0B36923126105A5300D33F42 /* MistakeCategoryEnum.swift */,
 				0BADDBFF25F321D300067F02 /* PDFCreator.swift */,
 				0B6C06F326006B9B00976FBC /* Cropper.swift */,
 				0B967FE225FC950A00A6D704 /* ImagePicker.swift */,
@@ -475,6 +487,7 @@
 				0B91500125BBCAEF00122F38 /* RegisterTextField.swift in Sources */,
 				0B91501825BE734600122F38 /* TabBar.swift in Sources */,
 				0B16F4C825E0D7FB00C055DB /* RevisedRecordsCalendarView.swift in Sources */,
+				0B36923226105A5300D33F42 /* MistakeCategoryEnum.swift in Sources */,
 				0B91503D25C015E700122F38 /* RevisingMistakeCardView.swift in Sources */,
 				0B16F4FF25E4A32000C055DB /* LottieView.swift in Sources */,
 				0B91500E25BE6E2400122F38 /* ForgetPasswordView.swift in Sources */,
@@ -482,10 +495,12 @@
 				0B16F51E25E4CF1800C055DB /* WelcomeView.swift in Sources */,
 				0B91505925C29CB700122F38 /* MistakeListView.swift in Sources */,
 				0B16F50425E4A63F00C055DB /* LoadView.swift in Sources */,
+				0B36924126116F2E00D33F42 /* PinYinXieCi.swift in Sources */,
 				0BE1FE6025E64C22009B8631 /* EvaluationView.swift in Sources */,
 				0BADDC3225F4B19500067F02 /* PDFActivityViewController.swift in Sources */,
 				0BFFA38025EB74AE00623666 /* EditAvatarView.swift in Sources */,
 				0B967FE325FC950A00A6D704 /* ImagePicker.swift in Sources */,
+				0B3692372610631C00D33F42 /* MistakePinYinXieCiEditView.swift in Sources */,
 				0BB62E0825CE28650086FD60 /* NetworkAPIFunctions.swift in Sources */,
 				0B91504725C0FFFB00122F38 /* UserMenuView.swift in Sources */,
 				0B6C06DA25FDAA0800976FBC /* ImageEditView.swift in Sources */,
@@ -498,6 +513,7 @@
 				0B0255C325EA09AB002B4AB0 /* EditUserInfoView.swift in Sources */,
 				0B967FDE25FC94B900A6D704 /* MistakeOCRView.swift in Sources */,
 				0B16F4C025DF9DCD00C055DB /* DateFunctions.swift in Sources */,
+				0B36923C261063D500D33F42 /* MistakeStandardEditView.swift in Sources */,
 				0B50C43D25C402E000D392C7 /* MistakeItemView.swift in Sources */,
 				0B80874E260EDD650065B42D /* MistakeCategoryEditView.swift in Sources */,
 				0B6659F825B998A800C9DB31 /* mistakerecorderApp.swift in Sources */,
