@@ -26,13 +26,14 @@ struct MistakeItemView: View {
                     ItemSubjectSubview(subject: $mistake.subject, subjectEditStatu: self.$subjectEditStatus)
                     ItemCategorySubview(category: $mistake.category, categoryEditStatus: self.$categoryEditStatus)
                     ItemQuestionDescriptionSubview(questionDescription: $mistake.questionDescription)
-                    if mistake.category == MistakeCategory.PinYinXieCi.toString() {
-                        ItemPinYinXieCiSubview(mistake: mistake)
-                    } else {
-                        ForEach(mistake.questionItems) { item in
+                    ForEach(mistake.questionItems) { item in
+                        if mistake.category == MistakeCategory.PinYinXieCi.toString() {
+                            ItemPinYinXieCiSubview(questionItem: item)
+                        } else {
                             ItemQuestionAndAnswerSubview(questionItem: item)
                         }
                     }
+                    
                 }
             }
             
@@ -426,14 +427,16 @@ struct ItemQuestionAndAnswerSubview: View {
 }
 
 struct ItemPinYinXieCiSubview: View {
-    @ObservedObject var mistake: Mistake
+    @ObservedObject var questionItem: QuestionItem
     @State private var editStatus = false
     
     var body: some View {
         HStack {
-            Text("拼音写词题目项")
+            Text("题目项")
                 .font(.system(size: 20))
             Spacer()
+            Text("拼音写词")
+                .font(.system(size: 20))
             Image(systemName: "chevron.right")
                 .font(.system(size: 20))
                 .frame(width: 30, height: 30)
@@ -446,7 +449,7 @@ struct ItemPinYinXieCiSubview: View {
         .animation(.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0))
         .padding(.vertical)
         .sheet(isPresented: self.$editStatus) {
-            MistakePinYinXieCiEditView(mistake: mistake, editStatus: self.$editStatus)
+            MistakePinYinXieCiEditView(questionItem: questionItem, editStatus: self.$editStatus)
         }
     }
 }

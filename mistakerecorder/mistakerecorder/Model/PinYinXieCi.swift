@@ -7,18 +7,25 @@
 
 import Foundation
 
-class PinYinXieCiCollection: ObservableObject {
-    @Published var objects: [PinYinXieCi]
-    
-    init() {
-        self.objects = [PinYinXieCi]()
-    }
-}
-
 class PinYinXieCi: ObservableObject {
     @Published var items: [PinYinXieCiItem]
     
-    init(_ text: String) {
+    init() {
+        self.items = [PinYinXieCiItem]()
+    }
+    
+    init(questionItem: QuestionItem) {
+        self.items = [PinYinXieCiItem]()
+        for word in questionItem.question {
+            if word != "*" {
+                self.items.append(PinYinXieCiItem(word: String(word)))
+            } else {
+                self.items.last!.selected = true
+            }
+        }
+    }
+    
+    func copy(_ text: String) {
         self.items = [PinYinXieCiItem]()
         for word in text {
             self.items.append(PinYinXieCiItem(word: String(word)))
