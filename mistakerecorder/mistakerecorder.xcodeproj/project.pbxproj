@@ -54,6 +54,10 @@
 		0BE1FE6025E64C22009B8631 /* EvaluationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE1FE5F25E64C22009B8631 /* EvaluationView.swift */; };
 		0BE1FE6525E64D7A009B8631 /* congratulations.json in Resources */ = {isa = PBXBuildFile; fileRef = 0BE1FE6425E64D7A009B8631 /* congratulations.json */; };
 		0BE1FE6D25E659D2009B8631 /* failed.json in Resources */ = {isa = PBXBuildFile; fileRef = 0BE1FE6C25E659D2009B8631 /* failed.json */; };
+		0BF92B072612BBF400A43F6B /* MistakeChengYuYiSiEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BF92B062612BBF400A43F6B /* MistakeChengYuYiSiEditView.swift */; };
+		0BF92B0C2612F73400A43F6B /* idiom.json.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0BF92B0B2612F73400A43F6B /* idiom.json.txt */; };
+		0BF92B132612F7C900A43F6B /* ci.json.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0BF92B122612F7C900A43F6B /* ci.json.txt */; };
+		0BF92B182612FD5700A43F6B /* ChengYuYiSi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BF92B172612FD5700A43F6B /* ChengYuYiSi.swift */; };
 		0BFFA38025EB74AE00623666 /* EditAvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BFFA37F25EB74AE00623666 /* EditAvatarView.swift */; };
 /* End PBXBuildFile section */
 
@@ -128,6 +132,10 @@
 		0BE1FE5F25E64C22009B8631 /* EvaluationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvaluationView.swift; sourceTree = "<group>"; };
 		0BE1FE6425E64D7A009B8631 /* congratulations.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = congratulations.json; sourceTree = "<group>"; };
 		0BE1FE6C25E659D2009B8631 /* failed.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = failed.json; sourceTree = "<group>"; };
+		0BF92B062612BBF400A43F6B /* MistakeChengYuYiSiEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistakeChengYuYiSiEditView.swift; sourceTree = "<group>"; };
+		0BF92B0B2612F73400A43F6B /* idiom.json.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = idiom.json.txt; sourceTree = "<group>"; };
+		0BF92B122612F7C900A43F6B /* ci.json.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ci.json.txt; sourceTree = "<group>"; };
+		0BF92B172612FD5700A43F6B /* ChengYuYiSi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChengYuYiSi.swift; sourceTree = "<group>"; };
 		0BFFA37F25EB74AE00623666 /* EditAvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditAvatarView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -203,6 +211,7 @@
 				0B6C07472602F85F00976FBC /* Model */,
 				0B6C070C2602F50100976FBC /* Functions */,
 				0B16F4ED25E4A1C300C055DB /* Lottie */,
+				0BF92B112612F75300A43F6B /* Dictionaries */,
 				0B6659FB25B998AA00C9DB31 /* Assets.xcassets */,
 				0B665A0025B998AA00C9DB31 /* Info.plist */,
 				0B6659FD25B998AA00C9DB31 /* Preview Content */,
@@ -277,6 +286,7 @@
 				0B808748260EDAFB0065B42D /* MistakeSubjectEditView.swift */,
 				0B80874D260EDD650065B42D /* MistakeCategoryEditView.swift */,
 				0B3692362610631C00D33F42 /* MistakePinYinXieCiEditView.swift */,
+				0BF92B062612BBF400A43F6B /* MistakeChengYuYiSiEditView.swift */,
 				0B36923B261063D500D33F42 /* MistakeStandardEditView.swift */,
 				0B16F4C725E0D7FB00C055DB /* RevisedRecordsCalendarView.swift */,
 				0B6C07342602F75100976FBC /* OCR */,
@@ -321,6 +331,7 @@
 			children = (
 				0B22781825CA92530000FB8C /* Store.swift */,
 				0B36924026116F2E00D33F42 /* PinYinXieCi.swift */,
+				0BF92B172612FD5700A43F6B /* ChengYuYiSi.swift */,
 				0B36923126105A5300D33F42 /* MistakeCategoryEnum.swift */,
 				0BADDBFF25F321D300067F02 /* PDFCreator.swift */,
 				0B6C06F326006B9B00976FBC /* Cropper.swift */,
@@ -336,6 +347,15 @@
 				0B6C076B2603121300976FBC /* AipOcrSdk.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		0BF92B112612F75300A43F6B /* Dictionaries */ = {
+			isa = PBXGroup;
+			children = (
+				0BF92B0B2612F73400A43F6B /* idiom.json.txt */,
+				0BF92B122612F7C900A43F6B /* ci.json.txt */,
+			);
+			path = Dictionaries;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -452,9 +472,11 @@
 				0BE1FE6D25E659D2009B8631 /* failed.json in Resources */,
 				0B6659FF25B998AA00C9DB31 /* Preview Assets.xcassets in Resources */,
 				0B16F4F125E4A1C300C055DB /* load.json in Resources */,
+				0BF92B132612F7C900A43F6B /* ci.json.txt in Resources */,
 				0B6659FC25B998AA00C9DB31 /* Assets.xcassets in Resources */,
 				0B16F4F025E4A1C300C055DB /* success.json in Resources */,
 				0B16F51925E4CB7500C055DB /* welcome.json in Resources */,
+				0BF92B0C2612F73400A43F6B /* idiom.json.txt in Resources */,
 				0BE1FE6525E64D7A009B8631 /* congratulations.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -480,6 +502,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0BF92B072612BBF400A43F6B /* MistakeChengYuYiSiEditView.swift in Sources */,
 				0BC4745A25B99AED001A59BE /* LoginView.swift in Sources */,
 				0BC474F125BAB92E001A59BE /* RegisterView.swift in Sources */,
 				0B16F52E25E4F8E100C055DB /* OtherFunctions.swift in Sources */,
@@ -510,6 +533,7 @@
 				0B6AF26325F2109F00D19D45 /* GeneratePaperView.swift in Sources */,
 				0B22781925CA92530000FB8C /* Store.swift in Sources */,
 				0BADDC1525F32D9400067F02 /* PDFReaderView.swift in Sources */,
+				0BF92B182612FD5700A43F6B /* ChengYuYiSi.swift in Sources */,
 				0B0255C325EA09AB002B4AB0 /* EditUserInfoView.swift in Sources */,
 				0B967FDE25FC94B900A6D704 /* MistakeOCRView.swift in Sources */,
 				0B16F4C025DF9DCD00C055DB /* DateFunctions.swift in Sources */,

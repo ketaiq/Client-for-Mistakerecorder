@@ -9,7 +9,6 @@ import SwiftUI
 
 struct MistakePinYinXieCiEditView: View {
     @ObservedObject var questionItem: QuestionItem
-    @Binding var editStatus: Bool
     
     @StateObject private var pin_yin_xie_ci = PinYinXieCi()
     @StateObject private var text = ObservableString(content: "")
@@ -162,10 +161,9 @@ struct MistakePinYinXieCiEditView: View {
 struct MistakePinYinXieCiEditView_Previews: PreviewProvider {
     @StateObject static var questionItem = QuestionItem(question: "高兴*",
                                                         rightAnswer: "兴")
-    @State static var editStatus = true
 
     static var previews: some View {
-        MistakePinYinXieCiEditView(questionItem: questionItem, editStatus: $editStatus)
+        MistakePinYinXieCiEditView(questionItem: questionItem)
     }
 }
 

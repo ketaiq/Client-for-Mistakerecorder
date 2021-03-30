@@ -29,6 +29,8 @@ struct MistakeItemView: View {
                     ForEach(mistake.questionItems) { item in
                         if mistake.category == MistakeCategory.PinYinXieCi.toString() {
                             ItemPinYinXieCiSubview(questionItem: item)
+                        } else if mistake.category == MistakeCategory.ChengYuYiSi.toString() {
+                            ItemChengYuYiSiSubview(questionItem: item)
                         } else {
                             ItemQuestionAndAnswerSubview(questionItem: item)
                         }
@@ -435,7 +437,7 @@ struct ItemPinYinXieCiSubview: View {
             Text("题目项")
                 .font(.system(size: 20))
             Spacer()
-            Text("拼音写词")
+            Text(MistakeCategory.PinYinXieCi.toString())
                 .font(.system(size: 20))
             Image(systemName: "chevron.right")
                 .font(.system(size: 20))
@@ -449,7 +451,35 @@ struct ItemPinYinXieCiSubview: View {
         .animation(.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0))
         .padding(.vertical)
         .sheet(isPresented: self.$editStatus) {
-            MistakePinYinXieCiEditView(questionItem: questionItem, editStatus: self.$editStatus)
+            MistakePinYinXieCiEditView(questionItem: questionItem)
+        }
+    }
+}
+
+struct ItemChengYuYiSiSubview: View {
+    @ObservedObject var questionItem: QuestionItem
+    @State private var editStatus = false
+    
+    var body: some View {
+        HStack {
+            Text("题目项")
+                .font(.system(size: 20))
+            Spacer()
+            Text(MistakeCategory.ChengYuYiSi.toString())
+                .font(.system(size: 20))
+            Image(systemName: "chevron.right")
+                .font(.system(size: 20))
+                .frame(width: 30, height: 30)
+                .foregroundColor(Color(#colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)))
+        }
+        .onTapGesture {
+            self.editStatus = true
+        }
+        .offset(x: self.editStatus ? -500 : 0)
+        .animation(.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0))
+        .padding(.vertical)
+        .sheet(isPresented: self.$editStatus) {
+            MistakePinYinXieCiEditView(questionItem: questionItem)
         }
     }
 }

@@ -75,3 +75,15 @@ func confirmTextTypeMatch(textType: String, textContent: String) -> Bool {// 匹
         return true
     }
 }
+
+func readJSONData(fileName: String) -> Data? {
+    if let path = Bundle.main.path(forResource: fileName, ofType: "txt") {
+        do {
+            let jsonData = try String(contentsOfFile: path).data(using: .utf8)
+            return jsonData
+        } catch {
+            print(error)
+        }
+    }
+    return nil
+}
