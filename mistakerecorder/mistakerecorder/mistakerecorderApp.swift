@@ -13,7 +13,7 @@ struct mistakerecorderApp: App {
     var body: some Scene {
         WindowGroup {
 //            TabBar().environmentObject(LoginStatus())
-            MistakeChengYuYiSiEditView(questionItem: questionItem)
+            MistakeMoXieGuShiEditView(questionItem: questionItem)
         }
     }
 }

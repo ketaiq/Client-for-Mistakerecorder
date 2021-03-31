@@ -1,40 +1,28 @@
 //
-//  MistakeChengYuYiSiEditView.swift
+//  MistakeJinFanYiCiEditView.swift
 //  mistakerecorder
 //
-//  Created by CaSdm on 2021/3/30.
+//  Created by CaSdm on 2021/3/31.
 //
 
 import SwiftUI
 
-struct MistakeChengYuYiSiEditView: View {
+struct MistakeJinFanYiCiEditView: View {
+    var type: String // 近义词或反义词
     @ObservedObject var questionItem: QuestionItem
     
     @StateObject private var text = ObservableString(content: "")
-    @State private var example = "" // 例句
     @State private var committed = false
     @State private var showOCRView = false
     
     func save() {
-        let idiomDictionaryData = readJSONData(fileName: "idiom.json")!
-        do {
-            let idiomDictionary = try JSONDecoder().decode([Idiom].self, from: idiomDictionaryData)
-            let idiom = idiomDictionary.filter { $0.word == self.text.content }.first ?? Idiom(derivation: "", example: "", explanation: "", pinyin: "", word: "", abbreviation: "")
-            if idiom.explanation != "" {
-                questionItem.question = idiom.explanation
-                example = idiom.example
-            } else {
-                questionItem.question = "该成语不存在。"
-            }
-        } catch {
-            print("成语词典编码错误！")
-        }
-        questionItem.rightAnswer = self.text.content
+        NetworkAPIFunctions.functions.jinFanYiCiSearch(word: self.text.content, type: type, questionItem: questionItem)
+        questionItem.question = self.text.content
     }
     
     var body: some View {
         VStack {
-            Text("编辑\(MistakeCategory.ChengYuYiSi.toString())题")
+            Text("编辑\(type)题")
                 .font(.system(size: 22))
                 .bold()
                 .padding(.top)
@@ -64,7 +52,7 @@ struct MistakeChengYuYiSiEditView: View {
             .padding(.horizontal)
             .padding(.top)
             
-            TextField("请在此输入一个成语...", text: self.$text.content, onCommit: {
+            TextField("请在此输入一个词语...", text: self.$text.content, onCommit: {
                 self.committed = true
             })
             .font(.system(size: 20))
@@ -115,14 +103,6 @@ struct MistakeChengYuYiSiEditView: View {
                         .font(.system(size: 20))
                     Spacer()
                 }
-                HStack {
-                    Text("例句：")
-                        .font(.system(size: 20))
-                        .bold()
-                    Text("\(self.example)")
-                        .font(.system(size: 20))
-                    Spacer()
-                }
             }
             .padding(.horizontal)
             Spacer()
@@ -130,10 +110,10 @@ struct MistakeChengYuYiSiEditView: View {
     }
 }
 
-struct MistakeChengYuYiSiEditView_Previews: PreviewProvider {
-    @StateObject static var questionItem = QuestionItem(question: "东看看，西看看，形容四处张望。", rightAnswer: "东张西望")
-    
+struct MistakeJinFanYiCiEditView_Previews: PreviewProvider {
+    static let type = MistakeCategory.JinYiCi.toString()
+    @StateObject static var questionItem = QuestionItem(question: "希罕", rightAnswer: "稀少")
     static var previews: some View {
-        MistakeChengYuYiSiEditView(questionItem: questionItem)
+        MistakeJinFanYiCiEditView(type: type, questionItem: questionItem)
     }
 }

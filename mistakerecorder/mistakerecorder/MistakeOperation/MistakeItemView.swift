@@ -479,7 +479,35 @@ struct ItemChengYuYiSiSubview: View {
         .animation(.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0))
         .padding(.vertical)
         .sheet(isPresented: self.$editStatus) {
-            MistakePinYinXieCiEditView(questionItem: questionItem)
+            MistakeChengYuYiSiEditView(questionItem: questionItem)
+        }
+    }
+}
+
+struct ItemJinYiCiSubview: View {
+    @ObservedObject var questionItem: QuestionItem
+    @State private var editStatus = false
+    
+    var body: some View {
+        HStack {
+            Text("题目项")
+                .font(.system(size: 20))
+            Spacer()
+            Text(MistakeCategory.JinYiCi.toString())
+                .font(.system(size: 20))
+            Image(systemName: "chevron.right")
+                .font(.system(size: 20))
+                .frame(width: 30, height: 30)
+                .foregroundColor(Color(#colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)))
+        }
+        .onTapGesture {
+            self.editStatus = true
+        }
+        .offset(x: self.editStatus ? -500 : 0)
+        .animation(.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0))
+        .padding(.vertical)
+        .sheet(isPresented: self.$editStatus) {
+            MistakeJinFanYiCiEditView(type: MistakeCategory.JinYiCi.toString(), questionItem: questionItem)
         }
     }
 }
