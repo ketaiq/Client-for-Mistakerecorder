@@ -45,6 +45,7 @@
 		0BADDC0025F321D300067F02 /* PDFCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BADDBFF25F321D300067F02 /* PDFCreator.swift */; };
 		0BADDC1525F32D9400067F02 /* PDFReaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BADDC1425F32D9400067F02 /* PDFReaderView.swift */; };
 		0BADDC3225F4B19500067F02 /* PDFActivityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BADDC3125F4B19500067F02 /* PDFActivityViewController.swift */; };
+		0BB430622615CE7500DEAE93 /* MistakeZuCiEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BB430612615CE7500DEAE93 /* MistakeZuCiEditView.swift */; };
 		0BB62E0325CE28380086FD60 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 0BB62E0225CE28380086FD60 /* Alamofire */; };
 		0BB62E0825CE28650086FD60 /* NetworkAPIFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BB62E0725CE28650086FD60 /* NetworkAPIFunctions.swift */; };
 		0BC07DEA2614121F004D790E /* MistakeJinFanYiCiEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BC07DE92614121F004D790E /* MistakeJinFanYiCiEditView.swift */; };
@@ -126,6 +127,7 @@
 		0BADDBFF25F321D300067F02 /* PDFCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFCreator.swift; sourceTree = "<group>"; };
 		0BADDC1425F32D9400067F02 /* PDFReaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFReaderView.swift; sourceTree = "<group>"; };
 		0BADDC3125F4B19500067F02 /* PDFActivityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFActivityViewController.swift; sourceTree = "<group>"; };
+		0BB430612615CE7500DEAE93 /* MistakeZuCiEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistakeZuCiEditView.swift; sourceTree = "<group>"; };
 		0BB62E0725CE28650086FD60 /* NetworkAPIFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkAPIFunctions.swift; sourceTree = "<group>"; };
 		0BC07DE92614121F004D790E /* MistakeJinFanYiCiEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistakeJinFanYiCiEditView.swift; sourceTree = "<group>"; };
 		0BC07DEE26141566004D790E /* OCR.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCR.swift; sourceTree = "<group>"; };
@@ -293,6 +295,7 @@
 				0BF92B062612BBF400A43F6B /* MistakeChengYuYiSiEditView.swift */,
 				0BC07DE92614121F004D790E /* MistakeJinFanYiCiEditView.swift */,
 				0BC07E012614647A004D790E /* MistakeMoXieGuShiEditView.swift */,
+				0BB430612615CE7500DEAE93 /* MistakeZuCiEditView.swift */,
 				0BC07E06261481C2004D790E /* MagnifyTextView.swift */,
 				0B36923B261063D500D33F42 /* MistakeStandardEditView.swift */,
 				0B16F4C725E0D7FB00C055DB /* RevisedRecordsCalendarView.swift */,
@@ -530,6 +533,7 @@
 				0BADDC3225F4B19500067F02 /* PDFActivityViewController.swift in Sources */,
 				0BFFA38025EB74AE00623666 /* EditAvatarView.swift in Sources */,
 				0B967FE325FC950A00A6D704 /* ImagePicker.swift in Sources */,
+				0BB430622615CE7500DEAE93 /* MistakeZuCiEditView.swift in Sources */,
 				0BC07DEA2614121F004D790E /* MistakeJinFanYiCiEditView.swift in Sources */,
 				0B3692372610631C00D33F42 /* MistakePinYinXieCiEditView.swift in Sources */,
 				0BB62E0825CE28650086FD60 /* NetworkAPIFunctions.swift in Sources */,

@@ -12,7 +12,6 @@ struct MistakeJinFanYiCiEditView: View {
     @ObservedObject var questionItem: QuestionItem
     
     @StateObject private var text = ObservableString(content: "")
-    @State private var committed = false
     @State private var showOCRView = false
     
     func save() {
@@ -52,9 +51,7 @@ struct MistakeJinFanYiCiEditView: View {
             .padding(.horizontal)
             .padding(.top)
             
-            TextField("请在此输入一个词语...", text: self.$text.content, onCommit: {
-                self.committed = true
-            })
+            TextField("请在此输入一个词语...", text: self.$text.content)
             .font(.system(size: 20))
             .autocapitalization(.none)
             .disableAutocorrection(true)
@@ -69,17 +66,16 @@ struct MistakeJinFanYiCiEditView: View {
                     Button(action: {
                         self.save()
                         self.text.content = ""
-                        self.committed = false
                     }, label: {
                         Text("保存")
                             .foregroundColor(.white)
                             .frame(width: 100, height: 40)
-                            .background(self.committed ? Color(#colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)) : Color(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)))
+                            .background(!self.text.content.isEmpty ? Color(#colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)) : Color(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)))
                             .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
                             .shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: 3)
                     })
                 }
-                if !self.committed {
+                if self.text.content.isEmpty {
                     Color.white.opacity(0.1)
                 }
             }

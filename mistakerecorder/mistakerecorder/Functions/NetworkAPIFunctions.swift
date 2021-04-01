@@ -193,6 +193,7 @@ class NetworkAPIFunctions {
                     questionItem.rightAnswer.append("/" + self.removeHtmlLabels(str: json.result.explanation))
                     questionItem.rightAnswer.append("/" + self.removeHtmlLabels(str: json.result.appreciation))
                     questionItem.rightAnswer.append("/" + self.removeHtmlLabels(str: json.result.author))
+                    questionItem.rightAnswer.append("/" + self.removeHtmlLabels(str: json.result.title))
                 } else {
                     print(json.msg)
                 }

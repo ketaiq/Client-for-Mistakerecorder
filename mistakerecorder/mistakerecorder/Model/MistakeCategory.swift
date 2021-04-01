@@ -197,9 +197,6 @@ struct Poem: Codable { // 古诗
         }
     }
     
-    private static func getTitle(questionItem: QuestionItem) -> String {
-        return questionItem.question
-    }
     private static func getType(questionItem: QuestionItem) -> String {
         if questionItem.rightAnswer.components(separatedBy: "/").count > 0 {
             return questionItem.rightAnswer.components(separatedBy: "/")[0]
@@ -235,4 +232,16 @@ struct Poem: Codable { // 古诗
             return ""
         }
     }
+    private static func getTitle(questionItem: QuestionItem) -> String {
+        if questionItem.rightAnswer.components(separatedBy: "/").count > 5 {
+            return questionItem.rightAnswer.components(separatedBy: "/")[5]
+        } else {
+            return ""
+        }
+    }
+}
+
+struct Ci: Codable {
+    let ci: String
+    let explanation: String
 }

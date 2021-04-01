@@ -1,39 +1,37 @@
 //
-//  MistakeChengYuYiSiEditView.swift
+//  MistakeZuCiEditView.swift
 //  mistakerecorder
 //
-//  Created by CaSdm on 2021/3/30.
+//  Created by CaSdm on 2021/4/1.
 //
 
 import SwiftUI
 
-struct MistakeChengYuYiSiEditView: View {
+struct MistakeZuCiEditView: View {
     @ObservedObject var questionItem: QuestionItem
     
     @StateObject private var text = ObservableString(content: "")
-    @State private var example = "" // 例句
     @State private var showOCRView = false
     
     func save() {
-        let idiomDictionaryData = readJSONData(fileName: "idiom.json")!
+        questionItem.question = self.text.content
+        questionItem.rightAnswer = ""
+        let ciDictionaryData = readJSONData(fileName: "ci.json")!
         do {
-            let idiomDictionary = try JSONDecoder().decode([Idiom].self, from: idiomDictionaryData)
-            let idiom = idiomDictionary.filter { $0.word == self.text.content }.first ?? Idiom(derivation: "", example: "", explanation: "", pinyin: "", word: "", abbreviation: "")
-            if idiom.explanation != "" {
-                questionItem.question = idiom.explanation
-                example = idiom.example
-            } else {
-                questionItem.question = "该成语不存在。"
+            let ciDictionary = try JSONDecoder().decode([Ci].self, from: ciDictionaryData)
+            let ciArray = ciDictionary.filter { $0.ci.contains(self.text.content) }
+            for ci in ciArray {
+                questionItem.rightAnswer.append(ci.ci + "/")
             }
+            questionItem.rightAnswer.removeLast()
         } catch {
-            print("成语词典编码错误！")
+            print("词典编码错误！")
         }
-        questionItem.rightAnswer = self.text.content
     }
     
     var body: some View {
         VStack {
-            Text("编辑\(MistakeCategory.ChengYuYiSi.toString())题")
+            Text("编辑\(MistakeCategory.ZuCi.toString())题")
                 .font(.system(size: 22))
                 .bold()
                 .padding(.top)
@@ -63,7 +61,7 @@ struct MistakeChengYuYiSiEditView: View {
             .padding(.horizontal)
             .padding(.top)
             
-            TextField("请在此输入一个成语...", text: self.$text.content)
+            TextField("请在此输入一个字用于组词...", text: self.$text.content)
             .font(.system(size: 20))
             .autocapitalization(.none)
             .disableAutocorrection(true)
@@ -99,7 +97,7 @@ struct MistakeChengYuYiSiEditView: View {
                     Text("当前题目：")
                         .font(.system(size: 20))
                         .bold()
-                    Text("\(questionItem.question)")
+                    Text("\(questionItem.question)  (     )")
                         .font(.system(size: 20))
                     Spacer()
                 }
@@ -107,16 +105,17 @@ struct MistakeChengYuYiSiEditView: View {
                     Text("当前答案：")
                         .font(.system(size: 20))
                         .bold()
-                    Text("\(questionItem.rightAnswer)")
-                        .font(.system(size: 20))
-                    Spacer()
-                }
-                HStack {
-                    Text("例句：")
-                        .font(.system(size: 20))
-                        .bold()
-                    Text("\(self.example)")
-                        .font(.system(size: 20))
+                    ScrollView(showsIndicators: false) {
+                        HStack {
+                            Text("\(self.questionItem.rightAnswer)")
+                                .font(.system(size: 20))
+                            Spacer()
+                        }
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding(9)
+                    .background(Color.green)
+                    .cornerRadius(15)
                     Spacer()
                 }
             }
@@ -126,10 +125,10 @@ struct MistakeChengYuYiSiEditView: View {
     }
 }
 
-struct MistakeChengYuYiSiEditView_Previews: PreviewProvider {
-    @StateObject static var questionItem = QuestionItem(question: "东看看，西看看，形容四处张望。", rightAnswer: "东张西望")
+struct MistakeZuCiEditView_Previews: PreviewProvider {
+    @StateObject static var questionItem = QuestionItem(question: "传", rightAnswer: "传输/传达/传送/传说/传染/传达/传送/传说/传染/传达/传送/传说/传染/传达/传送/传说/传染")
     
     static var previews: some View {
-        MistakeChengYuYiSiEditView(questionItem: questionItem)
+        MistakeZuCiEditView(questionItem: questionItem)
     }
 }

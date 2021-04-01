@@ -12,8 +12,6 @@ struct MistakeMoXieGuShiEditView: View {
     
     @StateObject private var title = ObservableString(content: "")
     @StateObject private var author = ObservableString(content: "")
-    @State private var titleCommitted = false
-    @State private var authorCommitted = false
     @State private var showTitleOCRView = false
     @State private var showAuthorOCRView = false
     @State private var showPoem = false
@@ -54,16 +52,14 @@ struct MistakeMoXieGuShiEditView: View {
                 }
                 .padding(.horizontal)
                 
-                TextField("请在此输入古诗的标题...", text: self.$title.content, onCommit: {
-                    self.titleCommitted = true
-                })
-                .font(.system(size: 20))
-                .autocapitalization(.none)
-                .disableAutocorrection(true)
-                .padding(.vertical, 10)
-                .overlay(Rectangle().frame(height: 2).padding(.top, 35))
-                .foregroundColor(Color(#colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)))
-                .padding(.horizontal)
+                TextField("请在此输入古诗的标题...", text: self.$title.content)
+                    .font(.system(size: 20))
+                    .autocapitalization(.none)
+                    .disableAutocorrection(true)
+                    .padding(.vertical, 10)
+                    .overlay(Rectangle().frame(height: 2).padding(.top, 35))
+                    .foregroundColor(Color(#colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)))
+                    .padding(.horizontal)
                 
                 HStack(spacing: 20) {
                     Button(action: {
@@ -87,16 +83,14 @@ struct MistakeMoXieGuShiEditView: View {
                 }
                 .padding(.horizontal)
                 
-                TextField("请在此输入古诗的作者...", text: self.$author.content, onCommit: {
-                    self.authorCommitted = true
-                })
-                .font(.system(size: 20))
-                .autocapitalization(.none)
-                .disableAutocorrection(true)
-                .padding(.vertical, 10)
-                .overlay(Rectangle().frame(height: 2).padding(.top, 35))
-                .foregroundColor(Color(#colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)))
-                .padding(.horizontal)
+                TextField("请在此输入古诗的作者...", text: self.$author.content)
+                    .font(.system(size: 20))
+                    .autocapitalization(.none)
+                    .disableAutocorrection(true)
+                    .padding(.vertical, 10)
+                    .overlay(Rectangle().frame(height: 2).padding(.top, 35))
+                    .foregroundColor(Color(#colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)))
+                    .padding(.horizontal)
                 
                 ZStack {
                     HStack {
@@ -105,18 +99,16 @@ struct MistakeMoXieGuShiEditView: View {
                             self.save()
                             self.title.content = ""
                             self.author.content = ""
-                            self.titleCommitted = false
-                            self.authorCommitted = false
                         }, label: {
                             Text("保存")
                                 .foregroundColor(.white)
                                 .frame(width: 100, height: 40)
-                                .background(self.titleCommitted && self.authorCommitted && !self.title.content.isEmpty && !self.author.content.isEmpty ? Color(#colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)) : Color(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)))
+                                .background(!self.title.content.isEmpty && !self.author.content.isEmpty ? Color(#colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)) : Color(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)))
                                 .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
                                 .shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: 3)
                         })
                     }
-                    if !self.titleCommitted || !self.authorCommitted || self.title.content.isEmpty || self.author.content.isEmpty {
+                    if self.title.content.isEmpty || self.author.content.isEmpty {
                         Color.white.opacity(0.1)
                     }
                 }
@@ -156,12 +148,17 @@ struct MistakeMoXieGuShiEditView: View {
                         Text("\(Poem.getProperty(questionItem: questionItem, propety: "author"))")
                             .font(.system(size: 20))
                         Spacer()
-                    }
-                    HStack {
                         Text("类型：")
                             .font(.system(size: 20))
                             .bold()
                         Text("\(Poem.getProperty(questionItem: questionItem, propety: "type"))")
+                            .font(.system(size: 20))
+                    }
+                    HStack {
+                        Text("完整标题：")
+                            .font(.system(size: 20))
+                            .bold()
+                        Text("\(Poem.getProperty(questionItem: questionItem, propety: "title"))")
                             .font(.system(size: 20))
                         Spacer()
                     }
