@@ -30,14 +30,13 @@ struct MistakePinYinXieCiEditView: View {
             
             ZStack {
                 VStack {
-                    HStack {
+                    HStack(spacing: 20) {
                         Button(action: {
                             self.showOCRView = true
                         }, label: {
                             Image(systemName: "camera")
                                 .foregroundColor(Color(#colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)))
                                 .font(.system(size: 30))
-                                .padding(.horizontal)
                         })
                         .sheet(isPresented: self.$showOCRView) {
                             MistakeOCRView(text: self.text, showMistakeOCRView: self.$showOCRView)
@@ -48,7 +47,6 @@ struct MistakePinYinXieCiEditView: View {
                             Image(systemName: "clear")
                                 .foregroundColor(Color(#colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)))
                                 .font(.system(size: 30))
-                                .padding(.horizontal)
                         })
                         Spacer()
                     }

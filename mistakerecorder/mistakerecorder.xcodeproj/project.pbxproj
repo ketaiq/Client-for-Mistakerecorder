@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0B0255C325EA09AB002B4AB0 /* EditUserInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B0255C225EA09AB002B4AB0 /* EditUserInfoView.swift */; };
+		0B0873432616B2B0000A88B7 /* MistakeXiuGaiBingJuEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B0873422616B2B0000A88B7 /* MistakeXiuGaiBingJuEditView.swift */; };
 		0B16F4C025DF9DCD00C055DB /* DateFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B16F4BF25DF9DCD00C055DB /* DateFunctions.swift */; };
 		0B16F4C825E0D7FB00C055DB /* RevisedRecordsCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B16F4C725E0D7FB00C055DB /* RevisedRecordsCalendarView.swift */; };
 		0B16F4F025E4A1C300C055DB /* success.json in Resources */ = {isa = PBXBuildFile; fileRef = 0B16F4EE25E4A1C300C055DB /* success.json */; };
@@ -83,6 +84,7 @@
 
 /* Begin PBXFileReference section */
 		0B0255C225EA09AB002B4AB0 /* EditUserInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditUserInfoView.swift; sourceTree = "<group>"; };
+		0B0873422616B2B0000A88B7 /* MistakeXiuGaiBingJuEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistakeXiuGaiBingJuEditView.swift; sourceTree = "<group>"; };
 		0B16F4BF25DF9DCD00C055DB /* DateFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFunctions.swift; sourceTree = "<group>"; };
 		0B16F4C725E0D7FB00C055DB /* RevisedRecordsCalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RevisedRecordsCalendarView.swift; sourceTree = "<group>"; };
 		0B16F4EE25E4A1C300C055DB /* success.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = success.json; sourceTree = "<group>"; };
@@ -296,6 +298,7 @@
 				0BC07DE92614121F004D790E /* MistakeJinFanYiCiEditView.swift */,
 				0BC07E012614647A004D790E /* MistakeMoXieGuShiEditView.swift */,
 				0BB430612615CE7500DEAE93 /* MistakeZuCiEditView.swift */,
+				0B0873422616B2B0000A88B7 /* MistakeXiuGaiBingJuEditView.swift */,
 				0BC07E06261481C2004D790E /* MagnifyTextView.swift */,
 				0B36923B261063D500D33F42 /* MistakeStandardEditView.swift */,
 				0B16F4C725E0D7FB00C055DB /* RevisedRecordsCalendarView.swift */,
@@ -530,6 +533,7 @@
 				0B91505925C29CB700122F38 /* MistakeListView.swift in Sources */,
 				0B16F50425E4A63F00C055DB /* LoadView.swift in Sources */,
 				0BE1FE6025E64C22009B8631 /* EvaluationView.swift in Sources */,
+				0B0873432616B2B0000A88B7 /* MistakeXiuGaiBingJuEditView.swift in Sources */,
 				0BADDC3225F4B19500067F02 /* PDFActivityViewController.swift in Sources */,
 				0BFFA38025EB74AE00623666 /* EditAvatarView.swift in Sources */,
 				0B967FE325FC950A00A6D704 /* ImagePicker.swift in Sources */,

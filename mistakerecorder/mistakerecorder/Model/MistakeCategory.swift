@@ -14,7 +14,6 @@ enum MistakeCategory {
     case FanYiCi // 反义词
     case MoXieGuShi // 默写古诗
     case ZuCi // 组词
-    case DuoYinZi // 多音字
     case XiuGaiBingJu // 修改病句
     
     public func toString() -> String {
@@ -30,8 +29,6 @@ enum MistakeCategory {
             return "默写古诗"
         } else if self == .ZuCi {
             return "组词"
-        } else if self == .DuoYinZi {
-            return "多音字"
         } else if self == .XiuGaiBingJu {
             return "修改病句"
         } else {
@@ -52,8 +49,6 @@ enum MistakeCategory {
             return "默写所学的古诗。"
         } else if self == .ZuCi {
             return "比较字形，然后组词。"
-        } else if self == .DuoYinZi {
-            return "给带点字选择正确的读音。"
         } else if self == .XiuGaiBingJu {
             return "修改下列病句。"
         } else {
@@ -244,4 +239,83 @@ struct Poem: Codable { // 古诗
 struct Ci: Codable {
     let ci: String
     let explanation: String
+}
+
+struct BingJu {
+    static func getTypes(questionItem: QuestionItem) -> String {
+        if questionItem.rightAnswer.components(separatedBy: "/").count > 0 {
+            let types = questionItem.rightAnswer.components(separatedBy: "/")[0]
+            return types.replacingOccurrences(of: "&", with: "/")
+        } else {
+            return ""
+        }
+    }
+    
+    static func getSentence(questionItem: QuestionItem) -> String {
+        if questionItem.rightAnswer.components(separatedBy: "/").count > 1 {
+            return questionItem.rightAnswer.components(separatedBy: "/")[1]
+        } else {
+            return ""
+        }
+    }
+}
+
+enum BingJuCategory {
+    case ChengFenCanQue // 成分残缺
+    case YongCiBuDang // 用词不当
+    case DaPeiBuDang // 搭配不当
+    case QianHouMaoDun // 前后矛盾
+    case CiXuDianDao // 词序颠倒
+    case ChongFuLuoSuo // 重复啰嗦
+    case GaiNianBuQing // 概念不清
+    case BuHeLuoJi // 不合逻辑
+    case ZhiDaiBuMing // 指代不明
+    
+    public func toString() -> String {
+        if self == .ChengFenCanQue {
+            return "成分残缺"
+        } else if self == .YongCiBuDang {
+            return "用词不当"
+        } else if self == .DaPeiBuDang {
+            return "搭配不当"
+        } else if self == .QianHouMaoDun {
+            return "前后矛盾"
+        } else if self == .CiXuDianDao {
+            return "词序颠倒"
+        } else if self == .ChongFuLuoSuo {
+            return "重复啰嗦"
+        } else if self == .GaiNianBuQing {
+            return "概念不清"
+        } else if self == .BuHeLuoJi {
+            return "不合逻辑"
+        } else if self == .ZhiDaiBuMing {
+            return "指代不明"
+        } else {
+            return ""
+        }
+    }
+    
+    public func getDetail() -> String {
+        if self == .ChengFenCanQue {
+            return "句子里缺少了某些必要的成分，意思表达就不完整，不明确。\n例如：“为了班集体，做了很多好事。”谁做了许多好事，不明确。"
+        } else if self == .YongCiBuDang {
+            return "由于对词义理解不清，就容易在词义范围大小、褒贬等方面使用不当，特别是近义词、关联词用错，造成病句。\n例如：“他做事很冷静、武断。”“武断”是贬义词，用得不当，应改为“果断”。"
+        } else if self == .DaPeiBuDang {
+            return "在句子中某些词语在意义上不能相互搭配或者搭配起来不合事理，违反了语言的习惯，造成了病句。包括一些关联词语的使用不当。\n例如：“在联欢会上，我们听到悦耳的歌声和优美的舞蹈。”“听到”与“优美的舞蹈”显然不能搭配，应改为“在联欢会上，我们听到悦耳的歌声，看到优美的舞蹈。”\n例如：“如果我们生活富裕了，就不应该浪费。”显然关联词使用错误，应改为“即使我们生活富裕了，也不应该浪费。”"
+        } else if self == .QianHouMaoDun {
+            return "在同一个句子中，前后表达的意思自相矛盾，造成了语意不明。\n例如：“我估计他这道题目肯定做错了。”前半句估计是不够肯定的意思，而后半句又肯定他错了，便出现了矛盾，到底情况如何呢？使人不清楚。可以改为“我估计他这道题做错了。”或“我断定他这道题做错了。”"
+        } else if self == .CiXuDianDao {
+            return "在一般情况下，一句话里面的词序是固定的，词序变了，颠倒了位置，句子的意思就会发生变化，甚至造成病句。\n例如：“语文对我很感兴趣。”“语文”和“我”的位置颠倒了，应改为“我对语文很感兴趣。”"
+        } else if self == .ChongFuLuoSuo {
+            return "在句子中，所用的词语的意思重复了，显得罗嗦累赘。\n例如：“他兴冲冲地跑进教室，兴高采烈地宣布了明天去春游的好消息。”句中“兴冲冲”和“兴高采烈”都是表示他很高兴的样子，可删去其中一个。"
+        } else if self == .GaiNianBuQing {
+            return "指句子中词语的概念不清，属性不当，范围大小归属混乱。\n例如:“万里长城、故宫博物院和南京长江大桥是中外游客向往的古迹。”这里的“南京长江大桥”不属于“古迹”，归属概念不清，应改为“万里长城、故宫博物院是中外游客向往的古迹。”"
+        } else if self == .BuHeLuoJi {
+            return "句子中某些词语概念不清，使用错误，或表达的意思不符合事理，也易造成病句。\n例如：“稻子成熟了，田野上一片碧绿，一派丰收的景象。”稻子成熟时是一片金黄色，而本句中形容一片碧绿，不合事理。"
+        } else if self == .ZhiDaiBuMing {
+            return "指句子中出现多个人或状物时，指代不明确，含混不清。\n代词分为人称代词［我、你、他（她、它）、我们……］，指示代词［这、那、这里、那儿……］和疑问代词［谁、哪里］三种，指代不明的病句指的是代词使用错误。这类病句主要有二类。一类是一个代词同时代替几个人或物，造成指代混乱。二类指示代词和疑问代词误用。\n例如：刘明和陈庆是好朋友，他经常约他去打球。——应将“他经常约他去打球”改为“刘明经常约陈庆去打球”。"
+        } else {
+            return ""
+        }
+    }
 }

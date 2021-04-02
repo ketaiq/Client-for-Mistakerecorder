@@ -36,16 +36,15 @@ struct MistakeChengYuYiSiEditView: View {
             Text("编辑\(MistakeCategory.ChengYuYiSi.toString())题")
                 .font(.system(size: 22))
                 .bold()
-                .padding(.top)
+                .padding()
             
-            HStack {
+            HStack(spacing: 20) {
                 Button(action: {
                     self.showOCRView = true
                 }, label: {
                     Image(systemName: "camera")
                         .foregroundColor(Color(#colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)))
                         .font(.system(size: 30))
-                        .padding(.horizontal)
                 })
                 .sheet(isPresented: self.$showOCRView) {
                     MistakeOCRView(text: self.text, showMistakeOCRView: self.$showOCRView)
@@ -56,12 +55,10 @@ struct MistakeChengYuYiSiEditView: View {
                     Image(systemName: "clear")
                         .foregroundColor(Color(#colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)))
                         .font(.system(size: 30))
-                        .padding(.horizontal)
                 })
                 Spacer()
             }
             .padding(.horizontal)
-            .padding(.top)
             
             TextField("请在此输入一个成语...", text: self.$text.content)
             .font(.system(size: 20))
@@ -92,7 +89,7 @@ struct MistakeChengYuYiSiEditView: View {
                 }
             }
             .frame(height: 40)
-            .padding()
+            .padding(.horizontal)
             
             VStack(spacing: 20) {
                 HStack {
@@ -120,7 +117,7 @@ struct MistakeChengYuYiSiEditView: View {
                     Spacer()
                 }
             }
-            .padding(.horizontal)
+            .padding()
             Spacer()
         }
     }

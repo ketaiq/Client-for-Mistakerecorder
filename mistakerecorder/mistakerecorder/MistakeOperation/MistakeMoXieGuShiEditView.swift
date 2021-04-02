@@ -14,9 +14,8 @@ struct MistakeMoXieGuShiEditView: View {
     @StateObject private var author = ObservableString(content: "")
     @State private var showTitleOCRView = false
     @State private var showAuthorOCRView = false
-    @State private var showPoem = false
-    @State private var showExplanation = false
-    @State private var showAppreciation = false
+    @State private var showMagnifyTextView = false
+    @State private var magnifyText = ""
     
     func save() {
         NetworkAPIFunctions.functions.guShiSearch(title: self.title.content, author: author.content, questionItem: questionItem)
@@ -132,7 +131,8 @@ struct MistakeMoXieGuShiEditView: View {
                             Text("\(Poem.getProperty(questionItem: questionItem, propety: "content").replacingOccurrences(of: "。", with: "。\n"))")
                                 .font(.system(size: 20))
                                 .onTapGesture {
-                                    self.showPoem = true
+                                    self.magnifyText = Poem.getProperty(questionItem: questionItem, propety: "content").replacingOccurrences(of: "。", with: "。\n")
+                                    self.showMagnifyTextView = true
                                 }
                         }
                         .frame(maxWidth: .infinity)
@@ -170,7 +170,8 @@ struct MistakeMoXieGuShiEditView: View {
                             Text("\(Poem.getProperty(questionItem: questionItem, propety: "explanation").replacingOccurrences(of: "。", with: "。\n"))")
                                 .font(.system(size: 20))
                                 .onTapGesture {
-                                    self.showExplanation = true
+                                    self.magnifyText = Poem.getProperty(questionItem: questionItem, propety: "explanation").replacingOccurrences(of: "。", with: "。\n")
+                                    self.showMagnifyTextView = true
                                 }
                         }
                         .frame(maxWidth: .infinity)
@@ -187,7 +188,8 @@ struct MistakeMoXieGuShiEditView: View {
                             Text("\(Poem.getProperty(questionItem: questionItem, propety: "appreciation").replacingOccurrences(of: "。", with: "。\n"))")
                                 .font(.system(size: 20))
                                 .onTapGesture {
-                                    self.showAppreciation = true
+                                    self.magnifyText = Poem.getProperty(questionItem: questionItem, propety: "appreciation").replacingOccurrences(of: "。", with: "。\n")
+                                    self.showMagnifyTextView = true
                                 }
                         }
                         .frame(maxWidth: .infinity)
@@ -201,9 +203,7 @@ struct MistakeMoXieGuShiEditView: View {
                 .padding(.bottom)
             }
             
-            MagnifyTextView(show: self.$showPoem, questionItem: questionItem, propety: "content")
-            MagnifyTextView(show: self.$showExplanation, questionItem: questionItem, propety: "explanation")
-            MagnifyTextView(show: self.$showAppreciation, questionItem: questionItem, propety: "appreciation")
+            MagnifyTextView(show: self.$showMagnifyTextView, text: self.$magnifyText)
         }
     }
 }

@@ -44,7 +44,6 @@ struct MistakeCategoryEditView: View {
                     MistakeEditSelectionSubview(text: self.$text, content: MistakeCategory.ZuCi.toString())
                 }
                 HStack(spacing: 12) {
-                    MistakeEditSelectionSubview(text: self.$text, content: MistakeCategory.DuoYinZi.toString())
                     MistakeEditSelectionSubview(text: self.$text, content: MistakeCategory.XiuGaiBingJu.toString())
                 }
             }
@@ -78,8 +77,6 @@ struct MistakeCategoryEditView: View {
                             questionDescription = MistakeCategory.MoXieGuShi.generateDescription()
                         } else if self.text == MistakeCategory.ZuCi.toString() {
                             questionDescription = MistakeCategory.ZuCi.generateDescription()
-                        } else if self.text == MistakeCategory.DuoYinZi.toString() {
-                            questionDescription = MistakeCategory.DuoYinZi.generateDescription()
                         } else if self.text == MistakeCategory.XiuGaiBingJu.toString() {
                             questionDescription = MistakeCategory.XiuGaiBingJu.generateDescription()
                         }

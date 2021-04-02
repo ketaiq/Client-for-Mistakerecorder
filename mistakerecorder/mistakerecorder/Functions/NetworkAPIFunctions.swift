@@ -154,12 +154,16 @@ class NetworkAPIFunctions {
                         for item in json.result.jin {
                             questionItem.rightAnswer.append(item + "/")
                         }
-                        questionItem.rightAnswer.removeLast()
+                        if questionItem.rightAnswer.last == "/" {
+                            questionItem.rightAnswer.removeLast()
+                        }
                     } else if type == MistakeCategory.FanYiCi.toString() {
                         for item in json.result.fan {
                             questionItem.rightAnswer.append(item + "/")
                         }
-                        questionItem.rightAnswer.removeLast()
+                        if questionItem.rightAnswer.last == "/" {
+                            questionItem.rightAnswer.removeLast()
+                        }
                     }
                 } else {
                     print(json.msg)
