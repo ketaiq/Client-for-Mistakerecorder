@@ -123,6 +123,7 @@ class NetworkAPIFunctions {
                     do {
                         let OCRjson = try JSONDecoder().decode(OCRresult.self, from: OCRstr.data(using: .utf8)!)
                         var i = 0
+                        ocr_result.content = ""
                         while i < OCRjson.words_result_num { // 得到识别结果
                             ocr_result.content.append(OCRjson.words_result[i].words)
                             i += 1

@@ -11,14 +11,6 @@ protocol DataDelegate {
     func fetch(newData: String)
 }
 
-class ObservableString: ObservableObject {
-    @Published var content: String
-    
-    init(content: String) {
-        self.content = content
-    }
-}
-
 class User: ObservableObject, Codable { // 用户
     @Published var username: String
     @Published var nickname: String

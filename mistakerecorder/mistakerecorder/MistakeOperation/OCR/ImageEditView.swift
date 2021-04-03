@@ -84,6 +84,7 @@ struct ImageEditView: View {
                     Spacer()
                     Button(action: {
                         self.cropImage()
+                        NetworkAPIFunctions.functions.baiduOCR(ocr_result: self.text, croppedImage: self.croppedImage)
                         self.showCroppedImage = true
                     }, label: {
                         Text("完成")
@@ -94,32 +95,7 @@ struct ImageEditView: View {
                             .cornerRadius(10)
                     })
                     .sheet(isPresented: self.$showCroppedImage) {
-                        VStack {
-                            HStack {
-                                Spacer()
-                                Button(action: {
-                                    NetworkAPIFunctions.functions.baiduOCR(ocr_result: self.text, croppedImage: self.croppedImage)
-                                    self.showCroppedImage = false
-                                    self.showMistakeOCRView = false
-                                }, label: {
-                                    Text("识别")
-                                        .bold()
-                                        .foregroundColor(Color(#colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)))
-                                        .padding(.horizontal, 10)
-                                        .padding(10)
-                                        .background(Color(red: 224 / 255, green: 229 / 255, blue: 236 / 255))
-                                        .cornerRadius(10)
-                                        .shadow(color: Color(red: 163 / 255, green: 177 / 255, blue: 198 / 255), radius: 3, x: 2, y: 2)
-                                        .shadow(color: Color(red: 255 / 255, green: 255 / 255, blue: 255 / 255), radius: 3, x: -2, y: -2)
-                                })
-                            }
-                            .padding()
-                            Image(uiImage: self.croppedImage)
-                                .resizable()
-                                .scaledToFit()
-                                .padding(.horizontal)
-                            Spacer()
-                        }
+                        ImageOCRView(text: self.text, croppedImage: self.$croppedImage, showMistakeOCRView: self.$showMistakeOCRView, showCroppedImage: self.$showCroppedImage)
                     }
                 }
                 .padding()

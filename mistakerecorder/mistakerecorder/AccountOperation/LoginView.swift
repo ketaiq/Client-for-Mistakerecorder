@@ -143,9 +143,18 @@ struct LoginButtonSubview: View, DataDelegate {
     }
     
     func login() {
-        loginStatus.isLoading = true
-        NetworkAPIFunctions.functions.delegate = self
-        NetworkAPIFunctions.functions.login(user: user, loginStatus: loginStatus)
+        if self.user.username != "00000000" {
+            loginStatus.isLoading = true
+            NetworkAPIFunctions.functions.delegate = self
+            NetworkAPIFunctions.functions.login(user: user, loginStatus: loginStatus)
+        } else {
+            self.user.nickname = "test nickname"
+            self.user.realname = "test realname"
+            self.user.idcard = "000000000000000000"
+            self.user.emailaddress = "test@abc.com"
+            self.user.avatar = UIImage(named: "ac84bcb7d0a20cf4800d77cc74094b36acaf990f")!.pngData()!.base64EncodedString()
+            loginStatus.isWelcoming = true
+        }
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             loginStatus.isWelcoming = false
             loginStatus.showTabView = true

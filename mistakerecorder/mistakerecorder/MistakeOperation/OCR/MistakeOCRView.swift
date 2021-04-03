@@ -11,13 +11,13 @@ struct MistakeOCRView: View {
     @ObservedObject var text: ObservableString // 识别得到的文字
     @Binding var showMistakeOCRView: Bool
     @State private var image = UIImage()
-    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @State private var showPhotoLibrary = false
+    @State private var captureButtonPressed = false
     
     var body: some View {
         ZStack {
             if UIImagePickerController.isSourceTypeAvailable(.camera) {
-                ImagePicker(sourceType: .camera, selectedImage: self.$image)
+                CustomImagePicker(selectedImage: self.$image, captureButtonPressed: self.$captureButtonPressed)
             }
             HStack {
                 Rectangle()
@@ -46,9 +46,7 @@ struct MistakeOCRView: View {
             VStack {
                 Spacer()
                 HStack {
-                    Button(action: {
-                        
-                    }) {
+                    Button(action: {}) {
                         Image(systemName: "photo.fill")
                             .font(.system(size: 30))
                             .foregroundColor(Color(#colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1)))
@@ -56,12 +54,11 @@ struct MistakeOCRView: View {
                     .hidden()
                     Spacer()
                     Button(action: {
-                        
+                        self.captureButtonPressed = true
                     }) {
                         Image(systemName: "camera.circle.fill")
                             .font(.system(size: 60))
                             .foregroundColor(Color(#colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1)))
-                        
                     }
                     Spacer()
                     Button(action: {
@@ -79,6 +76,7 @@ struct MistakeOCRView: View {
             }
             if self.image != UIImage() {
                 ImageEditView(text: text, image: self.$image, showMistakeOCRView: $showMistakeOCRView)
+                    .zIndex(1.0)
             }
         }
         .edgesIgnoringSafeArea(.all)

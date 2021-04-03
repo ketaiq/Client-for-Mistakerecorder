@@ -27,15 +27,12 @@ struct MistakeItemView: View {
                     ItemCategorySubview(category: $mistake.category, categoryEditStatus: self.$categoryEditStatus)
                     ItemQuestionDescriptionSubview(questionDescription: $mistake.questionDescription)
                     ForEach(mistake.questionItems) { item in
-                        if mistake.category == MistakeCategory.PinYinXieCi.toString() {
-                            ItemPinYinXieCiSubview(questionItem: item)
-                        } else if mistake.category == MistakeCategory.ChengYuYiSi.toString() {
-                            ItemChengYuYiSiSubview(questionItem: item)
+                        if MistakeCategory.isPresetCategory(category: mistake.category) {
+                            ItemMistakeCategoryItemSubview(type: mistake.category, questionItem: item)
                         } else {
                             ItemQuestionAndAnswerSubview(questionItem: item)
                         }
                     }
-                    
                 }
             }
             
@@ -428,7 +425,8 @@ struct ItemQuestionAndAnswerSubview: View {
     }
 }
 
-struct ItemPinYinXieCiSubview: View {
+struct ItemMistakeCategoryItemSubview: View {
+    let type: String
     @ObservedObject var questionItem: QuestionItem
     @State private var editStatus = false
     
@@ -437,7 +435,7 @@ struct ItemPinYinXieCiSubview: View {
             Text("题目项")
                 .font(.system(size: 20))
             Spacer()
-            Text(MistakeCategory.PinYinXieCi.toString())
+            Text(self.type)
                 .font(.system(size: 20))
             Image(systemName: "chevron.right")
                 .font(.system(size: 20))
@@ -451,63 +449,21 @@ struct ItemPinYinXieCiSubview: View {
         .animation(.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0))
         .padding(.vertical)
         .sheet(isPresented: self.$editStatus) {
-            MistakePinYinXieCiEditView(questionItem: questionItem)
-        }
-    }
-}
-
-struct ItemChengYuYiSiSubview: View {
-    @ObservedObject var questionItem: QuestionItem
-    @State private var editStatus = false
-    
-    var body: some View {
-        HStack {
-            Text("题目项")
-                .font(.system(size: 20))
-            Spacer()
-            Text(MistakeCategory.ChengYuYiSi.toString())
-                .font(.system(size: 20))
-            Image(systemName: "chevron.right")
-                .font(.system(size: 20))
-                .frame(width: 30, height: 30)
-                .foregroundColor(Color(#colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)))
-        }
-        .onTapGesture {
-            self.editStatus = true
-        }
-        .offset(x: self.editStatus ? -500 : 0)
-        .animation(.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0))
-        .padding(.vertical)
-        .sheet(isPresented: self.$editStatus) {
-            MistakeChengYuYiSiEditView(questionItem: questionItem)
-        }
-    }
-}
-
-struct ItemJinYiCiSubview: View {
-    @ObservedObject var questionItem: QuestionItem
-    @State private var editStatus = false
-    
-    var body: some View {
-        HStack {
-            Text("题目项")
-                .font(.system(size: 20))
-            Spacer()
-            Text(MistakeCategory.JinYiCi.toString())
-                .font(.system(size: 20))
-            Image(systemName: "chevron.right")
-                .font(.system(size: 20))
-                .frame(width: 30, height: 30)
-                .foregroundColor(Color(#colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)))
-        }
-        .onTapGesture {
-            self.editStatus = true
-        }
-        .offset(x: self.editStatus ? -500 : 0)
-        .animation(.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0))
-        .padding(.vertical)
-        .sheet(isPresented: self.$editStatus) {
-            MistakeJinFanYiCiEditView(type: MistakeCategory.JinYiCi.toString(), questionItem: questionItem)
+            if self.type == MistakeCategory.PinYinXieCi.toString() {
+                MistakePinYinXieCiEditView(questionItem: questionItem)
+            } else if self.type == MistakeCategory.ChengYuYiSi.toString() {
+                MistakeChengYuYiSiEditView(questionItem: questionItem)
+            } else if self.type == MistakeCategory.JinYiCi.toString() {
+                MistakeJinFanYiCiEditView(type: self.type, questionItem: questionItem)
+            } else if self.type == MistakeCategory.FanYiCi.toString() {
+                MistakeJinFanYiCiEditView(type: self.type, questionItem: questionItem)
+            } else if self.type == MistakeCategory.MoXieGuShi.toString() {
+                MistakeMoXieGuShiEditView(questionItem: questionItem)
+            } else if self.type == MistakeCategory.ZuCi.toString() {
+                MistakeZuCiEditView(questionItem: questionItem)
+            } else if self.type == MistakeCategory.XiuGaiBingJu.toString() {
+                MistakeXiuGaiBingJuEditView(questionItem: questionItem)
+            }
         }
     }
 }

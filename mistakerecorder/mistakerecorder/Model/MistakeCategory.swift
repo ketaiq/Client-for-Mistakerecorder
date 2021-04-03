@@ -55,6 +55,14 @@ enum MistakeCategory {
             return ""
         }
     }
+    
+    public static func isPresetCategory(category: String) -> Bool {
+        if category == MistakeCategory.PinYinXieCi.toString() || category == MistakeCategory.ChengYuYiSi.toString() || category == MistakeCategory.JinYiCi.toString() || category == MistakeCategory.FanYiCi.toString() || category == MistakeCategory.MoXieGuShi.toString() || category == MistakeCategory.ZuCi.toString() || category == MistakeCategory.XiuGaiBingJu.toString() {
+            return true
+        } else {
+            return false
+        }
+    }
 }
 
 class PinYinXieCi: ObservableObject {
