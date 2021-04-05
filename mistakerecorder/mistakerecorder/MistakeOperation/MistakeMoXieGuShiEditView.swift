@@ -119,7 +119,7 @@ struct MistakeMoXieGuShiEditView: View {
                         Text("当前题目：")
                             .font(.system(size: 20))
                             .bold()
-                        Text("\(questionItem.question)")
+                        Text("\(Poem.getTitle(self.questionItem.question))")
                             .font(.system(size: 20))
                         Spacer()
                     }
@@ -128,10 +128,10 @@ struct MistakeMoXieGuShiEditView: View {
                             .font(.system(size: 20))
                             .bold()
                         ScrollView(showsIndicators: false) {
-                            Text("\(Poem.getProperty(questionItem: questionItem, propety: "content").replacingOccurrences(of: "。", with: "。\n"))")
+                            Text("\(self.questionItem.rightAnswer.replacingOccurrences(of: "。", with: "。\n"))")
                                 .font(.system(size: 20))
                                 .onTapGesture {
-                                    self.magnifyText = Poem.getProperty(questionItem: questionItem, propety: "content").replacingOccurrences(of: "。", with: "。\n")
+                                    self.magnifyText = self.questionItem.rightAnswer.replacingOccurrences(of: "。", with: "。\n")
                                     self.showMagnifyTextView = true
                                 }
                         }
@@ -145,20 +145,20 @@ struct MistakeMoXieGuShiEditView: View {
                         Text("作者：")
                             .font(.system(size: 20))
                             .bold()
-                        Text("\(Poem.getProperty(questionItem: questionItem, propety: "author"))")
+                        Text("\(Poem.getAuthor(self.questionItem.question))")
                             .font(.system(size: 20))
                         Spacer()
                         Text("类型：")
                             .font(.system(size: 20))
                             .bold()
-                        Text("\(Poem.getProperty(questionItem: questionItem, propety: "type"))")
+                        Text("\(Poem.getType(self.questionItem.question))")
                             .font(.system(size: 20))
                     }
                     HStack {
                         Text("完整标题：")
                             .font(.system(size: 20))
                             .bold()
-                        Text("\(Poem.getProperty(questionItem: questionItem, propety: "title"))")
+                        Text("\(Poem.getTitle(self.questionItem.question))")
                             .font(.system(size: 20))
                         Spacer()
                     }
@@ -167,10 +167,10 @@ struct MistakeMoXieGuShiEditView: View {
                             .font(.system(size: 20))
                             .bold()
                         ScrollView(showsIndicators: false) {
-                            Text("\(Poem.getProperty(questionItem: questionItem, propety: "explanation").replacingOccurrences(of: "。", with: "。\n"))")
+                            Text("\(Poem.getExplanation(self.questionItem.question).replacingOccurrences(of: "。", with: "。\n"))")
                                 .font(.system(size: 20))
                                 .onTapGesture {
-                                    self.magnifyText = Poem.getProperty(questionItem: questionItem, propety: "explanation").replacingOccurrences(of: "。", with: "。\n")
+                                    self.magnifyText = Poem.getExplanation(self.questionItem.question).replacingOccurrences(of: "。", with: "。\n")
                                     self.showMagnifyTextView = true
                                 }
                         }
@@ -185,10 +185,10 @@ struct MistakeMoXieGuShiEditView: View {
                             .font(.system(size: 20))
                             .bold()
                         ScrollView(showsIndicators: false) {
-                            Text("\(Poem.getProperty(questionItem: questionItem, propety: "appreciation").replacingOccurrences(of: "。", with: "。\n"))")
+                            Text("\(Poem.getAppreciation(self.questionItem.question).replacingOccurrences(of: "。", with: "。\n"))")
                                 .font(.system(size: 20))
                                 .onTapGesture {
-                                    self.magnifyText = Poem.getProperty(questionItem: questionItem, propety: "appreciation").replacingOccurrences(of: "。", with: "。\n")
+                                    self.magnifyText = Poem.getAppreciation(self.questionItem.question).replacingOccurrences(of: "。", with: "。\n")
                                     self.showMagnifyTextView = true
                                 }
                         }
@@ -209,7 +209,8 @@ struct MistakeMoXieGuShiEditView: View {
 }
 
 struct MistakeMoXieGuShiEditView_Previews: PreviewProvider {
-    @StateObject static var questionItem = QuestionItem(question: "行宫", rightAnswer: "五言绝句/寥落古行宫，宫花寂寞红。白头宫女在，闲坐说玄宗。/⑴寥落：寂寞冷落。⑵行宫：皇帝在京城之外的宫殿。/元稹的这首《行宫》是一首抒发盛衰之感的诗，可与白居易《上阳白发人》参互并观。这里的古行宫即洛阳行宫上阳宫，白头宫女即“上阳白发人”。据白居易《上阳白发人》，这些宫女天宝（742-756）末年被“潜配”到上阳宫，在这冷宫里一闭四十多年，成了白发宫人。这首短小精悍的五绝具有深邃的意境，富有隽永的诗味，倾诉了宫女无穷的哀怨之情，寄托了诗人深沉的盛衰之感。/元稹")
+    @StateObject static var questionItem = QuestionItem(question: Poem(detailid: 0, title: "行宫", type: "五言绝句", content: "寥落古行宫，宫花寂寞红。白头宫女在，闲坐说玄宗。", explanation: "⑴寥落：寂寞冷落。⑵行宫：皇帝在京城之外的宫殿。", appreciation: "元稹的这首《行宫》是一首抒发盛衰之感的诗，可与白居易《上阳白发人》参互并观。这里的古行宫即洛阳行宫上阳宫，白头宫女即“上阳白发人”。据白居易《上阳白发人》，这些宫女天宝（742-756）末年被“潜配”到上阳宫，在这冷宫里一闭四十多年，成了白发宫人。这首短小精悍的五绝具有深邃的意境，富有隽永的诗味，倾诉了宫女无穷的哀怨之情，寄托了诗人深沉的盛衰之感。", author: "元稹").toJsonString(), rightAnswer: "寥落古行宫，宫花寂寞红。白头宫女在，闲坐说玄宗。")
+    
     static var previews: some View {
         MistakeMoXieGuShiEditView(questionItem: questionItem)
     }

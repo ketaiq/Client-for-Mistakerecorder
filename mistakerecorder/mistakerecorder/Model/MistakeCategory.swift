@@ -139,6 +139,102 @@ struct Idiom: Codable { // 成语
     let pinyin: String // 拼音
     let word: String // 成语
     let abbreviation: String // 缩写
+    
+    public func toJsonString() -> String {
+        do {
+            let jsonData = try JSONEncoder().encode(self)
+            if let jsonString = String(data: jsonData, encoding: .utf8) {
+                return jsonString
+            }
+        } catch {
+            print(error.localizedDescription)
+        }
+        return ""
+    }
+    
+    public static func getDerivation(_ jsonString: String) -> String {
+        if let jsonData = jsonString.data(using: .utf8) {
+            do {
+                let idiom = try JSONDecoder().decode(Idiom.self, from: jsonData)
+                return idiom.derivation
+            } catch {
+                print(error.localizedDescription)
+            }
+        } else {
+            print("jsonData提取失败！")
+        }
+        return ""
+    }
+    
+    public static func getExample(_ jsonString: String) -> String {
+        if let jsonData = jsonString.data(using: .utf8) {
+            do {
+                let idiom = try JSONDecoder().decode(Idiom.self, from: jsonData)
+                return idiom.example
+            } catch {
+                print(error.localizedDescription)
+            }
+        } else {
+            print("jsonData提取失败！")
+        }
+        return ""
+    }
+    
+    public static func getExplanation(_ jsonString: String) -> String {
+        if let jsonData = jsonString.data(using: .utf8) {
+            do {
+                let idiom = try JSONDecoder().decode(Idiom.self, from: jsonData)
+                return idiom.explanation
+            } catch {
+                print(error.localizedDescription)
+            }
+        } else {
+            print("jsonData提取失败！")
+        }
+        return ""
+    }
+    
+    public static func getPinyin(_ jsonString: String) -> String {
+        if let jsonData = jsonString.data(using: .utf8) {
+            do {
+                let idiom = try JSONDecoder().decode(Idiom.self, from: jsonData)
+                return idiom.pinyin
+            } catch {
+                print(error.localizedDescription)
+            }
+        } else {
+            print("jsonData提取失败！")
+        }
+        return ""
+    }
+    
+    public static func getWord(_ jsonString: String) -> String {
+        if let jsonData = jsonString.data(using: .utf8) {
+            do {
+                let idiom = try JSONDecoder().decode(Idiom.self, from: jsonData)
+                return idiom.word
+            } catch {
+                print(error.localizedDescription)
+            }
+        } else {
+            print("jsonData提取失败！")
+        }
+        return ""
+    }
+    
+    public static func getAbbreviation(_ jsonString: String) -> String {
+        if let jsonData = jsonString.data(using: .utf8) {
+            do {
+                let idiom = try JSONDecoder().decode(Idiom.self, from: jsonData)
+                return idiom.abbreviation
+            } catch {
+                print(error.localizedDescription)
+            }
+        } else {
+            print("jsonData提取失败！")
+        }
+        return ""
+    }
 }
 
 struct JinFanYiCi: Codable { // 请求返回格式
@@ -148,11 +244,93 @@ struct JinFanYiCi: Codable { // 请求返回格式
 }
 
 struct JinFanYiCiResult: Codable { // 近义词或反义词
-    let word: String
-    let pinyin: String
-    let content: String
-    let jin: [String]
-    let fan: [String]
+    let word: String // 查询词语
+    let pinyin: String // 查询词语的拼音
+    let content: String // 解释
+    let jin: [String] // 近义词组
+    let fan: [String] // 反义词组
+    
+    public func toJsonString() -> String {
+        do {
+            let jsonData = try JSONEncoder().encode(self)
+            if let jsonString = String(data: jsonData, encoding: .utf8) {
+                return jsonString
+            }
+        } catch {
+            print(error.localizedDescription)
+        }
+        return ""
+    }
+    
+    public static func getWord(_ jsonString: String) -> String {
+        if let jsonData = jsonString.data(using: .utf8) {
+            do {
+                let jinFanYiCiResult = try JSONDecoder().decode(JinFanYiCiResult.self, from: jsonData)
+                return jinFanYiCiResult.word
+            } catch {
+                print(error.localizedDescription)
+            }
+        } else {
+            print("jsonData提取失败！")
+        }
+        return ""
+    }
+    
+    public static func getPinyin(_ jsonString: String) -> String {
+        if let jsonData = jsonString.data(using: .utf8) {
+            do {
+                let jinFanYiCiResult = try JSONDecoder().decode(JinFanYiCiResult.self, from: jsonData)
+                return jinFanYiCiResult.pinyin
+            } catch {
+                print(error.localizedDescription)
+            }
+        } else {
+            print("jsonData提取失败！")
+        }
+        return ""
+    }
+    
+    public static func getContent(_ jsonString: String) -> String {
+        if let jsonData = jsonString.data(using: .utf8) {
+            do {
+                let jinFanYiCiResult = try JSONDecoder().decode(JinFanYiCiResult.self, from: jsonData)
+                return jinFanYiCiResult.content
+            } catch {
+                print(error.localizedDescription)
+            }
+        } else {
+            print("jsonData提取失败！")
+        }
+        return ""
+    }
+    
+    public static func getJin(_ jsonString: String) -> [String] {
+        if let jsonData = jsonString.data(using: .utf8) {
+            do {
+                let jinFanYiCiResult = try JSONDecoder().decode(JinFanYiCiResult.self, from: jsonData)
+                return jinFanYiCiResult.jin
+            } catch {
+                print(error.localizedDescription)
+            }
+        } else {
+            print("jsonData提取失败！")
+        }
+        return [String]()
+    }
+    
+    public static func getFan(_ jsonString: String) -> [String] {
+        if let jsonData = jsonString.data(using: .utf8) {
+            do {
+                let jinFanYiCiResult = try JSONDecoder().decode(JinFanYiCiResult.self, from: jsonData)
+                return jinFanYiCiResult.fan
+            } catch {
+                print(error.localizedDescription)
+            }
+        } else {
+            print("jsonData提取失败！")
+        }
+        return [String]()
+    }
 }
 
 struct PoemChapter: Codable { // 古诗章节
@@ -174,13 +352,123 @@ struct PoemDetail: Codable { // 古诗详情
 }
 
 struct Poem: Codable { // 古诗
-    let detailid: Int
-    let title: String
-    let type: String
-    let content: String
-    let explanation: String
-    let appreciation: String
-    let author: String
+    let detailid: Int // 详情ID
+    let title: String // 名称
+    let type: String // 类型
+    let content: String // 内容
+    let explanation: String // 解释
+    let appreciation: String // 赏析
+    let author: String // 作者
+    
+    public func toJsonString() -> String {
+        do {
+            let jsonData = try JSONEncoder().encode(self)
+            if let jsonString = String(data: jsonData, encoding: .utf8) {
+                return jsonString
+            }
+        } catch {
+            print(error.localizedDescription)
+        }
+        return ""
+    }
+    
+    public static func getDetailid(_ jsonString: String) -> Int {
+        if let jsonData = jsonString.data(using: .utf8) {
+            do {
+                let poemResult = try JSONDecoder().decode(Poem.self, from: jsonData)
+                return poemResult.detailid
+            } catch {
+                print(error.localizedDescription)
+            }
+        } else {
+            print("jsonData提取失败！")
+        }
+        return -1
+    }
+    
+    public static func getTitle(_ jsonString: String) -> String {
+        if let jsonData = jsonString.data(using: .utf8) {
+            do {
+                let poemResult = try JSONDecoder().decode(Poem.self, from: jsonData)
+                return poemResult.title
+            } catch {
+                print(error.localizedDescription)
+            }
+        } else {
+            print("jsonData提取失败！")
+        }
+        return ""
+    }
+    
+    public static func getType(_ jsonString: String) -> String {
+        if let jsonData = jsonString.data(using: .utf8) {
+            do {
+                let poemResult = try JSONDecoder().decode(Poem.self, from: jsonData)
+                return poemResult.type
+            } catch {
+                print(error.localizedDescription)
+            }
+        } else {
+            print("jsonData提取失败！")
+        }
+        return ""
+    }
+    
+    public static func getContent(_ jsonString: String) -> String {
+        if let jsonData = jsonString.data(using: .utf8) {
+            do {
+                let poemResult = try JSONDecoder().decode(Poem.self, from: jsonData)
+                return poemResult.content
+            } catch {
+                print(error.localizedDescription)
+            }
+        } else {
+            print("jsonData提取失败！")
+        }
+        return ""
+    }
+    
+    public static func getExplanation(_ jsonString: String) -> String {
+        if let jsonData = jsonString.data(using: .utf8) {
+            do {
+                let poemResult = try JSONDecoder().decode(Poem.self, from: jsonData)
+                return poemResult.explanation
+            } catch {
+                print(error.localizedDescription)
+            }
+        } else {
+            print("jsonData提取失败！")
+        }
+        return ""
+    }
+    
+    public static func getAppreciation(_ jsonString: String) -> String {
+        if let jsonData = jsonString.data(using: .utf8) {
+            do {
+                let poemResult = try JSONDecoder().decode(Poem.self, from: jsonData)
+                return poemResult.appreciation
+            } catch {
+                print(error.localizedDescription)
+            }
+        } else {
+            print("jsonData提取失败！")
+        }
+        return ""
+    }
+    
+    public static func getAuthor(_ jsonString: String) -> String {
+        if let jsonData = jsonString.data(using: .utf8) {
+            do {
+                let poemResult = try JSONDecoder().decode(Poem.self, from: jsonData)
+                return poemResult.author
+            } catch {
+                print(error.localizedDescription)
+            }
+        } else {
+            print("jsonData提取失败！")
+        }
+        return ""
+    }
     
     static func getProperty(questionItem: QuestionItem, propety: String) -> String {
         if propety == "title" {
@@ -249,22 +537,48 @@ struct Ci: Codable {
     let explanation: String
 }
 
-struct BingJu {
-    static func getTypes(questionItem: QuestionItem) -> String {
-        if questionItem.rightAnswer.components(separatedBy: "/").count > 0 {
-            let types = questionItem.rightAnswer.components(separatedBy: "/")[0]
-            return types.replacingOccurrences(of: "&", with: "/")
-        } else {
-            return ""
+struct BingJu: Codable {
+    let sentence: String
+    let type: [String]
+    
+    public func toJsonString() -> String {
+        do {
+            let jsonData = try JSONEncoder().encode(self)
+            if let jsonString = String(data: jsonData, encoding: .utf8) {
+                return jsonString
+            }
+        } catch {
+            print(error.localizedDescription)
         }
+        return ""
     }
     
-    static func getSentence(questionItem: QuestionItem) -> String {
-        if questionItem.rightAnswer.components(separatedBy: "/").count > 1 {
-            return questionItem.rightAnswer.components(separatedBy: "/")[1]
+    public static func getSentence(_ jsonString: String) -> String {
+        if let jsonData = jsonString.data(using: .utf8) {
+            do {
+                let bingJuResult = try JSONDecoder().decode(BingJu.self, from: jsonData)
+                return bingJuResult.sentence
+            } catch {
+                print(error.localizedDescription)
+            }
         } else {
-            return ""
+            print("jsonData提取失败！")
         }
+        return ""
+    }
+    
+    public static func getType(_ jsonString: String) -> [String] {
+        if let jsonData = jsonString.data(using: .utf8) {
+            do {
+                let bingJuResult = try JSONDecoder().decode(BingJu.self, from: jsonData)
+                return bingJuResult.type
+            } catch {
+                print(error.localizedDescription)
+            }
+        } else {
+            print("jsonData提取失败！")
+        }
+        return [String]()
     }
 }
 

@@ -11,7 +11,6 @@ struct MistakeChengYuYiSiEditView: View {
     @ObservedObject var questionItem: QuestionItem
     
     @StateObject private var text = ObservableString(content: "")
-    @State private var example = "" // 例句
     @State private var showOCRView = false
     
     func save() {
@@ -20,8 +19,7 @@ struct MistakeChengYuYiSiEditView: View {
             let idiomDictionary = try JSONDecoder().decode([Idiom].self, from: idiomDictionaryData)
             let idiom = idiomDictionary.filter { $0.word == self.text.content }.first ?? Idiom(derivation: "", example: "", explanation: "", pinyin: "", word: "", abbreviation: "")
             if idiom.explanation != "" {
-                questionItem.question = idiom.explanation
-                example = idiom.example
+                questionItem.question = idiom.toJsonString()
             } else {
                 questionItem.question = "该成语不存在。"
             }
@@ -96,7 +94,7 @@ struct MistakeChengYuYiSiEditView: View {
                     Text("当前题目：")
                         .font(.system(size: 20))
                         .bold()
-                    Text("\(questionItem.question)")
+                    Text("\(Idiom.getExplanation(self.questionItem.question))")
                         .font(.system(size: 20))
                     Spacer()
                 }
@@ -112,7 +110,7 @@ struct MistakeChengYuYiSiEditView: View {
                     Text("例句：")
                         .font(.system(size: 20))
                         .bold()
-                    Text("\(self.example)")
+                    Text("\(Idiom.getExample(self.questionItem.question))")
                         .font(.system(size: 20))
                     Spacer()
                 }
@@ -124,7 +122,7 @@ struct MistakeChengYuYiSiEditView: View {
 }
 
 struct MistakeChengYuYiSiEditView_Previews: PreviewProvider {
-    @StateObject static var questionItem = QuestionItem(question: "东看看，西看看，形容四处张望。", rightAnswer: "东张西望")
+    @StateObject static var questionItem = QuestionItem(question: Idiom(derivation: "出自", example: "例句", explanation: "解释", pinyin: "拼音", word: "成语", abbreviation: "sx").toJsonString(), rightAnswer: "东张西望")
     
     static var previews: some View {
         MistakeChengYuYiSiEditView(questionItem: questionItem)

@@ -141,14 +141,6 @@ class Mistake: ObservableObject, Identifiable, Codable { // 错题
         }
     }
     
-    func toggleRevisionStatus() {
-        if self.revisionStatus == "true" {
-            self.revisionStatus = "false"
-        } else {
-            self.revisionStatus = "true"
-        }
-    }
-    
     enum CodingKeys: CodingKey {
         case subject
         case category

@@ -16,7 +16,6 @@ struct MistakeJinFanYiCiEditView: View {
     
     func save() {
         NetworkAPIFunctions.functions.jinFanYiCiSearch(word: self.text.content, type: type, questionItem: questionItem)
-        questionItem.question = self.text.content
     }
     
     var body: some View {
@@ -84,7 +83,7 @@ struct MistakeJinFanYiCiEditView: View {
                     Text("当前题目：")
                         .font(.system(size: 20))
                         .bold()
-                    Text("\(questionItem.question)")
+                    Text("\(JinFanYiCiResult.getWord(self.questionItem.question))")
                         .font(.system(size: 20))
                     Spacer()
                 }
@@ -105,7 +104,8 @@ struct MistakeJinFanYiCiEditView: View {
 
 struct MistakeJinFanYiCiEditView_Previews: PreviewProvider {
     static let type = MistakeCategory.JinYiCi.toString()
-    @StateObject static var questionItem = QuestionItem(question: "希罕", rightAnswer: "稀少")
+    @StateObject static var questionItem = QuestionItem(question: JinFanYiCiResult(word: "查询词语", pinyin: "拼音", content: "解释", jin: ["近义词1", "近义词2", "近义词3"], fan: ["反义词1", "反义词2", "反义词3"]).toJsonString(), rightAnswer: "答案")
+    
     static var previews: some View {
         MistakeJinFanYiCiEditView(type: type, questionItem: questionItem)
     }

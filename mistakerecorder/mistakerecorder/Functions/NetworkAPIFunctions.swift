@@ -151,6 +151,7 @@ class NetworkAPIFunctions {
             do {
                 let json = try JSONDecoder().decode(JinFanYiCi.self, from: responseStr.data(using: .utf8)!)
                 if json.status == 0 {
+                    questionItem.question = json.result.toJsonString()
                     if type == MistakeCategory.JinYiCi.toString() {
                         for item in json.result.jin {
                             questionItem.rightAnswer.append(item + "/")
@@ -193,12 +194,15 @@ class NetworkAPIFunctions {
             do {
                 let json = try JSONDecoder().decode(PoemDetail.self, from: responseStr.data(using: .utf8)!)
                 if json.status == 0 {
-                    questionItem.rightAnswer = self.removeHtmlLabels(str: json.result.type)
-                    questionItem.rightAnswer.append("/" + self.removeHtmlLabels(str: json.result.content))
-                    questionItem.rightAnswer.append("/" + self.removeHtmlLabels(str: json.result.explanation))
-                    questionItem.rightAnswer.append("/" + self.removeHtmlLabels(str: json.result.appreciation))
-                    questionItem.rightAnswer.append("/" + self.removeHtmlLabels(str: json.result.author))
-                    questionItem.rightAnswer.append("/" + self.removeHtmlLabels(str: json.result.title))
+                    let title = self.removeHtmlLabels(str: json.result.title)
+                    let type = self.removeHtmlLabels(str: json.result.type)
+                    let content = self.removeHtmlLabels(str: json.result.content)
+                    let explanation = self.removeHtmlLabels(str: json.result.explanation)
+                    let appreciation = self.removeHtmlLabels(str: json.result.appreciation)
+                    let author = self.removeHtmlLabels(str: json.result.author)
+                    let poem = Poem(detailid: json.result.detailid, title: title, type: type, content: content, explanation: explanation, appreciation: appreciation, author: author)
+                    questionItem.question = poem.toJsonString()
+                    questionItem.rightAnswer = content
                 } else {
                     print(json.msg)
                 }

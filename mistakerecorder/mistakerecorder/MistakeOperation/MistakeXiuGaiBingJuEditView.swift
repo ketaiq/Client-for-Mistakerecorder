@@ -19,15 +19,9 @@ struct MistakeXiuGaiBingJuEditView: View {
     @State private var magnifyText = ""
     
     func save() {
-        questionItem.question = self.wrongSentence.content
-        questionItem.rightAnswer = ""
-        for type in self.typeArray {
-            questionItem.rightAnswer.append(type + "&")
-        }
-        if questionItem.rightAnswer.last == "&" {
-            questionItem.rightAnswer.removeLast()
-        }
-        questionItem.rightAnswer.append("/" + self.rightSentence.content)
+        let bingJu = BingJu(sentence: self.wrongSentence.content, type: self.typeArray)
+        questionItem.question = bingJu.toJsonString()
+        questionItem.rightAnswer = self.rightSentence.content
     }
     
     var body: some View {
@@ -160,7 +154,7 @@ struct MistakeXiuGaiBingJuEditView: View {
                         Text("当前题目：")
                             .font(.system(size: 20))
                             .bold()
-                        Text("\(questionItem.question)")
+                        Text("\(BingJu.getSentence(self.questionItem.question))")
                             .font(.system(size: 20))
                         Spacer()
                     }
@@ -168,15 +162,19 @@ struct MistakeXiuGaiBingJuEditView: View {
                         Text("病句类型：")
                             .font(.system(size: 20))
                             .bold()
-                        Text("\(BingJu.getTypes(questionItem: questionItem))")
-                            .font(.system(size: 20))
-                        Spacer()
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            HStack(spacing: 25) {
+                                ForEach(BingJu.getType(self.questionItem.question).indices, id: \.self) { index in
+                                    Text("\(BingJu.getType(self.questionItem.question)[index])").font(.system(size: 20))
+                                }
+                            }
+                        }
                     }
                     HStack {
                         Text("当前答案：")
                             .font(.system(size: 20))
                             .bold()
-                        Text("\(BingJu.getSentence(questionItem: questionItem))")
+                        Text("\(self.questionItem.rightAnswer)")
                             .font(.system(size: 20))
                         Spacer()
                     }
@@ -191,7 +189,7 @@ struct MistakeXiuGaiBingJuEditView: View {
 }
 
 struct MistakeXiuGaiBingJuEditView_Previews: PreviewProvider {
-    @StateObject static var questionItem = QuestionItem(question: "为了班集体，做了很多好事。", rightAnswer: "成分残缺&用词不当/为了班集体，小明做了很多好事。")
+    @StateObject static var questionItem = QuestionItem(question: BingJu(sentence: "为了班集体，做了很多好事。", type: ["成分残缺", "用词不当"]).toJsonString(), rightAnswer: "为了班集体，小明做了很多好事。")
     
     static var previews: some View {
         MistakeXiuGaiBingJuEditView(questionItem: questionItem)
