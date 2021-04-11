@@ -132,10 +132,6 @@ struct RevisingCardEditSubview: View {
     var body: some View {
         ZStack {
             VStack {
-                TextEditor(text: self.$answerText)
-                    .autocapitalization(.none)
-                    .disableAutocorrection(true)
-                    .padding(.vertical)
                 HStack {
                     Button(action: {
                         self.answerText = ""
@@ -273,9 +269,8 @@ struct RevisingCardFoldSubview: View {
             Spacer()
         }
         .padding(.horizontal)
-        .frame(
-            width: mistake.isRevising() ? .infinity : 320,
-            height: mistake.isRevising() ? 300 : 250)
+        .frame(height: mistake.isRevising() ? 300 : 250)
+        .frame(maxWidth: mistake.isRevising() ? .infinity : 320)
         .background(Color.green)
         .clipShape(RoundedRectangle(cornerRadius: 20, style: /*@START_MENU_TOKEN@*/.continuous/*@END_MENU_TOKEN@*/))
         .shadow(color: Color.green.opacity(0.8), radius: 20, x: 0, y: 20)
@@ -285,6 +280,5 @@ struct RevisingCardFoldSubview: View {
             activeIndex = index
             hideKeyboard()
         }
-        .statusBar(hidden: self.fullScreenActive)
     }
 }

@@ -11,42 +11,38 @@ let screen = UIScreen.main.bounds
 
 struct HomeView: View {
     @ObservedObject var user: User
-    @State private var showingUserMenuView = false
-    @State private var userMenuViewDragPosition = CGSize.zero
-    @State private var fullScreenActive = false
     
+    @State private var showUserMenuView = false
+    @State private var userMenuViewDragPosition = CGSize.zero
+    @State private var showReviseAnswerView = false
+    @State private var mistakeIndex = 0
     
     var body: some View {
         ZStack {
             Color(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1))
-                .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
-            VStack(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/, spacing: 0, content: {
+                .edgesIgnoringSafeArea(.all)
+            
+            VStack {
                 ScrollView(showsIndicators: false) {
-                    VStack {
-                        TitleSubview(user: user, showingUserMenuView: self.$showingUserMenuView,
-                                     fullScreenActive: self.$fullScreenActive)
-                        CardsSubview(user: user, fullScreenActive: self.$fullScreenActive)
-                    }
-                    .frame(width: screen.width)
-                    .animation(.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0))
+                    TitleSubview(user: user, showingUserMenuView: self.$showUserMenuView)
+                    CardsSubview(user: user, showReviseAnswerView: self.$showReviseAnswerView, mistakeIndex: self.$mistakeIndex)
                 }
-            })
+            }
             .background(Color.white)
-            .clipShape(RoundedRectangle(cornerRadius: self.showingUserMenuView ? 30 : 0, style: .continuous))
+            .clipShape(RoundedRectangle(cornerRadius: self.showUserMenuView ? 30 : 0, style: .continuous))
             .shadow(color: Color.black.opacity(0.2), radius: 20, x: 0.0, y: 20)
-            .offset(y: self.showingUserMenuView ? -430 : 0)
+            .offset(y: self.showUserMenuView ? -430 : 0)
             .offset(y: self.userMenuViewDragPosition.height)
             .rotation3DEffect(
-                Angle(degrees: self.showingUserMenuView ? Double(self.userMenuViewDragPosition.height / 10) - 10 : 0),
+                Angle(degrees: self.showUserMenuView ? Double(self.userMenuViewDragPosition.height / 10) - 10 : 0),
                 axis: (x: 1.0, y: 0.0, z: 0.0))
-            .scaleEffect(self.showingUserMenuView ? 0.75 : 1)
-            .statusBar(hidden: self.fullScreenActive ? true : false)
-            .animation(.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0))
+            .scaleEffect(self.showUserMenuView ? 0.75 : 1)
             .edgesIgnoringSafeArea(.all)
+            .animation(.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0))
             
             UserMenuView(user: user)
                 .background(Color.black.opacity(0.001))
-                .offset(y: self.showingUserMenuView ? 0 : screen.height)
+                .offset(y: self.showUserMenuView ? 0 : screen.height)
                 .offset(y: self.userMenuViewDragPosition.height)
                 .animation(.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0))
                 .gesture(
@@ -56,11 +52,16 @@ struct HomeView: View {
                         }
                         .onEnded { value in
                             if self.userMenuViewDragPosition.height > 50 {
-                                self.showingUserMenuView = false
+                                self.showUserMenuView = false
                             }
                             self.userMenuViewDragPosition = .zero
                         }
                 )
+            
+            ReviseAnswerView(mistake: self.user.mistakeList[self.mistakeIndex], showReviseAnswerView: self.$showReviseAnswerView)
+                .opacity(self.showReviseAnswerView ? 1 : 0)
+                .scaleEffect(self.showReviseAnswerView ? 1 : 0.5)
+                .animation(.easeInOut)
         }
     }
 }
@@ -75,15 +76,13 @@ struct HomeView_Previews: PreviewProvider {
 struct TitleSubview: View {
     @ObservedObject var user: User
     @Binding var showingUserMenuView: Bool
-    @Binding var fullScreenActive: Bool
     
     var body: some View {
         HStack {
             Text("今日待复习错题")
                 .foregroundColor(.black)
                 .font(.largeTitle)
-                .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-                .blur(radius: fullScreenActive ? 20 : 0)
+                .fontWeight(.bold)
             Spacer()
             Button(action: {
                 showingUserMenuView.toggle()
@@ -101,8 +100,8 @@ struct TitleSubview: View {
 
 struct CardsSubview: View {
     @ObservedObject var user: User
-    @Binding var fullScreenActive: Bool
-    @State private var activeIndex = -1
+    @Binding var showReviseAnswerView: Bool
+    @Binding var mistakeIndex: Int
     
     var body: some View {
         ForEach(user.mistakeList.indices, id: \.self) { index in
@@ -110,22 +109,14 @@ struct CardsSubview: View {
             let current = DateFunctions.functions.currentDate()
             
             if DateFunctions.functions.greaterEqualThan(date1Str: current, date2Str: mistake.nextRevisionDate) {
-                GeometryReader { geometry in
-                    RevisingMistakeCardView(
-                        mistake: mistake,
-                        fullScreenActive: $fullScreenActive,
-                        index: index,
-                        activeIndex: $activeIndex)
-                        .offset(y: mistake.isRevising() ? -geometry.frame(in: .global).minY : 0)
-                        .opacity(self.activeIndex != index && self.fullScreenActive ? 0 : 1)
-                        .scaleEffect(self.activeIndex != index && self.fullScreenActive ? 0.5 : 1)
-                        .offset(x: self.activeIndex != index && self.fullScreenActive ? screen.width : 0)
-                }
-                .frame(height: 250)
-                .frame(maxWidth: mistake.isRevising() ? .infinity : 320)
-                .zIndex(mistake.isRevising() ? 1 : 0)
+                ReviseCardView(mistake: mistake)
+                    .padding()
+                    .onTapGesture {
+                        self.mistakeIndex = index
+                        self.showReviseAnswerView = true
+                    }
             }
         }
-        .padding()
+        .frame(maxWidth: .infinity)
     }
 }

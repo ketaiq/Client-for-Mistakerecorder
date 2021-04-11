@@ -63,6 +63,14 @@ enum MistakeCategory {
             return false
         }
     }
+    
+    public static func isLongTextCategory(_ category: String) -> Bool {
+        if category == MistakeCategory.PinYinXieCi.toString() || category == MistakeCategory.ChengYuYiSi.toString() || category == MistakeCategory.JinYiCi.toString() || category == MistakeCategory.FanYiCi.toString() || category == MistakeCategory.ZuCi.toString() {
+            return false
+        } else {
+            return true
+        }
+    }
 }
 
 class PinYinXieCi: ObservableObject {
