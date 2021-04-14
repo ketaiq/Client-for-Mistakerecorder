@@ -58,7 +58,7 @@ struct HomeView: View {
                         }
                 )
             
-            ReviseAnswerView(mistake: self.user.mistakeList[self.mistakeIndex], showReviseAnswerView: self.$showReviseAnswerView)
+            ReviseAnswerView(mistake: self.user.mistakeList[self.mistakeIndex], answers: ObservableStringArray(self.user.mistakeList[self.mistakeIndex].questionItems.count), showReviseAnswerView: self.$showReviseAnswerView)
                 .opacity(self.showReviseAnswerView ? 1 : 0)
                 .scaleEffect(self.showReviseAnswerView ? 1 : 0.5)
                 .animation(.easeInOut)

@@ -144,8 +144,8 @@ struct MistakeStandardEditView: View {
 
 struct MistakeStandardEditView_Previews: PreviewProvider {
     @StateObject static var questionItem = QuestionItem(question: "题目一", rightAnswer: "答案一")
-    @StateObject static var questionText = ObservableString(content: "请在此输入题目...")
-    @StateObject static var answerText = ObservableString(content: "请在此输入答案...")
+    @StateObject static var questionText = ObservableString("请在此输入题目...")
+    @StateObject static var answerText = ObservableString("请在此输入答案...")
     @State static var editStatus = false
     
     static var previews: some View {

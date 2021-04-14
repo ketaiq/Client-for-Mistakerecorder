@@ -9,7 +9,85 @@ import SwiftUI
 
 struct ReviseAnswerView: View {
     @ObservedObject var mistake: Mistake
+    @ObservedObject var answers: ObservableStringArray
     @Binding var showReviseAnswerView: Bool
+    
+    @State private var showEvaluationView = false
+    
+    private func evaluateAnswers() {
+        var rightAnswerNum: Double = 0
+        var wrongAnswerNum: Double = 0
+        
+        if MistakeCategory.isPresetCategory(category: self.mistake.category) {
+            if self.mistake.category == MistakeCategory.PinYinXieCi.toString() || self.mistake.category == MistakeCategory.ChengYuYiSi.toString() {
+                for index in 0 ..< self.mistake.questionItems.count {
+                    if self.answers.list[index].content == self.mistake.questionItems[index].rightAnswer { // 答对
+                        rightAnswerNum += 1
+                    } else { // 答错
+                        wrongAnswerNum += 1
+                    }
+                }
+            } else if self.mistake.category == MistakeCategory.JinYiCi.toString() || self.mistake.category == MistakeCategory.FanYiCi.toString() || self.mistake.category == MistakeCategory.ZuCi.toString() {
+                for index in 0 ..< self.mistake.questionItems.count {
+                    if self.mistake.questionItems[index].rightAnswer.contains(self.answers.list[index].content) { // 答对
+                        rightAnswerNum += 1
+                    } else { // 答错
+                        wrongAnswerNum += 1
+                    }
+                }
+            } else if self.mistake.category == MistakeCategory.MoXieGuShi.toString() || self.mistake.category == MistakeCategory.XiuGaiBingJu.toString() {
+                for index in 0 ..< self.mistake.questionItems.count {
+                    let punctuations = CharacterSet(charactersIn: ".,。，；")
+                    // 去除标点符号
+                    let guShiWithoutPunctuations  = self.mistake.questionItems[index].rightAnswer.trimmingCharacters(in: punctuations)
+                    let answerWithoutPunctuations = self.answers.list[index].content.trimmingCharacters(in: punctuations)
+                    if guShiWithoutPunctuations == answerWithoutPunctuations { // 答对
+                        rightAnswerNum += 1
+                    } else { // 答错
+                        wrongAnswerNum += 1
+                    }
+                }
+            }
+        } else {
+            for index in 0 ..< self.mistake.questionItems.count {
+                if self.mistake.questionItems[index].rightAnswer == self.answers.list[index].content { // 答对
+                    rightAnswerNum += 1
+                } else { // 答错
+                    wrongAnswerNum += 1
+                }
+            }
+        }
+        
+        // 记录复习结果
+        let accurateRatio = rightAnswerNum / (rightAnswerNum + wrongAnswerNum)
+        if accurateRatio >= 0.8 {
+            mistake.revisedRecords.append(RevisedRecord(revisedDate: DateFunctions.functions.currentDate(), revisedPerformance: "掌握"))
+        } else if accurateRatio >= 0.4 && accurateRatio < 0.8 {
+            mistake.revisedRecords.append(RevisedRecord(revisedDate: DateFunctions.functions.currentDate(), revisedPerformance: "模糊"))
+        } else {
+            mistake.revisedRecords.append(RevisedRecord(revisedDate: DateFunctions.functions.currentDate(), revisedPerformance: "忘记"))
+        }
+    }
+    
+    private func planNextRevisionDate() {
+        // 计算下一次复习时间
+        let revisedCount = mistake.revisedRecords.count
+        let lastRevisedPerformance = mistake.revisedRecords[revisedCount - 1].revisedPerformance
+        let lastRevisedDate = mistake.revisedRecords[revisedCount - 1].revisedDate
+        if revisedCount == 1 { // 第一次复习
+            mistake.nextRevisionDate = DateFunctions.functions.addDate(startDate: lastRevisedDate, addition: 1) // 无论第一次复习结果如何，都是第二天继续需要复习
+        } else { // 复习次数 >= 2
+            let secondToLastRevisedDate = mistake.revisedRecords[revisedCount - 2].revisedDate // 倒数第二次的复习日期
+            let intervalDays = DateFunctions.functions.subtractDate(startDate: secondToLastRevisedDate, endDate: lastRevisedDate) // 最后两次复习之间的间隔天数
+            if lastRevisedPerformance == "掌握" {
+                mistake.nextRevisionDate = DateFunctions.functions.addDate(startDate: lastRevisedDate, addition: Int((Double(intervalDays) * 1.5).rounded()))
+            } else if lastRevisedPerformance == "模糊" {
+                mistake.nextRevisionDate = DateFunctions.functions.addDate(startDate: lastRevisedDate, addition: intervalDays)
+            } else { // 忘记
+                mistake.nextRevisionDate = DateFunctions.functions.addDate(startDate: lastRevisedDate, addition: 1)
+            }
+        }
+    }
     
     var body: some View {
         ZStack {
@@ -26,7 +104,7 @@ struct ReviseAnswerView: View {
                 
                 ScrollView(showsIndicators: false) {
                     ForEach(self.mistake.questionItems.indices, id: \.self) { index in
-                        ReviseAnswerItemSubview(mistake: self.mistake, questionItemIndex: index)
+                        ReviseAnswerItemSubview(mistake: self.mistake, answers: self.answers, questionItemIndex: index)
                     }
                 }
                 .padding(.horizontal)
@@ -57,6 +135,8 @@ struct ReviseAnswerView: View {
                     })
                     Spacer()
                     Button(action: {
+                        self.evaluateAnswers()
+                        self.planNextRevisionDate()
                         
                     }, label: {
                         Text("完成")
@@ -115,17 +195,19 @@ struct ReviseAnswerView_Previews: PreviewProvider {
                 QuestionItem(question: BingJu(sentence: "为了班集体，做了很多好事。2", type: ["成分残缺", "用词不当"]).toJsonString(), rightAnswer: "为了班集体，小明做了很多好事。"),
                 QuestionItem(question: BingJu(sentence: "为了班集体，做了很多好事。3", type: ["成分残缺", "用词不当"]).toJsonString(), rightAnswer: "为了班集体，小明做了很多好事。")
             ])
+    @StateObject static var answers = ObservableStringArray(3)
     @State static var showReviseAnswerView = false
     static var previews: some View {
-        ReviseAnswerView(mistake: mistakeMoXieGuShi, showReviseAnswerView: $showReviseAnswerView)
+        ReviseAnswerView(mistake: mistakeMoXieGuShi, answers: answers, showReviseAnswerView: $showReviseAnswerView)
     }
 }
 
 struct ReviseAnswerItemSubview: View {
     @ObservedObject var mistake: Mistake
-    @StateObject private var text = ObservableString(content: "答案一")
-    @State private var showOCRView = false
+    @ObservedObject var answers: ObservableStringArray
     var questionItemIndex: Int
+    
+    @State private var showOCRView = false
     
     var question: some View {
         HStack(spacing: 0) {
@@ -186,11 +268,11 @@ struct ReviseAnswerItemSubview: View {
                         .font(.system(size: 30))
                 })
                 .sheet(isPresented: self.$showOCRView) {
-                    MistakeOCRView(text: self.text, showMistakeOCRView: self.$showOCRView)
+                    MistakeOCRView(text: self.answers.list[self.questionItemIndex], showMistakeOCRView: self.$showOCRView)
                 }
                 
                 Button(action: {
-                    self.text.content = ""
+                    self.answers.list[self.questionItemIndex].content = ""
                 }, label: {
                     Image(systemName: "clear")
                         .foregroundColor(Color.black)
@@ -200,7 +282,7 @@ struct ReviseAnswerItemSubview: View {
             }
             
             if MistakeCategory.isLongTextCategory(self.mistake.category) {
-                TextEditor(text: self.$text.content)
+                TextEditor(text: self.$answers.list[self.questionItemIndex].content)
                     .font(.system(size: 18))
                     .autocapitalization(.none)
                     .disableAutocorrection(true)
@@ -210,7 +292,7 @@ struct ReviseAnswerItemSubview: View {
                     .background(Color.white)
                     .cornerRadius(5)
             } else {
-                TextField("请在此输入答案...", text: self.$text.content)
+                TextField("请在此输入答案...", text: self.$answers.list[self.questionItemIndex].content)
                     .font(.system(size: 18))
                     .autocapitalization(.none)
                     .disableAutocorrection(true)

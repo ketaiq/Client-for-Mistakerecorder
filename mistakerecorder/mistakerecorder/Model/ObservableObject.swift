@@ -10,15 +10,18 @@ import Foundation
 class ObservableString: ObservableObject {
     @Published var content: String
     
-    init(content: String) {
+    init(_ content: String) {
         self.content = content
     }
 }
 
-class ObservableBool: ObservableObject {
-    @Published var value: Bool
+class ObservableStringArray: ObservableObject {
+    @Published var list: [ObservableString]
     
-    init(_ value: Bool) {
-        self.value = value
+    init(_ num: Int) {
+        self.list = [ObservableString]()
+        for _ in 1...num {
+            self.list.append(ObservableString(""))
+        }
     }
 }

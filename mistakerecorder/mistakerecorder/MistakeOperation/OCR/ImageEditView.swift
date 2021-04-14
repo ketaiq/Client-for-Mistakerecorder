@@ -107,7 +107,7 @@ struct ImageEditView: View {
 }
 
 struct ImageEditView_Previews: PreviewProvider {
-    @State static var text = ObservableString(content: "测试文字")
+    @State static var text = ObservableString("测试文字")
     @State static var image = UIImage(named: "ac84bcb7d0a20cf4800d77cc74094b36acaf990f")!
     @State static var showMistakeOCRView = true
     

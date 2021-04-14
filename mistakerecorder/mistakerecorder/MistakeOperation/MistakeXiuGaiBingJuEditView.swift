@@ -10,8 +10,8 @@ import SwiftUI
 struct MistakeXiuGaiBingJuEditView: View {
     @ObservedObject var questionItem: QuestionItem
     
-    @StateObject private var wrongSentence = ObservableString(content: "")
-    @StateObject private var rightSentence = ObservableString(content: "")
+    @StateObject private var wrongSentence = ObservableString("")
+    @StateObject private var rightSentence = ObservableString("")
     @State private var typeArray = [String]()
     @State private var showWrongSentenceOCRView = false
     @State private var showRightSentenceOCRView = false

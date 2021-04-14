@@ -281,7 +281,7 @@ struct ItemCategorySubview: View {
 
 struct ItemQuestionDescriptionSubview: View {
     @Binding var questionDescription: String
-    @StateObject private var text = ObservableString(content: "请在此输入题干描述...")
+    @StateObject private var text = ObservableString("请在此输入题干描述...")
     @State private var editStatus = false
     @State private var emptyAlert = false
     @State private var showOCRView = false
@@ -393,8 +393,8 @@ struct ItemQuestionDescriptionSubview: View {
 
 struct ItemQuestionAndAnswerSubview: View {
     @ObservedObject var questionItem: QuestionItem
-    @StateObject private var questionText = ObservableString(content: "请在此输入题目...")
-    @StateObject private var answerText = ObservableString(content: "请在此输入答案...")
+    @StateObject private var questionText = ObservableString("请在此输入题目...")
+    @StateObject private var answerText = ObservableString("请在此输入答案...")
     @State private var editStatus = false
     
     var body: some View {

@@ -10,8 +10,8 @@ import SwiftUI
 struct MistakeMoXieGuShiEditView: View {
     @ObservedObject var questionItem: QuestionItem
     
-    @StateObject private var title = ObservableString(content: "")
-    @StateObject private var author = ObservableString(content: "")
+    @StateObject private var title = ObservableString("")
+    @StateObject private var author = ObservableString("")
     @State private var showTitleOCRView = false
     @State private var showAuthorOCRView = false
     @State private var showMagnifyTextView = false

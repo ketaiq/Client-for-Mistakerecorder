@@ -85,7 +85,7 @@ struct MistakeOCRView: View {
 
 struct MistakeOCRView_Previews: PreviewProvider {
     @State static var showMistakeOCRView = true
-    @State static var text = ObservableString(content: "测试文字")
+    @State static var text = ObservableString("测试文字")
     
     static var previews: some View {
         MistakeOCRView(text: text, showMistakeOCRView: $showMistakeOCRView)

@@ -11,7 +11,7 @@ struct MistakePinYinXieCiEditView: View {
     @ObservedObject var questionItem: QuestionItem
     
     @StateObject private var pin_yin_xie_ci = PinYinXieCi()
-    @StateObject private var text = ObservableString(content: "")
+    @StateObject private var text = ObservableString("")
     @State private var committed = false
     @State private var columns: [GridItem] = Array(repeating: .init(.flexible()), count: 2)
     @State private var showOCRView = false

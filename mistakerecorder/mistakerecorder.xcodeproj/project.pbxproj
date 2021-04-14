@@ -40,7 +40,6 @@
 		0B91500E25BE6E2400122F38 /* ForgetPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B91500D25BE6E2400122F38 /* ForgetPasswordView.swift */; };
 		0B91501325BE717200122F38 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B91501225BE717200122F38 /* HomeView.swift */; };
 		0B91501825BE734600122F38 /* TabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B91501725BE734600122F38 /* TabBar.swift */; };
-		0B91503D25C015E700122F38 /* RevisingMistakeCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B91503C25C015E700122F38 /* RevisingMistakeCardView.swift */; };
 		0B91504725C0FFFB00122F38 /* UserMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B91504625C0FFFB00122F38 /* UserMenuView.swift */; };
 		0B91505925C29CB700122F38 /* MistakeListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B91505825C29CB700122F38 /* MistakeListView.swift */; };
 		0B967FDE25FC94B900A6D704 /* MistakeOCRView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B967FDD25FC94B900A6D704 /* MistakeOCRView.swift */; };
@@ -127,7 +126,6 @@
 		0B91500D25BE6E2400122F38 /* ForgetPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgetPasswordView.swift; sourceTree = "<group>"; };
 		0B91501225BE717200122F38 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		0B91501725BE734600122F38 /* TabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBar.swift; sourceTree = "<group>"; };
-		0B91503C25C015E700122F38 /* RevisingMistakeCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RevisingMistakeCardView.swift; sourceTree = "<group>"; };
 		0B91504625C0FFFB00122F38 /* UserMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserMenuView.swift; sourceTree = "<group>"; };
 		0B91505825C29CB700122F38 /* MistakeListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistakeListView.swift; sourceTree = "<group>"; };
 		0B967FDD25FC94B900A6D704 /* MistakeOCRView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistakeOCRView.swift; sourceTree = "<group>"; };
@@ -285,7 +283,6 @@
 			isa = PBXGroup;
 			children = (
 				0B91501225BE717200122F38 /* HomeView.swift */,
-				0B91503C25C015E700122F38 /* RevisingMistakeCardView.swift */,
 				0B0A5AAA2622DC45009B267D /* ReviseCardView.swift */,
 				0B0A5AAF2622DC54009B267D /* ReviseAnswerView.swift */,
 				0BE1FE5F25E64C22009B8631 /* EvaluationView.swift */,
@@ -535,7 +532,6 @@
 				0B91500125BBCAEF00122F38 /* RegisterTextField.swift in Sources */,
 				0B91501825BE734600122F38 /* TabBar.swift in Sources */,
 				0B16F4C825E0D7FB00C055DB /* RevisedRecordsCalendarView.swift in Sources */,
-				0B91503D25C015E700122F38 /* RevisingMistakeCardView.swift in Sources */,
 				0B0A5AB02622DC54009B267D /* ReviseAnswerView.swift in Sources */,
 				0B16F4FF25E4A32000C055DB /* LottieView.swift in Sources */,
 				0BC07E022614647A004D790E /* MistakeMoXieGuShiEditView.swift in Sources */,

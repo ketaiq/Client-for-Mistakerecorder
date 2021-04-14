@@ -10,7 +10,7 @@ import SwiftUI
 struct MistakeZuCiEditView: View {
     @ObservedObject var questionItem: QuestionItem
     
-    @StateObject private var text = ObservableString(content: "")
+    @StateObject private var text = ObservableString("")
     @State private var showOCRView = false
     
     func save() {

@@ -46,7 +46,7 @@ struct ImageOCRView: View {
 }
 
 struct ImageOCRView_Previews: PreviewProvider {
-    @StateObject static var text = ObservableString(content: "曾经沧海难为水，除却巫山不是云。")
+    @StateObject static var text = ObservableString("曾经沧海难为水，除却巫山不是云。")
     @State static var croppedImage = UIImage(named: "测试手写汉字")!
     @State static var showMistakeOCRView = false
     @State static var showCroppedImage = false

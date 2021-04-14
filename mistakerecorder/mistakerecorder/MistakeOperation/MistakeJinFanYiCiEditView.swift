@@ -11,7 +11,7 @@ struct MistakeJinFanYiCiEditView: View {
     var type: String // 近义词或反义词
     @ObservedObject var questionItem: QuestionItem
     
-    @StateObject private var text = ObservableString(content: "")
+    @StateObject private var text = ObservableString("")
     @State private var showOCRView = false
     
     func save() {
