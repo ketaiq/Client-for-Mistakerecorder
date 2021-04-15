@@ -13,26 +13,25 @@ struct ReviseAnswerView: View {
     @Binding var showReviseAnswerView: Bool
     
     @State private var showEvaluationView = false
+    @State private var rightAnswerNum: Double = 0
+    @State private var wrongAnswerNum: Double = 0
     
     private func evaluateAnswers() {
-        var rightAnswerNum: Double = 0
-        var wrongAnswerNum: Double = 0
-        
         if MistakeCategory.isPresetCategory(category: self.mistake.category) {
             if self.mistake.category == MistakeCategory.PinYinXieCi.toString() || self.mistake.category == MistakeCategory.ChengYuYiSi.toString() {
                 for index in 0 ..< self.mistake.questionItems.count {
                     if self.answers.list[index].content == self.mistake.questionItems[index].rightAnswer { // 答对
-                        rightAnswerNum += 1
+                        self.rightAnswerNum += 1
                     } else { // 答错
-                        wrongAnswerNum += 1
+                        self.wrongAnswerNum += 1
                     }
                 }
             } else if self.mistake.category == MistakeCategory.JinYiCi.toString() || self.mistake.category == MistakeCategory.FanYiCi.toString() || self.mistake.category == MistakeCategory.ZuCi.toString() {
                 for index in 0 ..< self.mistake.questionItems.count {
                     if self.mistake.questionItems[index].rightAnswer.contains(self.answers.list[index].content) { // 答对
-                        rightAnswerNum += 1
+                        self.rightAnswerNum += 1
                     } else { // 答错
-                        wrongAnswerNum += 1
+                        self.wrongAnswerNum += 1
                     }
                 }
             } else if self.mistake.category == MistakeCategory.MoXieGuShi.toString() || self.mistake.category == MistakeCategory.XiuGaiBingJu.toString() {
@@ -42,24 +41,24 @@ struct ReviseAnswerView: View {
                     let guShiWithoutPunctuations  = self.mistake.questionItems[index].rightAnswer.trimmingCharacters(in: punctuations)
                     let answerWithoutPunctuations = self.answers.list[index].content.trimmingCharacters(in: punctuations)
                     if guShiWithoutPunctuations == answerWithoutPunctuations { // 答对
-                        rightAnswerNum += 1
+                        self.rightAnswerNum += 1
                     } else { // 答错
-                        wrongAnswerNum += 1
+                        self.wrongAnswerNum += 1
                     }
                 }
             }
         } else {
             for index in 0 ..< self.mistake.questionItems.count {
                 if self.mistake.questionItems[index].rightAnswer == self.answers.list[index].content { // 答对
-                    rightAnswerNum += 1
+                    self.rightAnswerNum += 1
                 } else { // 答错
-                    wrongAnswerNum += 1
+                    self.wrongAnswerNum += 1
                 }
             }
         }
         
         // 记录复习结果
-        let accurateRatio = rightAnswerNum / (rightAnswerNum + wrongAnswerNum)
+        let accurateRatio = self.rightAnswerNum / (self.rightAnswerNum + self.wrongAnswerNum)
         if accurateRatio >= 0.8 {
             mistake.revisedRecords.append(RevisedRecord(revisedDate: DateFunctions.functions.currentDate(), revisedPerformance: "掌握"))
         } else if accurateRatio >= 0.4 && accurateRatio < 0.8 {
@@ -137,9 +136,9 @@ struct ReviseAnswerView: View {
                     Button(action: {
                         self.evaluateAnswers()
                         self.planNextRevisionDate()
-                        
+                        self.showEvaluationView = true
                     }, label: {
-                        Text("完成")
+                        Text("批改")
                             .foregroundColor(Color(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)))
                             .font(.system(size: 20))
                             .padding(.vertical, 5)
@@ -150,6 +149,10 @@ struct ReviseAnswerView: View {
                 }
                 .padding(10)
                 .background(Color(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)))
+            }
+            
+            if self.showEvaluationView {
+                EvaluationView(mistake: self.mistake, showEvaluationView: self.$showEvaluationView, rightAnswerNum: self.$rightAnswerNum, wrongAnswerNum: self.$wrongAnswerNum)
             }
         }
     }

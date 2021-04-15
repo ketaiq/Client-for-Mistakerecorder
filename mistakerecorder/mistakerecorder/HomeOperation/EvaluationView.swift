@@ -8,11 +8,12 @@
 import SwiftUI
 
 struct EvaluationView: View {
-    var answers: [String]
-    var mistake: Mistake
-    @Binding var showEvaluationResult: Bool
+    @ObservedObject var mistake: Mistake
+    @Binding var showEvaluationView: Bool
+    @Binding var rightAnswerNum: Double
+    @Binding var wrongAnswerNum: Double
+    
     @State private var show = false
-    @State private var columns: [GridItem] = Array(repeating: .init(.flexible()), count: 3)
     
     func revisedRecordColor() -> Color {
         let performance = mistake.revisedRecords[mistake.revisedRecords.count - 1].revisedPerformance
@@ -29,64 +30,68 @@ struct EvaluationView: View {
     
     var body: some View {
         ZStack {
-            LottieView(filename: "congratulations", isLoop: false)
-                .frame(width: 300, height: 400)
             VStack {
                 HStack {
                     Text("复习情况：")
-                        .font(.title)
+                        .font(.system(size: 30, weight: .bold))
                         .bold()
                     Text("\(mistake.revisedRecords[mistake.revisedRecords.count - 1].revisedPerformance)")
-                        .font(.title)
+                        .font(.system(size: 30, weight: .bold))
                         .bold()
-                        .foregroundColor(revisedRecordColor())
+                        .foregroundColor(self.revisedRecordColor())
                     Spacer()
                     Image(systemName: "xmark.circle.fill")
                         .foregroundColor(Color(#colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)))
-                        .font(.title)
+                        .font(.system(size: 30, weight: .bold))
                         .onTapGesture {
-                            self.showEvaluationResult = false
+                            self.showEvaluationView = false
                         }
                 }
-                .padding(.horizontal)
-                .padding(.top)
-                LazyVGrid(columns: columns) {
-                    Text("你的答案").bold()
-                    Text("正确答案").bold()
-                    Text("评价").bold()
-                }
-                ScrollView(showsIndicators: false) {
-                    LazyVGrid(columns: columns) {
-                        ForEach(mistake.questionItems.indices, id: \.self) { index in
-                            if index >= answers.count {
-                                Text("")
-                                Text(mistake.questionItems[index].rightAnswer)
-                                LottieView(filename: "failed", isLoop: false)
-                            } else if index < answers.count && mistake.questionItems[index].rightAnswer != answers[index] {
-                                Text(answers[index])
-                                Text(mistake.questionItems[index].rightAnswer)
-                                LottieView(filename: "failed", isLoop: false)
-                            } else {
-                                Text(answers[index])
-                                Text(mistake.questionItems[index].rightAnswer)
-                                LottieView(filename: "success", isLoop: false)
-                            }
-                        }
+                .padding(.top, 20)
+                Spacer()
+                VStack(alignment: .leading, spacing: 20) {
+                    HStack {
+                        Image(systemName: "checkmark.circle.fill")
+                            .foregroundColor(.green)
+                            .font(.system(size: 30))
+                        Text("正确个数：\(Int(self.rightAnswerNum))")
+                            .font(.system(size: 24))
+                    }
+                    HStack {
+                        Image(systemName: "xmark.circle.fill")
+                            .foregroundColor(.red)
+                            .font(.system(size: 30))
+                        Text("错误个数：\(Int(self.wrongAnswerNum))")
+                            .font(.system(size: 24))
+                    }
+                    HStack {
+                        Image(systemName: "exclamationmark.circle.fill")
+                            .foregroundColor(.yellow)
+                            .font(.system(size: 30))
+                        Text("准确率：\(String(format: "%.3f", self.rightAnswerNum / (self.rightAnswerNum + self.wrongAnswerNum)))")
+                            .font(.system(size: 24))
                     }
                 }
+                .padding(.vertical)
+                Spacer()
             }
-        }
-        .frame(width: 300, height: 500)
-        .background(Color(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)))
-        .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous))
-        .shadow(color: Color.black.opacity(0.2), radius: 30, x: 0, y: 30)
-        .scaleEffect(self.show ? 1 : 0.5)
-        .animation(.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0))
-        .onAppear {
-            self.show = true
+            .padding(.horizontal)
+            .frame(width: 350, height: 300)
+            .background(Color(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)))
+            .opacity(self.show ? 1 : 0)
+            .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous))
+            .shadow(color: Color.black.opacity(0.2), radius: 30, x: 0, y: 30)
+            .scaleEffect(self.show ? 1 : 0.5)
+            .onAppear {
+                self.show = true
+            }
+            .animation(.easeInOut)
+            
+            LottieView(filename: "congratulations", isLoop: false)
+                .frame(width: 300, height: 200)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color.black.opacity(show ? 0.3 : 0))
+        .background(Color.black.opacity(self.show ? 0.3 : 0))
         .animation(.linear(duration: 0.5))
         .edgesIgnoringSafeArea(.all)
     }
@@ -114,8 +119,11 @@ struct EvaluationView_Previews: PreviewProvider {
             QuestionItem(question: "题目三", rightAnswer: "答案三"),
             QuestionItem(question: "题目三", rightAnswer: "答案三")
         ])
-    @State static var showEvaluationResult = false
+    @State static var showEvaluationView = true
+    @State static var rightAnswerNum: Double = 5
+    @State static var wrongAnswerNum: Double = 3
+    
     static var previews: some View {
-        EvaluationView(answers: answers, mistake: mistake, showEvaluationResult: $showEvaluationResult)
+        EvaluationView(mistake: mistake, showEvaluationView: $showEvaluationView, rightAnswerNum: $rightAnswerNum, wrongAnswerNum: $wrongAnswerNum)
     }
 }
