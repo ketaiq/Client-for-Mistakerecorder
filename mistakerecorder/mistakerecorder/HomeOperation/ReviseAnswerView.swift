@@ -15,6 +15,7 @@ struct ReviseAnswerView: View {
     @State private var showEvaluationView = false
     @State private var rightAnswerNum: Double = 0
     @State private var wrongAnswerNum: Double = 0
+    @State private var isEvaluated = false
     
     private func evaluateAnswers() {
         if MistakeCategory.isPresetCategory(category: self.mistake.category) {
@@ -24,6 +25,7 @@ struct ReviseAnswerView: View {
                         self.rightAnswerNum += 1
                     } else { // 答错
                         self.wrongAnswerNum += 1
+                        self.answers.list[index].content.append("\n正确答案：\n\(self.mistake.questionItems[index].rightAnswer)")
                     }
                 }
             } else if self.mistake.category == MistakeCategory.JinYiCi.toString() || self.mistake.category == MistakeCategory.FanYiCi.toString() || self.mistake.category == MistakeCategory.ZuCi.toString() {
@@ -32,6 +34,7 @@ struct ReviseAnswerView: View {
                         self.rightAnswerNum += 1
                     } else { // 答错
                         self.wrongAnswerNum += 1
+                        self.answers.list[index].content.append("\n正确答案：\n\(self.mistake.questionItems[index].rightAnswer)")
                     }
                 }
             } else if self.mistake.category == MistakeCategory.MoXieGuShi.toString() || self.mistake.category == MistakeCategory.XiuGaiBingJu.toString() {
@@ -44,6 +47,7 @@ struct ReviseAnswerView: View {
                         self.rightAnswerNum += 1
                     } else { // 答错
                         self.wrongAnswerNum += 1
+                        self.answers.list[index].content.append("\n正确答案：\n\(self.mistake.questionItems[index].rightAnswer)")
                     }
                 }
             }
@@ -53,6 +57,7 @@ struct ReviseAnswerView: View {
                     self.rightAnswerNum += 1
                 } else { // 答错
                     self.wrongAnswerNum += 1
+                    self.answers.list[index].content.append("\n正确答案：\n\(self.mistake.questionItems[index].rightAnswer)")
                 }
             }
         }
@@ -88,6 +93,71 @@ struct ReviseAnswerView: View {
         }
     }
     
+    var initialBottomTabBar: some View {
+        HStack {
+            Button(action: {
+                self.showReviseAnswerView = false
+            }, label: {
+                Text("返回")
+                    .foregroundColor(Color(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)))
+                    .font(.system(size: 20))
+                    .padding(.vertical, 5)
+                    .padding(.horizontal, 10)
+                    .background(Color(#colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)))
+                    .cornerRadius(5)
+            })
+            Spacer()
+            Button(action: {
+                
+            }, label: {
+                Text("一键识别")
+                    .foregroundColor(Color(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)))
+                    .font(.system(size: 20))
+                    .padding(.vertical, 5)
+                    .padding(.horizontal, 10)
+                    .background(Color(#colorLiteral(red: 0.2196078449, green: 0.007843137719, blue: 0.8549019694, alpha: 1)))
+                    .cornerRadius(5)
+            })
+            Spacer()
+            Button(action: {
+                self.evaluateAnswers()
+                self.planNextRevisionDate()
+                self.showEvaluationView = true
+                self.isEvaluated = true
+            }, label: {
+                Text("批改")
+                    .foregroundColor(Color(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)))
+                    .font(.system(size: 20))
+                    .padding(.vertical, 5)
+                    .padding(.horizontal, 10)
+                    .background(Color(#colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)))
+                    .cornerRadius(5)
+            })
+        }
+        .padding(10)
+        .background(Color(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)))
+    }
+    
+    var evaluatedBottomTabBar: some View {
+        HStack {
+            Spacer()
+            Button(action: {
+                self.showReviseAnswerView = false
+                self.isEvaluated = false
+            }, label: {
+                Text("完成")
+                    .foregroundColor(Color(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)))
+                    .font(.system(size: 20))
+                    .padding(.vertical, 5)
+                    .padding(.horizontal, 10)
+                    .background(Color(#colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1)))
+                    .cornerRadius(5)
+            })
+        }
+        .padding(10)
+        .background(Color(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)))
+    }
+    
     var body: some View {
         ZStack {
             Color.green
@@ -103,52 +173,20 @@ struct ReviseAnswerView: View {
                 
                 ScrollView(showsIndicators: false) {
                     ForEach(self.mistake.questionItems.indices, id: \.self) { index in
-                        ReviseAnswerItemSubview(mistake: self.mistake, answers: self.answers, questionItemIndex: index)
+                        ReviseAnswerItemSubview(mistake: self.mistake, answers: self.answers, isEvaluated: self.$isEvaluated, questionItemIndex: index)
                     }
                 }
                 .padding(.horizontal)
                 
-                HStack {
-                    Button(action: {
-                        self.showReviseAnswerView = false
-                    }, label: {
-                        Text("返回")
-                            .foregroundColor(Color(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)))
-                            .font(.system(size: 20))
-                            .padding(.vertical, 5)
-                            .padding(.horizontal, 10)
-                            .background(Color(#colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)))
-                            .cornerRadius(5)
-                    })
-                    Spacer()
-                    Button(action: {
-                        
-                    }, label: {
-                        Text("一键识别")
-                            .foregroundColor(Color(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)))
-                            .font(.system(size: 20))
-                            .padding(.vertical, 5)
-                            .padding(.horizontal, 10)
-                            .background(Color(#colorLiteral(red: 0.2196078449, green: 0.007843137719, blue: 0.8549019694, alpha: 1)))
-                            .cornerRadius(5)
-                    })
-                    Spacer()
-                    Button(action: {
-                        self.evaluateAnswers()
-                        self.planNextRevisionDate()
-                        self.showEvaluationView = true
-                    }, label: {
-                        Text("批改")
-                            .foregroundColor(Color(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)))
-                            .font(.system(size: 20))
-                            .padding(.vertical, 5)
-                            .padding(.horizontal, 10)
-                            .background(Color(#colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)))
-                            .cornerRadius(5)
-                    })
+                if self.isEvaluated {
+                    evaluatedBottomTabBar
+                } else {
+                    initialBottomTabBar
                 }
-                .padding(10)
-                .background(Color(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)))
+                
+            }
+            .onTapGesture {
+                hideKeyboard()
             }
             
             if self.showEvaluationView {
@@ -208,9 +246,11 @@ struct ReviseAnswerView_Previews: PreviewProvider {
 struct ReviseAnswerItemSubview: View {
     @ObservedObject var mistake: Mistake
     @ObservedObject var answers: ObservableStringArray
+    @Binding var isEvaluated: Bool
     var questionItemIndex: Int
     
     @State private var showOCRView = false
+    @State private var showEvaluationMark = false
     
     var question: some View {
         HStack(spacing: 0) {
@@ -254,6 +294,58 @@ struct ReviseAnswerItemSubview: View {
         }
     }
     
+    var evaluationMark: some View {
+        Group {
+            if MistakeCategory.isPresetCategory(category: self.mistake.category) {
+                if self.mistake.category == MistakeCategory.PinYinXieCi.toString() || self.mistake.category == MistakeCategory.ChengYuYiSi.toString() {
+                    if self.answers.list[self.questionItemIndex].content == self.mistake.questionItems[self.questionItemIndex].rightAnswer { // 答对
+                        Image(systemName: "checkmark.circle.fill")
+                            .foregroundColor(.white)
+                            .font(.system(size: 28))
+                    } else { // 答错
+                        Image(systemName: "xmark.circle.fill")
+                            .foregroundColor(.red)
+                            .font(.system(size: 28))
+                    }
+                } else if self.mistake.category == MistakeCategory.JinYiCi.toString() || self.mistake.category == MistakeCategory.FanYiCi.toString() || self.mistake.category == MistakeCategory.ZuCi.toString() {
+                    if self.mistake.questionItems[self.questionItemIndex].rightAnswer.contains(self.answers.list[self.questionItemIndex].content) { // 答对
+                        Image(systemName: "checkmark.circle.fill")
+                            .foregroundColor(Color.white)
+                            .font(.system(size: 28))
+                    } else { // 答错
+                        Image(systemName: "xmark.circle.fill")
+                            .foregroundColor(.red)
+                            .font(.system(size: 28))
+                    }
+                } else if self.mistake.category == MistakeCategory.MoXieGuShi.toString() || self.mistake.category == MistakeCategory.XiuGaiBingJu.toString() {
+                    let punctuations = CharacterSet(charactersIn: ".,。，；")
+                    // 去除标点符号
+                    let guShiWithoutPunctuations  = self.mistake.questionItems[self.questionItemIndex].rightAnswer.trimmingCharacters(in: punctuations)
+                    let answerWithoutPunctuations = self.answers.list[self.questionItemIndex].content.trimmingCharacters(in: punctuations)
+                    if guShiWithoutPunctuations == answerWithoutPunctuations { // 答对
+                        Image(systemName: "checkmark.circle.fill")
+                            .foregroundColor(Color.white)
+                            .font(.system(size: 28))
+                    } else { // 答错
+                        Image(systemName: "xmark.circle.fill")
+                            .foregroundColor(.red)
+                            .font(.system(size: 28))
+                    }
+                }
+            } else {
+                if self.mistake.questionItems[self.questionItemIndex].rightAnswer == self.answers.list[self.questionItemIndex].content { // 答对
+                    Image(systemName: "checkmark.circle.fill")
+                        .foregroundColor(Color.white)
+                        .font(.system(size: 28))
+                } else { // 答错
+                    Image(systemName: "xmark.circle.fill")
+                        .foregroundColor(.red)
+                        .font(.system(size: 28))
+                }
+            }
+        }
+    }
+    
     var body: some View {
         VStack {
             HStack {
@@ -282,6 +374,16 @@ struct ReviseAnswerItemSubview: View {
                         .font(.system(size: 30))
                 })
                 Spacer()
+                
+                if self.isEvaluated {
+                    evaluationMark
+                        .scaleEffect(self.showEvaluationMark ? 1 : 1.5)
+                        .opacity(self.showEvaluationMark ? 1 : 0)
+                        .animation(Animation.easeInOut(duration: 2).delay(1))
+                        .onAppear {
+                            self.showEvaluationMark = true
+                        }
+                }
             }
             
             if MistakeCategory.isLongTextCategory(self.mistake.category) {
