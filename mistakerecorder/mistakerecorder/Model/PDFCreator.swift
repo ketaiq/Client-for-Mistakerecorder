@@ -21,26 +21,26 @@ class PDFCreator {
     
     func createPDF() -> Data {
         let metadataKeys = [
-            kCGPDFContextAuthor: user.nickname,
+            kCGPDFContextAuthor: self.user.nickname,
             kCGPDFContextCreator: "mistakerecorder",
             kCGPDFContextTitle: "错题复习卷"
         ]
         let format = UIGraphicsPDFRendererFormat()
         format.documentInfo = metadataKeys as [String: Any]
         
-        let render = UIGraphicsPDFRenderer(bounds: pageRect, format: format)
+        let render = UIGraphicsPDFRenderer(bounds: self.pageRect, format: format)
         
         let data = render.pdfData { context in
             context.beginPage()
-            let titleBottom = addTitle()
-            let subtitleBottom = addSubtitle(textTop: titleBottom)
-            addBodyText(textTop: subtitleBottom + 24.0, context: context)
+            let titleBottom = self.addTitle()
+            let subtitleBottom = self.addSubtitle(textTop: titleBottom)
+            self.addBodyText(textTop: subtitleBottom + 24.0, context: context)
         }
         
         return data
     }
     
-    func addTitle() -> CGFloat {// 标题
+    private func addTitle() -> CGFloat {// 标题
         let titleFont = UIFont.systemFont(ofSize: 18.0, weight: .bold)
         let titleAttributes: [NSAttributedString.Key: Any] = [NSAttributedString.Key.font: titleFont]
         let attributedTitle = NSAttributedString(string: "错题复习卷", attributes: titleAttributes)
@@ -55,7 +55,7 @@ class PDFCreator {
         return titleStringRect.origin.y + titleStringRect.size.height
     }
     
-    func addSubtitle(textTop: CGFloat) -> CGFloat { // 副标题信息
+    private func addSubtitle(textTop: CGFloat) -> CGFloat { // 副标题信息
         let subtitleFont = UIFont.systemFont(ofSize: 13.0)
         let subtitleAttributes: [NSAttributedString.Key: Any] = [NSAttributedString.Key.font: subtitleFont]
         
@@ -77,7 +77,130 @@ class PDFCreator {
         return subtitleStringRect.origin.y + subtitleStringRect.size.height
     }
     
-    func addBodyText(textTop: CGFloat, context: UIGraphicsPDFRendererContext) { // 错题
+    private func questionPinYinXieCi(questionItem: QuestionItem, j: Int) -> String {
+        var question = ""
+        for item in PinYinXieCi(questionItem: questionItem).items {
+            if item.selected {
+                question.append("\(item.pin_yin)")
+            } else {
+                question.append("\(item.word)")
+            }
+        }
+        question.append("：")
+        for _ in 1 ... questionItem.rightAnswer.count { // 下划线填写答案
+            question.append("____")
+        }
+        question.append("\t")
+        if (j + 1) % 4 == 0 { // 一行最多四个
+            question.append("\n")
+        }
+        return question
+    }
+    
+    private func questionChengYuYiSi(questionItem: QuestionItem, j: Int, questionItemCount: Int) -> String {
+        var question = ""
+        question.append("\(Idiom.getExplanation(questionItem.question))")
+        for _ in 1 ... questionItem.rightAnswer.count { // 下划线填写答案
+            question.append("____")
+        }
+        if j < questionItemCount - 1 {
+            question.append("\n")
+        }
+        return question
+    }
+    
+    private func questionJinFanYiCi(questionItem: QuestionItem, j: Int) -> String {
+        var question = ""
+        question.append("\(JinFanYiCiResult.getWord(questionItem.question))：")
+        question.append("________")
+        question.append("\t")
+        if (j + 1) % 4 == 0 { // 一行最多四个
+            question.append("\n")
+        }
+        return question
+    }
+    
+    private func questionMoXieGuShi(questionItem: QuestionItem, j: Int, questionItemCount: Int) -> String {
+        var question = ""
+        question.append("\(Poem.getTitle(questionItem.question))：")
+        for _ in 1 ... questionItem.rightAnswer.count { // 下划线填写答案
+            question.append("____")
+        }
+        if j < questionItemCount - 1 {
+            question.append("\n")
+        }
+        return question
+    }
+    
+    private func questionZuCi(questionItem: QuestionItem, j: Int) -> String {
+        var question = ""
+        question.append("\(questionItem.question)：")
+        question.append("________")
+        question.append("\t")
+        if (j + 1) % 4 == 0 { // 一行最多四个
+            question.append("\n")
+        }
+        return question
+    }
+    
+    private func questionXiuGaiBingJu(questionItem: QuestionItem, j: Int, questionItemCount: Int) -> String {
+        var question = ""
+        question.append("\(BingJu.getSentence(questionItem.question))：")
+        for _ in 1 ... questionItem.rightAnswer.count { // 下划线填写答案
+            question.append("____")
+        }
+        if j < questionItemCount - 1 {
+            question.append("\n")
+        }
+        return question
+    }
+    
+    private func questionStandard(questionItem: QuestionItem) -> String {
+        var question = ""
+        question.append("\(questionItem.question)：")
+        for _ in 1 ... questionItem.rightAnswer.count { // 下划线填写答案
+            question.append("____")
+        }
+        question.append("\t")
+        return question
+    }
+    
+    private func extractQuestions() -> String { // 提取错题中的题目
+        var questions = ""
+        
+        for i in 0 ..< self.mistakes.count {
+            let mistake = self.mistakes[i]
+            questions.append("第\(i + 1)题 \(mistake.questionDescription)\n")
+            
+            for j in 0 ..< mistake.questionItems.count {
+                questions.append("(\(j + 1)) ")
+                let questionItem = mistake.questionItems[j]
+                
+                if MistakeCategory.isPresetCategory(category: mistake.category) {
+                    if mistake.category == MistakeCategory.PinYinXieCi.toString() {
+                        questions.append(self.questionPinYinXieCi(questionItem: questionItem, j: j))
+                    } else if mistake.category == MistakeCategory.ChengYuYiSi.toString() {
+                        questions.append(self.questionChengYuYiSi(questionItem: questionItem, j: j, questionItemCount: mistake.questionItems.count))
+                    } else if mistake.category == MistakeCategory.JinYiCi.toString() || mistake.category == MistakeCategory.FanYiCi.toString() {
+                        questions.append(self.questionJinFanYiCi(questionItem: questionItem, j: j))
+                    } else if mistake.category == MistakeCategory.MoXieGuShi.toString() {
+                        questions.append(self.questionMoXieGuShi(questionItem: questionItem, j: j, questionItemCount: mistake.questionItems.count))
+                    } else if mistake.category == MistakeCategory.ZuCi.toString() {
+                        questions.append(self.questionZuCi(questionItem: questionItem, j: j))
+                    } else if mistake.category == MistakeCategory.XiuGaiBingJu.toString() {
+                        questions.append(self.questionXiuGaiBingJu(questionItem: questionItem, j: j, questionItemCount: mistake.questionItems.count))
+                    }
+                } else {
+                    questions.append(self.questionStandard(questionItem: questionItem))
+                }
+            }
+            questions.append("\n\n")
+        }
+        
+        return questions
+    }
+    
+    private func addBodyText(textTop: CGFloat, context: UIGraphicsPDFRendererContext) { // 错题
         let textFont = UIFont.systemFont(ofSize: 12.0, weight: .regular)
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = .natural
@@ -87,22 +210,7 @@ class PDFCreator {
             NSAttributedString.Key.font: textFont
         ]
         
-        var questions = ""
-        var i = 1
-        for mistake in mistakes {
-            questions.append("第\(i)题 \(mistake.questionDescription)\n")
-            var j = 1
-            for item in mistake.questionItems {
-                questions.append("(\(j)) \(item.question)：(")
-                for _ in 1...item.rightAnswer.count {
-                    questions.append("    ")
-                }
-                questions.append(")\n")
-                j = j + 1
-            }
-            questions.append("\n")
-            i = i + 1
-        }
+        let questions = self.extractQuestions()
         
         let attributedText = CFAttributedStringCreate(nil, questions as CFString, textAttributes as CFDictionary)
         let framesetter = CTFramesetterCreateWithAttributedString(attributedText!)
@@ -123,7 +231,7 @@ class PDFCreator {
         } while !done
     }
     
-    func renderPage(textTop: CGFloat, pageNumber: Int, withTextRange currentRange: CFRange, andFramesetter framesetter: CTFramesetter?) -> CFRange {
+    private func renderPage(textTop: CGFloat, pageNumber: Int, withTextRange currentRange: CFRange, andFramesetter framesetter: CTFramesetter?) -> CFRange {
         var currentRange = currentRange
         let currentContext = UIGraphicsGetCurrentContext()
         currentContext?.textMatrix = .identity
@@ -146,7 +254,7 @@ class PDFCreator {
         return currentRange
     }
     
-    func addPageNumber(_ pageNumber: Int) { // 页码
+    private func addPageNumber(_ pageNumber: Int) { // 页码
         let pageNumberFont = UIFont.systemFont(ofSize: 12.0, weight: .regular)
         let pageNumberAttributes: [NSAttributedString.Key: Any] = [NSAttributedString.Key.font: pageNumberFont]
         let attributedPageNumber = NSAttributedString(string: "\(pageNumber)", attributes: pageNumberAttributes)
