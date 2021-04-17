@@ -24,6 +24,7 @@ struct MistakeZuCiEditView: View {
                 questionItem.rightAnswer.append(ci.ci + "/")
             }
             questionItem.rightAnswer.removeLast()
+            print(questionItem.rightAnswer)
         } catch {
             print("词典编码错误！")
         }

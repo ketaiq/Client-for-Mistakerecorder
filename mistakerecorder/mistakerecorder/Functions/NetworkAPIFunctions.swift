@@ -151,7 +151,9 @@ class NetworkAPIFunctions {
             do {
                 let json = try JSONDecoder().decode(JinFanYiCi.self, from: responseStr.data(using: .utf8)!)
                 if json.status == 0 {
-                    questionItem.question = json.result.toJsonString()
+                    let content = self.removeHtmlLabels(str: json.result.content)
+                    let jinFanYiCi = JinFanYiCiResult(word: json.result.word, pinyin: json.result.pinyin, content: content, jin: json.result.jin, fan: json.result.fan)
+                    questionItem.question = jinFanYiCi.toJsonString()
                     if type == MistakeCategory.JinYiCi.toString() {
                         for item in json.result.jin {
                             questionItem.rightAnswer.append(item + "/")
@@ -167,6 +169,8 @@ class NetworkAPIFunctions {
                             questionItem.rightAnswer.removeLast()
                         }
                     }
+                    print(questionItem.question)
+                    print(questionItem.rightAnswer)
                 } else {
                     print(json.msg)
                 }
@@ -203,6 +207,8 @@ class NetworkAPIFunctions {
                     let poem = Poem(detailid: json.result.detailid, title: title, type: type, content: content, explanation: explanation, appreciation: appreciation, author: author)
                     questionItem.question = poem.toJsonString()
                     questionItem.rightAnswer = content
+                    print(questionItem.question)
+                    print(questionItem.rightAnswer)
                 } else {
                     print(json.msg)
                 }

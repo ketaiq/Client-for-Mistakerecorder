@@ -164,6 +164,7 @@ struct AutoSelectSubview: View {
     @ObservedObject var selectedMistakes: SelectedMistakes
     @Binding var showAutoSelectSubview: Bool
     @Binding var showPDF: Bool
+    
     @StateObject var mistakesNum = NumbersOnly()
     @State var emptySelectedMistakesAlert = false
     

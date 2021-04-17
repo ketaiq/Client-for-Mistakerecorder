@@ -161,6 +161,7 @@ struct ReviseAnswerView: View {
     var body: some View {
         ZStack {
             Color.green
+                .edgesIgnoringSafeArea(.all)
                 
             VStack {
                 HStack {

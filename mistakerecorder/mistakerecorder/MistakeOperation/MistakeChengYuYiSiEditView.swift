@@ -20,6 +20,7 @@ struct MistakeChengYuYiSiEditView: View {
             let idiom = idiomDictionary.filter { $0.word == self.text.content }.first ?? Idiom(derivation: "", example: "", explanation: "", pinyin: "", word: "", abbreviation: "")
             if idiom.explanation != "" {
                 questionItem.question = idiom.toJsonString()
+                print(questionItem.question)
             } else {
                 questionItem.question = "该成语不存在。"
             }
