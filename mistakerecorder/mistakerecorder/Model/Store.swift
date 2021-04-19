@@ -207,8 +207,8 @@ class Mistake: ObservableObject, Identifiable, Codable { // 错题
             RevisedRecord(revisedDate: "3/8/21", revisedPerformance: "模糊"),
             RevisedRecord(revisedDate: "3/13/21", revisedPerformance: "忘记"),
             RevisedRecord(revisedDate: "3/15/21", revisedPerformance: "模糊"),
-            RevisedRecord(revisedDate: "3/17/21", revisedPerformance: "掌握"),
-            RevisedRecord(revisedDate: "3/23/21", revisedPerformance: "模糊")]
+            RevisedRecord(revisedDate: "3/27/21", revisedPerformance: "掌握"),
+            RevisedRecord(revisedDate: "4/15/21", revisedPerformance: "模糊")]
         self.nextRevisionDate = DateFunctions.functions.currentDate()
         self.revisionStatus = "false"
     }

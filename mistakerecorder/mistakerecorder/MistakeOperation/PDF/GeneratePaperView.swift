@@ -186,9 +186,19 @@ struct AutoSelectSubview: View {
             for value in evaluationArray {
                 for i in 1...user.mistakeList.count {
                     if user.mistakeList[i - 1].totalRevisionEvaluation() == value {
-                        self.selectedMistakes.list.append(user.mistakeList[i - 1])
-                        selectedNum += 1
-                        break
+                        let repeated = self.selectedMistakes.list.contains { $0.subject == user.mistakeList[i - 1].subject &&
+                            $0.category == user.mistakeList[i - 1].category &&
+                            $0.questionDescription == user.mistakeList[i - 1].questionDescription &&
+                            $0.createdDate == user.mistakeList[i - 1].createdDate &&
+                            $0.nextRevisionDate == user.mistakeList[i - 1].nextRevisionDate &&
+                            $0.revisionStatus == user.mistakeList[i - 1].revisionStatus
+                        }
+                        
+                        if !repeated { // 唯一性
+                            self.selectedMistakes.list.append(user.mistakeList[i - 1])
+                            selectedNum += 1
+                            break
+                        }
                     }
                 }
                 if selectedNum == num { // 选前num个
