@@ -240,7 +240,7 @@ struct ReviseAnswerView_Previews: PreviewProvider {
     @StateObject static var answers = ObservableStringArray(3)
     @State static var showReviseAnswerView = false
     static var previews: some View {
-        ReviseAnswerView(mistake: mistakeMoXieGuShi, answers: answers, showReviseAnswerView: $showReviseAnswerView)
+        ReviseAnswerView(mistake: mistakeJinYiCi, answers: answers, showReviseAnswerView: $showReviseAnswerView)
     }
 }
 

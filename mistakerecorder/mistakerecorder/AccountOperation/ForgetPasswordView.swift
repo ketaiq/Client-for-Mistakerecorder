@@ -36,15 +36,22 @@ struct ForgetPasswordView: View {
     @State private var wrongFormatAlert = false
     @State private var repeatPasswordDifferentAlert = false
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    @State private var textFieldOffset: CGFloat = 0
     
     var body: some View {
-        VStack(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/, spacing: 10, content: {
-            RegisterTextField(textType: "账号", textContent: $username, textWarningOpacity: $usernameWarningOpacity, formatRequirement: "注册后得到的8位数字")
-            RegisterTextField(textType: "真实姓名", textContent: $realname, textWarningOpacity: $realnameWarningOpacity, formatRequirement: "可由2到5个汉字或1到32位大小写字母组成")
-            RegisterTextField(textType: "身份证号", textContent: $id, textWarningOpacity: $idWarningOpacity, formatRequirement: "第二代18位身份证号")
-            RegisterTextField(textType: "邮箱", textContent: $emailaddress, textWarningOpacity: $emailaddressWarningOpacity, formatRequirement: "正常邮箱格式")
-            RegisterTextField(textType: "新密码", textContent: $newPassword, textWarningOpacity: $passwordWarningOpacity, formatRequirement: "可由字母和数字组成，至少8位密码，最多32位")
-            RegisterTextField(textType: "再次输入新密码", textContent: $repeatNewPassword, textWarningOpacity: $repeatPasswordWarningOpacity, formatRequirement: "与上述密码一致")
+        VStack {
+            VStack(spacing: 10) {
+                RegisterTextField(textType: "账号", textContent: $username, textWarningOpacity: $usernameWarningOpacity, formatRequirement: "注册后得到的8位数字", textFieldOffset: self.$textFieldOffset)
+                RegisterTextField(textType: "真实姓名", textContent: $realname, textWarningOpacity: $realnameWarningOpacity, formatRequirement: "可由2到5个汉字或1到32位大小写字母组成", textFieldOffset: self.$textFieldOffset)
+                RegisterTextField(textType: "身份证号", textContent: $id, textWarningOpacity: $idWarningOpacity, formatRequirement: "第二代18位身份证号", textFieldOffset: self.$textFieldOffset)
+                RegisterTextField(textType: "邮箱", textContent: $emailaddress, textWarningOpacity: $emailaddressWarningOpacity, formatRequirement: "正常邮箱格式", textFieldOffset: self.$textFieldOffset)
+                RegisterTextField(textType: "新密码", textContent: $newPassword, textWarningOpacity: $passwordWarningOpacity, formatRequirement: "可由字母和数字组成，至少8位密码，最多32位", textFieldOffset: self.$textFieldOffset)
+                RegisterTextField(textType: "再次输入新密码", textContent: $repeatNewPassword, textWarningOpacity: $repeatPasswordWarningOpacity, formatRequirement: "与上述密码一致", textFieldOffset: self.$textFieldOffset)
+            }
+            .offset(y: self.textFieldOffset)
+            .animation(.easeInOut(duration: 0.3))
+            
+            Spacer()
             Button(action: {
                 if !confirmTextTypeMatch(textType: "真实姓名", textContent: realname) ||
                     !confirmTextTypeMatch(textType: "身份证号", textContent: id) ||
@@ -110,8 +117,8 @@ struct ForgetPasswordView: View {
                                  })
                 }
             })
-        })
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        }
+        .padding(.vertical)
         .background(Color.white)
     }
 }
