@@ -138,6 +138,70 @@ class NetworkAPIFunctions {
         }
     }
     
+    private func extractAnswers(mistake: Mistake, answers: ObservableStringArray, ocr_results: OCRresult) {
+        let question_string = ocr_results.words_result[0].words.removePunctuations()
+        var answer_string = ""
+        for i in 1...ocr_results.words_result_num - 1 {
+            answer_string.append(ocr_results.words_result[i].words)
+        }
+        answer_string = answer_string.removePunctuations()
+        
+        let separatedAnswerStringArray = answer_string.components(separatedBy: CharacterSet.decimalDigits)
+        
+        let PinYinXieCiDescription = MistakeCategory.PinYinXieCi.generateDescription().removePunctuations()
+        
+//        if question_string.contains(PinYinXieCiDescription) {
+//            for i in 0 ..< mistake.questionItems.count {
+//                var question = ""
+//                for item in PinYinXieCi(questionItem: mistake.questionItems[i]).items {
+//                    if !item.selected {
+//                        question.append("\(item.word)")
+//                    }
+//                }
+//                answers.list[i].content = separatedAnswerStringArray[i].replacingOccurrences(of: question, with: "")
+//            }
+//        }
+    }
+    
+    func baiduOCR(mistake: Mistake, answers: ObservableStringArray, croppedImage: UIImage) {
+        let access_token_url = "https://aip.baidubce.com/oauth/2.0/token"
+        let access_token_url_parameters = [
+            "grant_type": "client_credentials",
+            "client_id": "sv9WXhUIaScOkQL9NAqfZ7HD",
+            "client_secret": "jy8rqIM7VbUn6n7OjKvNCnOaH7r83Gmk"
+        ]
+        var ocr_url = "https://aip.baidubce.com/rest/2.0/ocr/v1/handwriting" + "?access_token="
+        let imgStr = croppedImage.pngData()!.base64EncodedString()
+        let ocr_headers: HTTPHeaders = [
+            "content-type": "application/x-www-form-urlencoded"
+        ]
+        
+        AF.request(access_token_url, method: .get, parameters: access_token_url_parameters).response { access_token_response in
+            debugPrint(access_token_response)
+            let access_token_response_str = String(data: access_token_response.data!, encoding: .utf8)!
+            do {
+                let access_token_json = try JSONDecoder().decode(AccessToken.self, from: access_token_response_str.data(using: .utf8)!)
+                ocr_url += access_token_json.access_token
+                AF.request(ocr_url,
+                           method: .post,
+                           parameters: ["image": imgStr],
+                           encoder: URLEncodedFormParameterEncoder(destination: .httpBody),
+                           headers: ocr_headers).response { OCRresponse in
+                    debugPrint(OCRresponse)
+                    let OCRstr = String(data: OCRresponse.data!, encoding: .utf8)!
+                    do {
+                        let OCRjson = try JSONDecoder().decode(OCRresult.self, from: OCRstr.data(using: .utf8)!)
+                        self.extractAnswers(mistake: mistake, answers: answers, ocr_results: OCRjson)
+                    } catch {
+                        print("OCR解码失败")
+                    }
+                }
+            } catch {
+                print("AccessToken解码失败！")
+            }
+        }
+    }
+    
     func jinFanYiCiSearch(word: String, type: String, questionItem: QuestionItem) { // 查询近义词或反义词
         let url = "https://api.jisuapi.com/jinyifanyi/word"
         let parameters = [

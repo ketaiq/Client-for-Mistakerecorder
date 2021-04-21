@@ -16,6 +16,7 @@ struct ReviseAnswerView: View {
     @State private var rightAnswerNum: Double = 0
     @State private var wrongAnswerNum: Double = 0
     @State private var isEvaluated = false
+    @State private var showAnswerOCRView = false
     
     private func evaluateAnswers() {
         if MistakeCategory.isPresetCategory(category: self.mistake.category) {
@@ -39,10 +40,10 @@ struct ReviseAnswerView: View {
                 }
             } else if self.mistake.category == MistakeCategory.MoXieGuShi.toString() || self.mistake.category == MistakeCategory.XiuGaiBingJu.toString() {
                 for index in 0 ..< self.mistake.questionItems.count {
-                    let punctuations = CharacterSet(charactersIn: ".,。，；")
                     // 去除标点符号
-                    let guShiWithoutPunctuations  = self.mistake.questionItems[index].rightAnswer.trimmingCharacters(in: punctuations)
-                    let answerWithoutPunctuations = self.answers.list[index].content.trimmingCharacters(in: punctuations)
+                    let guShiWithoutPunctuations  = self.mistake.questionItems[index].rightAnswer.removePunctuations()
+                    let answerWithoutPunctuations = self.answers.list[index].content.removePunctuations()
+                    
                     if guShiWithoutPunctuations == answerWithoutPunctuations { // 答对
                         self.rightAnswerNum += 1
                     } else { // 答错
@@ -118,6 +119,9 @@ struct ReviseAnswerView: View {
                     .background(Color(#colorLiteral(red: 0.2196078449, green: 0.007843137719, blue: 0.8549019694, alpha: 1)))
                     .cornerRadius(5)
             })
+            .sheet(isPresented: self.$showAnswerOCRView) {
+                AnswerOCRView(mistake: self.mistake, text: self.answers.list[self.questionItemIndex], showMistakeOCRView: self.$showAnswerOCRView)
+            }
             Spacer()
             Button(action: {
                 self.evaluateAnswers()
@@ -319,10 +323,10 @@ struct ReviseAnswerItemSubview: View {
                             .font(.system(size: 28))
                     }
                 } else if self.mistake.category == MistakeCategory.MoXieGuShi.toString() || self.mistake.category == MistakeCategory.XiuGaiBingJu.toString() {
-                    let punctuations = CharacterSet(charactersIn: ".,。，；")
                     // 去除标点符号
-                    let guShiWithoutPunctuations  = self.mistake.questionItems[self.questionItemIndex].rightAnswer.trimmingCharacters(in: punctuations)
-                    let answerWithoutPunctuations = self.answers.list[self.questionItemIndex].content.trimmingCharacters(in: punctuations)
+                    let guShiWithoutPunctuations  = self.mistake.questionItems[self.questionItemIndex].rightAnswer.removePunctuations()
+                    let answerWithoutPunctuations = self.answers.list[self.questionItemIndex].content.removePunctuations()
+                    
                     if guShiWithoutPunctuations == answerWithoutPunctuations { // 答对
                         Image(systemName: "checkmark.circle.fill")
                             .foregroundColor(Color.white)

@@ -1,8 +1,8 @@
 //
-//  ObservableObject.swift
+//  StringExtensions.swift
 //  mistakerecorder
 //
-//  Created by CaSdm on 2021/4/3.
+//  Created by CaSdm on 2021/4/21.
 //
 
 import Foundation
@@ -23,5 +23,14 @@ class ObservableStringArray: ObservableObject {
         for _ in 1...num {
             self.list.append(ObservableString(""))
         }
+    }
+}
+
+extension String {
+    func removePunctuations() -> String {
+        var string = self
+        let punctuations: Set<Character> = ["。", "，", "（", "）", "：", "；", "“", ".", ",", "(", ")", ":", ";", "_"]
+        string.removeAll(where: { punctuations.contains($0) })
+        return string
     }
 }
