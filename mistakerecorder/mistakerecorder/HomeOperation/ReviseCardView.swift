@@ -53,35 +53,48 @@ struct ReviseCardView: View {
                         Text("\(questionItemIndex + 1).\t").font(.system(size: 20))
                         Text(questionItem.question).font(.system(size: 20))
                     }
+                    Spacer()
                 }
+                Divider()
             }
         }
     }
     
     var body: some View {
-        ZStack {
-            
-            VStack(alignment: .leading, spacing: 10) {
-                HStack {
-                    Text(mistake.subject)
-                        .font(.title)
-                    Spacer()
-                }
-                .padding(.top)
-                
+        VStack {
+            HStack {
                 Text(mistake.questionDescription)
-                    .font(.system(size: 20, weight: .bold))
-                
-                questions
-                
+                    .font(.system(size: 24, weight: .bold))
+                    .padding(.top)
                 Spacer()
             }
-            .padding(.horizontal)
-            .frame(width: 320, height: 250)
-            .background(Color.green)
-            .clipShape(RoundedRectangle(cornerRadius: 20, style: /*@START_MENU_TOKEN@*/.continuous/*@END_MENU_TOKEN@*/))
-            .shadow(color: Color.green.opacity(0.8), radius: 20, x: 0, y: 20)
+            HStack(spacing: 10) {
+                Text(mistake.subject)
+                    .font(.system(size: 14))
+                    .fontWeight(.bold)
+                    .padding(.horizontal, 5)
+                    .padding(.vertical, 2)
+                    .foregroundColor(.white)
+                    .background(Color(#colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)))
+                    .cornerRadius(10)
+                Text(mistake.category)
+                    .font(.system(size: 14))
+                    .fontWeight(.bold)
+                    .padding(.horizontal, 5)
+                    .padding(.vertical, 2)
+                    .foregroundColor(.white)
+                    .background(Color.red)
+                    .cornerRadius(10)
+                Spacer()
+            }
+            questions
+            Spacer()
         }
+        .padding(.horizontal)
+        .frame(width: 320, height: 250)
+        .background(Color.green)
+        .clipShape(RoundedRectangle(cornerRadius: 20, style: /*@START_MENU_TOKEN@*/.continuous/*@END_MENU_TOKEN@*/))
+        .shadow(color: Color.green.opacity(0.8), radius: 20, x: 0, y: 20)
     }
 }
 
