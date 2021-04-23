@@ -16,8 +16,8 @@ struct ImageEditView: View {
     @State private var showCroppedImage = false
     
     // 逆时针旋转90度
-    private func rotate90degrees() -> UIImage {
-        let ciimage = CIImage(image: self.image)
+    private func rotate90degrees(_ editImage: UIImage) -> UIImage {
+        let ciimage = CIImage(image: editImage)
         let filter = CIFilter(name: "CIAffineTransform")!
         filter.setValue(ciimage, forKey: kCIInputImageKey)
         filter.setDefaults()
@@ -35,7 +35,11 @@ struct ImageEditView: View {
     
     // 裁剪图片
     private func cropImage() {
-        let cgImage = image.cgImage!
+        var editImage = self.image
+        editImage = self.rotate90degrees(editImage)
+        editImage = self.rotate90degrees(editImage)
+        editImage = self.rotate90degrees(editImage)
+        let cgImage = editImage.cgImage!
         let scaler = CGFloat(cgImage.width) / self.cropper.parentSize.width
         let x = (self.cropper.rect.origin.x - self.cropper.rect.width / 2) * scaler
         let y = (self.cropper.rect.origin.y - self.cropper.rect.height / 2) * scaler
@@ -75,7 +79,7 @@ struct ImageEditView: View {
                     })
                     Spacer()
                     Button(action: {
-                        self.image = self.rotate90degrees()
+                        self.image = self.rotate90degrees(self.image)
                     }, label: {
                         Image(systemName: "rotate.left.fill")
                             .font(.system(size: 25))

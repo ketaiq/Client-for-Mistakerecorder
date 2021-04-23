@@ -23,7 +23,7 @@
 		0B16F52E25E4F8E100C055DB /* OtherFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B16F52D25E4F8E000C055DB /* OtherFunctions.swift */; };
 		0B201462262FCBEA00973B7F /* AnswerOCRView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B201461262FCBEA00973B7F /* AnswerOCRView.swift */; };
 		0B201467262FCCED00973B7F /* AnswerImageEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B201466262FCCED00973B7F /* AnswerImageEditView.swift */; };
-		0B2014712630130000973B7F /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B2014702630130000973B7F /* StringExtensions.swift */; };
+		0B20147C26328D4700973B7F /* OCRFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B20147B26328D4700973B7F /* OCRFunctions.swift */; };
 		0B22781925CA92530000FB8C /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B22781825CA92530000FB8C /* Store.swift */; };
 		0B3692372610631C00D33F42 /* MistakePinYinXieCiEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B3692362610631C00D33F42 /* MistakePinYinXieCiEditView.swift */; };
 		0B36923C261063D500D33F42 /* MistakeStandardEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B36923B261063D500D33F42 /* MistakeStandardEditView.swift */; };
@@ -103,7 +103,7 @@
 		0B16F52D25E4F8E000C055DB /* OtherFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherFunctions.swift; sourceTree = "<group>"; };
 		0B201461262FCBEA00973B7F /* AnswerOCRView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerOCRView.swift; sourceTree = "<group>"; };
 		0B201466262FCCED00973B7F /* AnswerImageEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerImageEditView.swift; sourceTree = "<group>"; };
-		0B2014702630130000973B7F /* StringExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
+		0B20147B26328D4700973B7F /* OCRFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRFunctions.swift; sourceTree = "<group>"; };
 		0B22781825CA92530000FB8C /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
 		0B3692362610631C00D33F42 /* MistakePinYinXieCiEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistakePinYinXieCiEditView.swift; sourceTree = "<group>"; };
 		0B36923B261063D500D33F42 /* MistakeStandardEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistakeStandardEditView.swift; sourceTree = "<group>"; };
@@ -278,6 +278,7 @@
 			children = (
 				0B16F4BF25DF9DCD00C055DB /* DateFunctions.swift */,
 				0BB62E0725CE28650086FD60 /* NetworkAPIFunctions.swift */,
+				0B20147B26328D4700973B7F /* OCRFunctions.swift */,
 				0B16F52D25E4F8E000C055DB /* OtherFunctions.swift */,
 			);
 			path = Functions;
@@ -357,7 +358,6 @@
 			isa = PBXGroup;
 			children = (
 				0B22781825CA92530000FB8C /* Store.swift */,
-				0B2014702630130000973B7F /* StringExtensions.swift */,
 				0BC07DEE26141566004D790E /* OCR.swift */,
 				0BC07DF3261415C3004D790E /* MistakeCategory.swift */,
 				0BADDBFF25F321D300067F02 /* PDFCreator.swift */,
@@ -543,6 +543,7 @@
 				0BC07E022614647A004D790E /* MistakeMoXieGuShiEditView.swift in Sources */,
 				0BC07DEF26141566004D790E /* OCR.swift in Sources */,
 				0B91500E25BE6E2400122F38 /* ForgetPasswordView.swift in Sources */,
+				0B20147C26328D4700973B7F /* OCRFunctions.swift in Sources */,
 				0BADDC0025F321D300067F02 /* PDFCreator.swift in Sources */,
 				0B16F51E25E4CF1800C055DB /* WelcomeView.swift in Sources */,
 				0B91505925C29CB700122F38 /* MistakeListView.swift in Sources */,
@@ -551,7 +552,6 @@
 				0B0873432616B2B0000A88B7 /* MistakeXiuGaiBingJuEditView.swift in Sources */,
 				0BADDC3225F4B19500067F02 /* PDFActivityViewController.swift in Sources */,
 				0BFFA38025EB74AE00623666 /* EditAvatarView.swift in Sources */,
-				0B2014712630130000973B7F /* StringExtensions.swift in Sources */,
 				0B967FE325FC950A00A6D704 /* ImagePicker.swift in Sources */,
 				0BB430622615CE7500DEAE93 /* MistakeZuCiEditView.swift in Sources */,
 				0B201467262FCCED00973B7F /* AnswerImageEditView.swift in Sources */,

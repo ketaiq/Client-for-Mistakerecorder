@@ -138,39 +138,14 @@ class NetworkAPIFunctions {
         }
     }
     
-    private func extractAnswers(mistake: Mistake, answers: ObservableStringArray, ocr_results: OCRresult) {
-        let question_string = ocr_results.words_result[0].words.removePunctuations()
-        var answer_string = ""
-        for i in 1...ocr_results.words_result_num - 1 {
-            answer_string.append(ocr_results.words_result[i].words)
-        }
-        answer_string = answer_string.removePunctuations()
-        
-        let separatedAnswerStringArray = answer_string.components(separatedBy: CharacterSet.decimalDigits)
-        
-        let PinYinXieCiDescription = MistakeCategory.PinYinXieCi.generateDescription().removePunctuations()
-        
-//        if question_string.contains(PinYinXieCiDescription) {
-//            for i in 0 ..< mistake.questionItems.count {
-//                var question = ""
-//                for item in PinYinXieCi(questionItem: mistake.questionItems[i]).items {
-//                    if !item.selected {
-//                        question.append("\(item.word)")
-//                    }
-//                }
-//                answers.list[i].content = separatedAnswerStringArray[i].replacingOccurrences(of: question, with: "")
-//            }
-//        }
-    }
-    
-    func baiduOCR(mistake: Mistake, answers: ObservableStringArray, croppedImage: UIImage) {
+    func baiduOCR(mistake: Mistake, updateText: ObservableBool, questionItemIndex: Int, croppedImage: UIImage) {
         let access_token_url = "https://aip.baidubce.com/oauth/2.0/token"
         let access_token_url_parameters = [
             "grant_type": "client_credentials",
             "client_id": "sv9WXhUIaScOkQL9NAqfZ7HD",
             "client_secret": "jy8rqIM7VbUn6n7OjKvNCnOaH7r83Gmk"
         ]
-        var ocr_url = "https://aip.baidubce.com/rest/2.0/ocr/v1/handwriting" + "?access_token="
+        var ocr_url = "https://aip.baidubce.com/rest/2.0/ocr/v1/doc_analysis" + "?access_token="
         let imgStr = croppedImage.pngData()!.base64EncodedString()
         let ocr_headers: HTTPHeaders = [
             "content-type": "application/x-www-form-urlencoded"
@@ -184,14 +159,18 @@ class NetworkAPIFunctions {
                 ocr_url += access_token_json.access_token
                 AF.request(ocr_url,
                            method: .post,
-                           parameters: ["image": imgStr],
+                           parameters: ["image": imgStr, "words_type": "handprint_mix"],
                            encoder: URLEncodedFormParameterEncoder(destination: .httpBody),
                            headers: ocr_headers).response { OCRresponse in
                     debugPrint(OCRresponse)
                     let OCRstr = String(data: OCRresponse.data!, encoding: .utf8)!
                     do {
-                        let OCRjson = try JSONDecoder().decode(OCRresult.self, from: OCRstr.data(using: .utf8)!)
-                        self.extractAnswers(mistake: mistake, answers: answers, ocr_results: OCRjson)
+                        let OCRjson = try JSONDecoder().decode(DocOCR.self, from: OCRstr.data(using: .utf8)!)
+                        if questionItemIndex == -1 {
+                            OCRFunctions.extractAnswers(mistake: mistake, updateText: updateText, ocr_results: OCRjson)
+                        } else {
+                            OCRFunctions.combineAnswers(mistake: mistake, updateText: updateText, ocr_results: OCRjson, questionItemIndex: questionItemIndex)
+                        }
                     } catch {
                         print("OCR解码失败")
                     }

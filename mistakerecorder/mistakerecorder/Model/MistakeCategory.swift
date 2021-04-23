@@ -71,6 +71,14 @@ enum MistakeCategory {
             return true
         }
     }
+    
+    public static func isGeneratedDescription(_ description: String) -> Bool {
+        if description.removePunctuations().contains(MistakeCategory.PinYinXieCi.generateDescription().removePunctuations()) || description.removePunctuations().contains(MistakeCategory.ChengYuYiSi.generateDescription().removePunctuations()) || description.removePunctuations().contains(MistakeCategory.JinYiCi.generateDescription().removePunctuations()) || description.removePunctuations().contains(MistakeCategory.FanYiCi.generateDescription().removePunctuations()) || description.removePunctuations().contains(MistakeCategory.MoXieGuShi.generateDescription().removePunctuations()) || description.removePunctuations().contains(MistakeCategory.ZuCi.generateDescription().removePunctuations()) || description.removePunctuations().contains(MistakeCategory.XiuGaiBingJu.generateDescription().removePunctuations()) {
+            return true
+        } else {
+            return false
+        }
+    }
 }
 
 class PinYinXieCi: ObservableObject {

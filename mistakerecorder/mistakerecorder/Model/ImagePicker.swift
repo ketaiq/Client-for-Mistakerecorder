@@ -73,29 +73,8 @@ struct CustomImagePicker: UIViewControllerRepresentable {
         func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
             self.parent.captureButtonPressed = false
             if let imageData = photo.fileDataRepresentation() {
-                var image = UIImage(data: imageData)!
-                image = self.rotate90degrees(image)
-                image = self.rotate90degrees(image)
-                image = self.rotate90degrees(image)
-                self.parent.selectedImage = image
+                self.parent.selectedImage = UIImage(data: imageData)!
             }
-        }
-        
-        private func rotate90degrees(_ image: UIImage) -> UIImage {
-            let ciimage = CIImage(image: image)
-            let filter = CIFilter(name: "CIAffineTransform")!
-            filter.setValue(ciimage, forKey: kCIInputImageKey)
-            filter.setDefaults()
-
-            var transform = CATransform3DIdentity
-            transform = CATransform3DRotate(transform, .pi / 2, 0, 0, 1)
-            let affineTransform = CATransform3DGetAffineTransform(transform)
-            filter.setValue(NSValue(cgAffineTransform: affineTransform), forKey: "inputTransform")
-
-            let context = CIContext(options: [CIContextOption.useSoftwareRenderer: true])
-            let outputImage = filter.outputImage!
-            let cgImage = context.createCGImage(outputImage, from: outputImage.extent)!
-            return UIImage(cgImage: cgImage)
         }
     }
     

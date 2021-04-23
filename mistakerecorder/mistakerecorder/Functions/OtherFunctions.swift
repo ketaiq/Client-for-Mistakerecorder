@@ -8,6 +8,15 @@
 import Foundation
 import SwiftUI
 
+extension String {
+    func removePunctuations() -> String {
+        var string = self
+        let punctuations: Set<Character> = ["。", "，", "（", "）", "：", "；", "“", ".", ",", "(", ")", ":", ";", "_"]
+        string.removeAll(where: { punctuations.contains($0) })
+        return string
+    }
+}
+
 func hideKeyboard() { // 隐藏键盘
     UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
 }

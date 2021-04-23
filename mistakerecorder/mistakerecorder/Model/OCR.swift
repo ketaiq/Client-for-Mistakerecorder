@@ -29,3 +29,19 @@ struct OCRlocation: Codable {
     let width: Int
     let height: Int
 }
+
+struct DocOCR: Codable {
+    let results_num: Int
+    let log_id: Int
+    let results: [DocOCRresult]
+}
+
+struct DocOCRresult: Codable {
+    let words_type: String
+    let words: DocOCRwords
+}
+
+struct DocOCRwords: Codable {
+    let words_location: OCRlocation
+    let word: String
+}

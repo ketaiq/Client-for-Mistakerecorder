@@ -9,7 +9,6 @@ import SwiftUI
 
 struct ReviseAnswerView: View {
     @ObservedObject var mistake: Mistake
-    @ObservedObject var answers: ObservableStringArray
     @Binding var showReviseAnswerView: Bool
     
     @State private var showEvaluationView = false
@@ -17,52 +16,54 @@ struct ReviseAnswerView: View {
     @State private var wrongAnswerNum: Double = 0
     @State private var isEvaluated = false
     @State private var showAnswerOCRView = false
+    @StateObject private var updateText = ObservableBool(false)
+    @State private var cleanText = false
     
     private func evaluateAnswers() {
         if MistakeCategory.isPresetCategory(category: self.mistake.category) {
             if self.mistake.category == MistakeCategory.PinYinXieCi.toString() || self.mistake.category == MistakeCategory.ChengYuYiSi.toString() {
                 for index in 0 ..< self.mistake.questionItems.count {
-                    if self.answers.list[index].content == self.mistake.questionItems[index].rightAnswer { // 答对
+                    if self.mistake.questionItems[index].answer == self.mistake.questionItems[index].rightAnswer { // 答对
                         self.rightAnswerNum += 1
                     } else { // 答错
                         self.wrongAnswerNum += 1
-                        self.answers.list[index].content.append("\n正确答案：\n\(self.mistake.questionItems[index].rightAnswer)")
+                        self.mistake.questionItems[index].answer.append("\n正确答案：\t\(self.mistake.questionItems[index].rightAnswer)")
                     }
                 }
             } else if self.mistake.category == MistakeCategory.JinYiCi.toString() || self.mistake.category == MistakeCategory.FanYiCi.toString() || self.mistake.category == MistakeCategory.ZuCi.toString() {
                 for index in 0 ..< self.mistake.questionItems.count {
-                    if self.mistake.questionItems[index].rightAnswer.contains(self.answers.list[index].content) { // 答对
+                    if self.mistake.questionItems[index].rightAnswer.contains(self.mistake.questionItems[index].answer) { // 答对
                         self.rightAnswerNum += 1
                     } else { // 答错
                         self.wrongAnswerNum += 1
-                        self.answers.list[index].content.append("\n正确答案：\n\(self.mistake.questionItems[index].rightAnswer)")
+                        self.mistake.questionItems[index].answer.append("\n正确答案：\t\(self.mistake.questionItems[index].rightAnswer)")
                     }
                 }
             } else if self.mistake.category == MistakeCategory.MoXieGuShi.toString() || self.mistake.category == MistakeCategory.XiuGaiBingJu.toString() {
                 for index in 0 ..< self.mistake.questionItems.count {
                     // 去除标点符号
                     let guShiWithoutPunctuations  = self.mistake.questionItems[index].rightAnswer.removePunctuations()
-                    let answerWithoutPunctuations = self.answers.list[index].content.removePunctuations()
+                    let answerWithoutPunctuations = self.mistake.questionItems[index].answer.removePunctuations()
                     
                     if guShiWithoutPunctuations == answerWithoutPunctuations { // 答对
                         self.rightAnswerNum += 1
                     } else { // 答错
                         self.wrongAnswerNum += 1
-                        self.answers.list[index].content.append("\n正确答案：\n\(self.mistake.questionItems[index].rightAnswer)")
+                        self.mistake.questionItems[index].answer.append("\n正确答案：\t\(self.mistake.questionItems[index].rightAnswer)")
                     }
                 }
             }
         } else {
             for index in 0 ..< self.mistake.questionItems.count {
-                if self.mistake.questionItems[index].rightAnswer == self.answers.list[index].content { // 答对
+                if self.mistake.questionItems[index].rightAnswer == self.mistake.questionItems[index].answer { // 答对
                     self.rightAnswerNum += 1
                 } else { // 答错
                     self.wrongAnswerNum += 1
-                    self.answers.list[index].content.append("\n正确答案：\n\(self.mistake.questionItems[index].rightAnswer)")
+                    self.mistake.questionItems[index].answer.append("\n正确答案：\t\(self.mistake.questionItems[index].rightAnswer)")
                 }
             }
         }
-        
+        self.updateText.content = true
         // 记录复习结果
         let accurateRatio = self.rightAnswerNum / (self.rightAnswerNum + self.wrongAnswerNum)
         if accurateRatio >= 0.8 {
@@ -97,6 +98,7 @@ struct ReviseAnswerView: View {
     var initialBottomTabBar: some View {
         HStack {
             Button(action: {
+                self.cleanText = true
                 self.showReviseAnswerView = false
             }, label: {
                 Text("返回")
@@ -109,7 +111,7 @@ struct ReviseAnswerView: View {
             })
             Spacer()
             Button(action: {
-                
+                self.showAnswerOCRView = true
             }, label: {
                 Text("一键识别")
                     .foregroundColor(Color(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)))
@@ -120,7 +122,7 @@ struct ReviseAnswerView: View {
                     .cornerRadius(5)
             })
             .sheet(isPresented: self.$showAnswerOCRView) {
-                AnswerOCRView(mistake: self.mistake, text: self.answers.list[self.questionItemIndex], showMistakeOCRView: self.$showAnswerOCRView)
+                AnswerOCRView(mistake: self.mistake, updateText: self.updateText, showMistakeOCRView: self.$showAnswerOCRView, questionItemIndex: -1)
             }
             Spacer()
             Button(action: {
@@ -146,6 +148,7 @@ struct ReviseAnswerView: View {
         HStack {
             Spacer()
             Button(action: {
+                self.cleanText = true
                 self.showReviseAnswerView = false
                 self.isEvaluated = false
             }, label: {
@@ -178,7 +181,7 @@ struct ReviseAnswerView: View {
                 
                 ScrollView(showsIndicators: false) {
                     ForEach(self.mistake.questionItems.indices, id: \.self) { index in
-                        ReviseAnswerItemSubview(mistake: self.mistake, answers: self.answers, isEvaluated: self.$isEvaluated, questionItemIndex: index)
+                        ReviseAnswerItemSubview(mistake: self.mistake, updateText: self.updateText, isEvaluated: self.$isEvaluated, cleanText: self.$cleanText, questionItemIndex: index)
                     }
                 }
                 .padding(.horizontal)
@@ -241,19 +244,21 @@ struct ReviseAnswerView_Previews: PreviewProvider {
                 QuestionItem(question: BingJu(sentence: "为了班集体，做了很多好事。2", type: ["成分残缺", "用词不当"]).toJsonString(), rightAnswer: "为了班集体，小明做了很多好事。"),
                 QuestionItem(question: BingJu(sentence: "为了班集体，做了很多好事。3", type: ["成分残缺", "用词不当"]).toJsonString(), rightAnswer: "为了班集体，小明做了很多好事。")
             ])
-    @StateObject static var answers = ObservableStringArray(3)
     @State static var showReviseAnswerView = false
     static var previews: some View {
-        ReviseAnswerView(mistake: mistakeJinYiCi, answers: answers, showReviseAnswerView: $showReviseAnswerView)
+        ReviseAnswerView(mistake: mistakeJinYiCi, showReviseAnswerView: $showReviseAnswerView)
     }
 }
 
 struct ReviseAnswerItemSubview: View {
     @ObservedObject var mistake: Mistake
-    @ObservedObject var answers: ObservableStringArray
+    @ObservedObject var updateText: ObservableBool
     @Binding var isEvaluated: Bool
-    var questionItemIndex: Int
+    @Binding var cleanText: Bool
+    let questionItemIndex: Int
     
+    @State private var text = ""
+    @State private var isEditing = false
     @State private var showOCRView = false
     @State private var showEvaluationMark = false
     
@@ -303,7 +308,7 @@ struct ReviseAnswerItemSubview: View {
         Group {
             if MistakeCategory.isPresetCategory(category: self.mistake.category) {
                 if self.mistake.category == MistakeCategory.PinYinXieCi.toString() || self.mistake.category == MistakeCategory.ChengYuYiSi.toString() {
-                    if self.answers.list[self.questionItemIndex].content == self.mistake.questionItems[self.questionItemIndex].rightAnswer { // 答对
+                    if self.mistake.questionItems[self.questionItemIndex].answer == self.mistake.questionItems[self.questionItemIndex].rightAnswer { // 答对
                         Image(systemName: "checkmark.circle.fill")
                             .foregroundColor(.white)
                             .font(.system(size: 28))
@@ -313,7 +318,7 @@ struct ReviseAnswerItemSubview: View {
                             .font(.system(size: 28))
                     }
                 } else if self.mistake.category == MistakeCategory.JinYiCi.toString() || self.mistake.category == MistakeCategory.FanYiCi.toString() || self.mistake.category == MistakeCategory.ZuCi.toString() {
-                    if self.mistake.questionItems[self.questionItemIndex].rightAnswer.contains(self.answers.list[self.questionItemIndex].content) { // 答对
+                    if self.mistake.questionItems[self.questionItemIndex].rightAnswer.contains(self.mistake.questionItems[self.questionItemIndex].answer) { // 答对
                         Image(systemName: "checkmark.circle.fill")
                             .foregroundColor(Color.white)
                             .font(.system(size: 28))
@@ -325,7 +330,7 @@ struct ReviseAnswerItemSubview: View {
                 } else if self.mistake.category == MistakeCategory.MoXieGuShi.toString() || self.mistake.category == MistakeCategory.XiuGaiBingJu.toString() {
                     // 去除标点符号
                     let guShiWithoutPunctuations  = self.mistake.questionItems[self.questionItemIndex].rightAnswer.removePunctuations()
-                    let answerWithoutPunctuations = self.answers.list[self.questionItemIndex].content.removePunctuations()
+                    let answerWithoutPunctuations = self.mistake.questionItems[self.questionItemIndex].answer.removePunctuations()
                     
                     if guShiWithoutPunctuations == answerWithoutPunctuations { // 答对
                         Image(systemName: "checkmark.circle.fill")
@@ -338,7 +343,7 @@ struct ReviseAnswerItemSubview: View {
                     }
                 }
             } else {
-                if self.mistake.questionItems[self.questionItemIndex].rightAnswer == self.answers.list[self.questionItemIndex].content { // 答对
+                if self.mistake.questionItems[self.questionItemIndex].rightAnswer == self.mistake.questionItems[self.questionItemIndex].answer { // 答对
                     Image(systemName: "checkmark.circle.fill")
                         .foregroundColor(Color.white)
                         .font(.system(size: 28))
@@ -367,18 +372,50 @@ struct ReviseAnswerItemSubview: View {
                         .foregroundColor(Color.black)
                         .font(.system(size: 30))
                 })
-                .sheet(isPresented: self.$showOCRView) {
-                    MistakeOCRView(text: self.answers.list[self.questionItemIndex], showMistakeOCRView: self.$showOCRView)
-                }
+                .sheet(isPresented: self.$showOCRView, onDismiss: {
+                    self.text = self.mistake.questionItems[self.questionItemIndex].answer
+                }, content: {
+                    AnswerOCRView(mistake: self.mistake, updateText: self.updateText, showMistakeOCRView: self.$showOCRView, questionItemIndex: self.questionItemIndex)
+                })
                 
                 Button(action: {
-                    self.answers.list[self.questionItemIndex].content = ""
+                    self.text = ""
                 }, label: {
                     Image(systemName: "clear")
                         .foregroundColor(Color.black)
                         .font(.system(size: 30))
                 })
                 Spacer()
+                
+                if self.isEditing {
+                    Button(action: {
+                        self.text = self.mistake.questionItems[self.questionItemIndex].answer
+                        self.isEditing = false
+                        hideKeyboard()
+                    }, label: {
+                        Text("取消")
+                            .font(.system(size: 18))
+                            .foregroundColor(.black)
+                            .padding(.vertical, 3)
+                            .padding(.horizontal, 5)
+                            .background(Color.white)
+                            .clipShape(RoundedRectangle(cornerRadius: 5, style: .continuous))
+                    })
+                    Button(action: {
+                        self.mistake.questionItems[self.questionItemIndex].answer = self.text
+                        self.isEditing = false
+                        hideKeyboard()
+                    }, label: {
+                        Text("保存")
+                            .font(.system(size: 18))
+                            .foregroundColor(.black)
+                            .padding(.vertical, 3)
+                            .padding(.horizontal, 5)
+                            .background(Color.white)
+                            .clipShape(RoundedRectangle(cornerRadius: 5, style: .continuous))
+                    })
+                }
+                
                 
                 if self.isEvaluated {
                     evaluationMark
@@ -392,7 +429,7 @@ struct ReviseAnswerItemSubview: View {
             }
             
             if MistakeCategory.isLongTextCategory(self.mistake.category) {
-                TextEditor(text: self.$answers.list[self.questionItemIndex].content)
+                TextEditor(text: self.$text)
                     .font(.system(size: 18))
                     .autocapitalization(.none)
                     .disableAutocorrection(true)
@@ -401,15 +438,38 @@ struct ReviseAnswerItemSubview: View {
                     .padding(.horizontal, 5)
                     .background(Color.white)
                     .cornerRadius(5)
+                    .onTapGesture {
+                        self.isEditing = true
+                    }
+                    .onChange(of: self.updateText.content, perform: { value in
+                        self.text = self.mistake.questionItems[self.questionItemIndex].answer
+                        self.updateText.content = false
+                    })
+                    .onChange(of: self.cleanText, perform: { value in
+                        self.text = ""
+                        self.cleanText = false
+                    })
             } else {
-                TextField("请在此输入答案...", text: self.$answers.list[self.questionItemIndex].content)
+                TextEditor(text: self.$text)
                     .font(.system(size: 18))
                     .autocapitalization(.none)
                     .disableAutocorrection(true)
+                    .frame(height: 50)
                     .padding(.vertical, 5)
                     .padding(.horizontal, 5)
                     .background(Color.white)
                     .cornerRadius(5)
+                    .onTapGesture {
+                        self.isEditing = true
+                    }
+                    .onChange(of: self.updateText.content, perform: { value in
+                        self.text = self.mistake.questionItems[self.questionItemIndex].answer
+                        self.updateText.content = false
+                    })
+                    .onChange(of: self.cleanText, perform: { value in
+                        self.text = ""
+                        self.cleanText = false
+                    })
             }
         }
     }

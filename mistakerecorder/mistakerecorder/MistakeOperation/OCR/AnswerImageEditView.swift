@@ -9,17 +9,17 @@ import SwiftUI
 
 struct AnswerImageEditView: View {
     @ObservedObject var mistake: Mistake
-    @ObservedObject var answers: ObservableStringArray
+    @ObservedObject var updateText: ObservableBool
+    let questionItemIndex: Int
     @Binding var image: UIImage
     @Binding var showMistakeOCRView: Bool
     
     @StateObject private var cropper = Cropper(parentSize: CGSize.zero)
     @State private var croppedImage = UIImage()
-    @State private var showCroppedImage = false
     
     // 逆时针旋转90度
-    private func rotate90degrees() -> UIImage {
-        let ciimage = CIImage(image: self.image)
+    private func rotate90degrees(_ editImage: UIImage) -> UIImage {
+        let ciimage = CIImage(image: editImage)
         let filter = CIFilter(name: "CIAffineTransform")!
         filter.setValue(ciimage, forKey: kCIInputImageKey)
         filter.setDefaults()
@@ -37,7 +37,11 @@ struct AnswerImageEditView: View {
     
     // 裁剪图片
     private func cropImage() {
-        let cgImage = image.cgImage!
+        var editImage = self.image
+        editImage = self.rotate90degrees(editImage)
+        editImage = self.rotate90degrees(editImage)
+        editImage = self.rotate90degrees(editImage)
+        let cgImage = editImage.cgImage!
         let scaler = CGFloat(cgImage.width) / self.cropper.parentSize.width
         let x = (self.cropper.rect.origin.x - self.cropper.rect.width / 2) * scaler
         let y = (self.cropper.rect.origin.y - self.cropper.rect.height / 2) * scaler
@@ -77,7 +81,7 @@ struct AnswerImageEditView: View {
                     })
                     Spacer()
                     Button(action: {
-                        self.image = self.rotate90degrees()
+                        self.image = self.rotate90degrees(self.image)
                     }, label: {
                         Image(systemName: "rotate.left.fill")
                             .font(.system(size: 25))
@@ -86,8 +90,8 @@ struct AnswerImageEditView: View {
                     Spacer()
                     Button(action: {
                         self.cropImage()
-                        NetworkAPIFunctions.functions.baiduOCR(mistake: self.mistake, answers: self.answers, croppedImage: self.croppedImage)
-                        self.showCroppedImage = true
+                        NetworkAPIFunctions.functions.baiduOCR(mistake: self.mistake, updateText: self.updateText, questionItemIndex: self.questionItemIndex, croppedImage: self.croppedImage)
+                        self.showMistakeOCRView = false
                     }, label: {
                         Text("完成")
                             .foregroundColor(.white)

@@ -26,11 +26,11 @@ struct MistakeItemView: View {
                     ItemSubjectSubview(subject: $mistake.subject, subjectEditStatu: self.$subjectEditStatus)
                     ItemCategorySubview(category: $mistake.category, categoryEditStatus: self.$categoryEditStatus)
                     ItemQuestionDescriptionSubview(questionDescription: $mistake.questionDescription)
-                    ForEach(mistake.questionItems) { item in
+                    ForEach(mistake.questionItems.indices, id: \.self) { index in
                         if MistakeCategory.isPresetCategory(category: mistake.category) {
-                            ItemMistakeCategoryItemSubview(type: mistake.category, questionItem: item)
+                            ItemMistakeCategoryItemSubview(index: index + 1, type: mistake.category, questionItem: mistake.questionItems[index])
                         } else {
-                            ItemQuestionAndAnswerSubview(questionItem: item)
+                            ItemQuestionAndAnswerSubview(questionItem: mistake.questionItems[index])
                         }
                     }
                 }
@@ -426,16 +426,17 @@ struct ItemQuestionAndAnswerSubview: View {
 }
 
 struct ItemMistakeCategoryItemSubview: View {
+    let index: Int
     let type: String
     @ObservedObject var questionItem: QuestionItem
     @State private var editStatus = false
     
     var body: some View {
         HStack {
-            Text("题目项")
+            Text("题目项 \(self.index)")
                 .font(.system(size: 20))
             Spacer()
-            Text(self.type)
+            Text("查看详情")
                 .font(.system(size: 20))
             Image(systemName: "chevron.right")
                 .font(.system(size: 20))
@@ -478,8 +479,8 @@ struct ItemButtonsSubview: View {
         HStack {
             Button(action: {
                 mistake.questionItems.append(
-                    QuestionItem(question: "题目项题目",
-                                 rightAnswer: "题目项答案"))
+                    QuestionItem(question: "",
+                                 rightAnswer: ""))
             }, label: {
                 HStack {
                     Text("增加题目项")

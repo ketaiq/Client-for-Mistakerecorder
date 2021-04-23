@@ -7,6 +7,22 @@
 
 import Foundation
 
+class ObservableString: ObservableObject {
+    @Published var content: String
+    
+    init(_ content: String) {
+        self.content = content
+    }
+}
+
+class ObservableBool: ObservableObject {
+    @Published var content: Bool
+    
+    init(_ content: Bool) {
+        self.content = content
+    }
+}
+
 protocol DataDelegate {
     func fetch(newData: String)
 }
@@ -246,26 +262,31 @@ struct RevisedRecord: Codable { // 已复习记录
 class QuestionItem: ObservableObject, Identifiable, Codable { // 题目项
     @Published var question: String // 题目
     @Published var rightAnswer: String // 正确答案
+    @Published var answer: String // 作答答案
     
     enum CodingKeys: CodingKey {
         case question
         case rightAnswer
+        case answer
     }
     
     init(question: String, rightAnswer: String) {
         self.question = question
         self.rightAnswer = rightAnswer
+        self.answer = ""
     }
     
     required init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         self.question = try values.decode(String.self, forKey: .question)
         self.rightAnswer = try values.decode(String.self, forKey: .rightAnswer)
+        self.answer = try values.decode(String.self, forKey: .answer)
     }
     
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(question, forKey: .question)
         try container.encode(rightAnswer, forKey: .rightAnswer)
+        try container.encode(answer, forKey: .answer)
     }
 }

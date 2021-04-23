@@ -9,8 +9,9 @@ import SwiftUI
 
 struct AnswerOCRView: View {
     @ObservedObject var mistake: Mistake
-    @ObservedObject var answers: ObservableStringArray
+    @ObservedObject var updateText: ObservableBool
     @Binding var showMistakeOCRView: Bool
+    let questionItemIndex: Int
     
     @State private var image = UIImage()
     @State private var showPhotoLibrary = false
@@ -77,7 +78,7 @@ struct AnswerOCRView: View {
                 .padding()
             }
             if self.image != UIImage() {
-                AnswerImageEditView(mistake: self.mistake, answers: self.answers, image: self.$image, showMistakeOCRView: $showMistakeOCRView)
+                AnswerImageEditView(mistake: self.mistake, updateText: self.updateText, questionItemIndex: self.questionItemIndex, image: self.$image, showMistakeOCRView: $showMistakeOCRView)
                     .zIndex(1.0)
             }
         }
@@ -95,9 +96,9 @@ struct AnswerOCRView_Previews: PreviewProvider {
                 QuestionItem(question: "快乐*", rightAnswer: "乐"),
                 QuestionItem(question: "放松*", rightAnswer: "松")
             ])
-    @StateObject static var answers = ObservableStringArray(3)
+    @StateObject static var updateText = ObservableBool(false)
     @State static var showMistakeOCRView = false
     static var previews: some View {
-        AnswerOCRView(mistake: mistakePinYinXieCi, answers: answers, showMistakeOCRView: $showMistakeOCRView)
+        AnswerOCRView(mistake: mistakePinYinXieCi, updateText: updateText, showMistakeOCRView: $showMistakeOCRView, questionItemIndex: 0)
     }
 }
