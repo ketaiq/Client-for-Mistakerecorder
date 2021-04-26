@@ -29,7 +29,9 @@ class DateFunctions {
     
     func addDate(startDate: String, addition: Int) -> String { // 日期加
         let date = string2Date(dateString: startDate)
-        let resultDate = calendar.date(byAdding: .day, value: addition, to: date)!
+        var dateComponents = DateComponents()
+        dateComponents.day = addition
+        let resultDate = calendar.date(byAdding: dateComponents, to: date)!
         return date2String(date: resultDate)
     }
     
@@ -71,6 +73,45 @@ class DateFunctions {
         dateComponents.timeZone = TimeZone.current
         while dateComponents.month! != nextMonth && dateComponents.day != 1 {
             date = string2Date(dateString: addDate(startDate: date2String(date: date), addition: 1))
+            dateComponents = calendar.dateComponents([.year, .month, .day, .timeZone], from: date)
+        }
+        let newDates = generateDatesOfMonth(givenDate: date2String(date: date))
+        if givenDateArray.dates.count >= newDates.count {
+            var i = 0
+            while i < newDates.count {
+                givenDateArray.dates[i] = newDates[i]
+                i = i + 1
+            }
+            while i < givenDateArray.dates.count {
+                givenDateArray.dates[i] = Date(timeIntervalSinceReferenceDate: TimeInterval(arc4random_uniform(100000))) // 多余的日期置为无效日期
+                i = i + 1
+            }
+        } else {
+            var i = 0
+            while i < givenDateArray.dates.count {
+                givenDateArray.dates[i] = newDates[i]
+                i = i + 1
+            }
+            while i < newDates.count {
+                givenDateArray.dates.append(newDates[i])
+                i = i + 1
+            }
+        }
+    }
+    
+    func replaceDatesWithLastMonth(givenDateArray: DateArray) { // 获取给定日期上一月份的所有Date
+        var date = givenDateArray.dates[10]
+        var dateComponents = calendar.dateComponents([.year, .month, .day, .timeZone], from: date)
+        var lastMonth = dateComponents.month! - 1
+        if lastMonth == 0 {
+            lastMonth = 12
+        }
+        dateComponents.timeZone = TimeZone.current
+        while true {
+            if dateComponents.month! == lastMonth && dateComponents.day == 1 {
+                break
+            }
+            date = string2Date(dateString: addDate(startDate: date2String(date: date), addition: -1))
             dateComponents = calendar.dateComponents([.year, .month, .day, .timeZone], from: date)
         }
         let newDates = generateDatesOfMonth(givenDate: date2String(date: date))

@@ -219,12 +219,12 @@ class Mistake: ObservableObject, Identifiable, Codable { // 错题
         self.questionItems = questionItems
         self.createdDate = DateFunctions.functions.currentDate()
         self.revisedRecords = [
-            RevisedRecord(revisedDate: "3/3/21", revisedPerformance: "掌握"),
-            RevisedRecord(revisedDate: "3/8/21", revisedPerformance: "模糊"),
-            RevisedRecord(revisedDate: "3/13/21", revisedPerformance: "忘记"),
-            RevisedRecord(revisedDate: "3/15/21", revisedPerformance: "模糊"),
-            RevisedRecord(revisedDate: "3/27/21", revisedPerformance: "掌握"),
-            RevisedRecord(revisedDate: "4/15/21", revisedPerformance: "模糊")]
+            RevisedRecord(revisedDate: DateFunctions.functions.addDate(startDate: DateFunctions.functions.currentDate(), addition: 0), revisedPerformance: "掌握"),
+            RevisedRecord(revisedDate: DateFunctions.functions.addDate(startDate: DateFunctions.functions.currentDate(), addition: 2), revisedPerformance: "模糊"),
+            RevisedRecord(revisedDate: DateFunctions.functions.addDate(startDate: DateFunctions.functions.currentDate(), addition: 3), revisedPerformance: "忘记"),
+            RevisedRecord(revisedDate: DateFunctions.functions.addDate(startDate: DateFunctions.functions.currentDate(), addition: 5), revisedPerformance: "模糊"),
+            RevisedRecord(revisedDate: DateFunctions.functions.addDate(startDate: DateFunctions.functions.currentDate(), addition: 7), revisedPerformance: "掌握"),
+            RevisedRecord(revisedDate: DateFunctions.functions.addDate(startDate: DateFunctions.functions.currentDate(), addition: 10), revisedPerformance: "模糊")]
         self.nextRevisionDate = DateFunctions.functions.currentDate()
         self.revisionStatus = "false"
     }

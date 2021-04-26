@@ -42,19 +42,27 @@ struct RevisedRecordsCalendarView: View {
                     .bold()
                     .foregroundColor(.black)
                 Spacer()
-                Button(action: {
-                    DateFunctions.functions.replaceDatesWithNextMonth(givenDateArray: dateArray)
-                }, label: {
-                    HStack {
-                        Text("下个月")
+                Text("月份切换")
+                    .foregroundColor(.black)
+                    .font(.system(size: 20))
+                    .bold()
+                HStack(spacing: 30) {
+                    Button(action: {
+                        DateFunctions.functions.replaceDatesWithLastMonth(givenDateArray: dateArray)
+                    }, label: {
+                        Image(systemName: "arrow.left")
+                            .font(Font.system(size: 20).bold())
                             .foregroundColor(.black)
-                            .font(.title2)
-                            .bold()
+                    })
+                    Button(action: {
+                        DateFunctions.functions.replaceDatesWithNextMonth(givenDateArray: dateArray)
+                    }, label: {
                         Image(systemName: "arrow.right")
                             .font(Font.system(size: 20).bold())
                             .foregroundColor(.black)
-                    }
-                })
+                    })
+                }
+                
             }
             .padding(.top)
             Spacer()
