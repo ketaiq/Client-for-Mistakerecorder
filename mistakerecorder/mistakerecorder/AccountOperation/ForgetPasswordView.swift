@@ -8,10 +8,12 @@
 import SwiftUI
 
 class ForgetPasswordStatus: ObservableObject {
+    @Published var showAlert: Bool
     @Published var findPasswordSuccessfully: Bool
     @Published var invalidInfoAlert: Bool
     
-    init(findPasswordSuccessfully: Bool, invalidInfoAlert: Bool) {
+    init(showAlert: Bool, findPasswordSuccessfully: Bool, invalidInfoAlert: Bool) {
+        self.showAlert = showAlert
         self.findPasswordSuccessfully = findPasswordSuccessfully
         self.invalidInfoAlert = invalidInfoAlert
     }
@@ -19,7 +21,7 @@ class ForgetPasswordStatus: ObservableObject {
 
 struct ForgetPasswordView: View {
     @StateObject private var user = User(username: "", nickname: "", realname: "", idcard: "", emailaddress: "", password: "", avatar: "")
-    @StateObject private var forgetPasswordStatus = ForgetPasswordStatus(findPasswordSuccessfully: false, invalidInfoAlert: false)
+    @StateObject private var forgetPasswordStatus = ForgetPasswordStatus(showAlert: false, findPasswordSuccessfully: false, invalidInfoAlert: false)
     @State private var username = ""
     @State private var realname = ""
     @State private var id = ""
@@ -32,7 +34,6 @@ struct ForgetPasswordView: View {
     @State private var emailaddressWarningOpacity: Double = 0
     @State private var passwordWarningOpacity: Double = 0
     @State private var repeatPasswordWarningOpacity: Double = 0
-    @State private var showAlert = false
     @State private var wrongFormatAlert = false
     @State private var repeatPasswordDifferentAlert = false
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
@@ -58,9 +59,11 @@ struct ForgetPasswordView: View {
                     !confirmTextTypeMatch(textType: "邮箱", textContent: emailaddress) ||
                     !confirmTextTypeMatch(textType: "新密码", textContent: newPassword) {
                     wrongFormatAlert = true
+                    self.forgetPasswordStatus.showAlert = true
                 }
                 if newPassword != repeatNewPassword {
                     repeatPasswordDifferentAlert = true
+                    self.forgetPasswordStatus.showAlert = true
                 }
                 if !repeatPasswordDifferentAlert && !wrongFormatAlert {
                     user.username = username
@@ -79,42 +82,37 @@ struct ForgetPasswordView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
                     .shadow(color: Color.black.opacity(0.5), radius: 10, x: 0, y: 5)
             })
-            .alert(isPresented: $showAlert, content: {
+            .alert(isPresented: self.$forgetPasswordStatus.showAlert, content: {
                 if wrongFormatAlert {
                     return Alert(title: Text("警告"),
                                  message: Text("输入格式无效！请按正确格式输入！"),
                                  dismissButton: .default(Text("确认")) {
                                     wrongFormatAlert = false
-                                    showAlert = false
                                  })
                 } else if repeatPasswordDifferentAlert {
                     return Alert(title: Text("警告"),
                                  message: Text("再次输入的密码与设置的密码不一致！"),
                                  dismissButton: .default(Text("确认")) {
                                     repeatPasswordDifferentAlert = false
-                                    showAlert = false
                                  })
                 } else if forgetPasswordStatus.invalidInfoAlert {
                     return Alert(title: Text("警告"),
                                  message: Text("提供的信息无效！"),
                                  dismissButton: .default(Text("确认")) {
                                     forgetPasswordStatus.invalidInfoAlert = false
-                                    showAlert = false
                                  })
                 } else if forgetPasswordStatus.findPasswordSuccessfully {
                     return Alert(title: Text("欢迎！"),
                                  message: Text("账号已找回，新密码为\(user.password)，请牢记！"),
                                  dismissButton: .default(Text("确认")) {
                                     forgetPasswordStatus.findPasswordSuccessfully = false
-                                    showAlert = false
                                     self.presentationMode.wrappedValue.dismiss()
                                  })
                 } else {
                     return Alert(title: Text("警告！"),
                                  message: Text("未知错误！"),
-                                 dismissButton: .default(Text("确认")) {
-                                    showAlert = false
-                                 })
+                                 dismissButton: .default(Text("确认"))
+                                 )
                 }
             })
         }

@@ -53,8 +53,10 @@ class NetworkAPIFunctions {
                 print(userStr)
                 if userStr == "-1" {
                     forgetPasswordStatus.invalidInfoAlert = true // 用户提供的信息无效
+                    forgetPasswordStatus.showAlert = true
                 } else {
                     forgetPasswordStatus.findPasswordSuccessfully = true // 找回密码成功
+                    forgetPasswordStatus.showAlert = true
                 }
             }
     }
