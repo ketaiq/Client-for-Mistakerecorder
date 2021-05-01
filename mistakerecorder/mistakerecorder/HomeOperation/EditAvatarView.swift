@@ -45,7 +45,7 @@ struct EditAvatarView: View {
                     })
                 }
                 .padding(.horizontal)
-                Image(uiImage: UIImage(data: Data(base64Encoded: user.avatar)!)!)
+                Image(uiImage: UIImage(data: Data(base64Encoded: user.avatar)!) ?? UIImage(systemName: "person.circle")!)
                     .resizable()
                     .frame(width: 200, height: 200)
                     .clipShape(Circle())

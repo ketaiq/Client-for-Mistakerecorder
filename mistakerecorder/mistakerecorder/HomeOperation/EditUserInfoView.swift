@@ -28,7 +28,7 @@ struct EditUserInfoView: View {
                 Text("头像")
                     .font(.system(size: 20))
                 Spacer()
-                Image(uiImage: UIImage(data: Data(base64Encoded: user.avatar)!)!)
+                Image(uiImage: UIImage(data: Data(base64Encoded: user.avatar)!) ?? UIImage(systemName: "person.circle")!)
                     .resizable()
                     .frame(width: 70, height: 70)
                     .clipShape(Circle())

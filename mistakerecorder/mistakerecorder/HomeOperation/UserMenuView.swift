@@ -46,6 +46,10 @@ struct UserMenuView: View {
                         .frame(width: 32, height: 32)
                         .foregroundColor(Color(#colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)))
                     Button(action: {
+                        self.loginStatus.isLoading = false
+                        self.loginStatus.isWelcoming = false
+                        self.user.username = ""
+                        self.user.password = ""
                         loginStatus.showTabView = false
                     }, label: {
                         Text("退出登录")
@@ -62,7 +66,7 @@ struct UserMenuView: View {
             .shadow(color: Color/*@START_MENU_TOKEN@*/.black/*@END_MENU_TOKEN@*/.opacity(0.2), radius: 20, x: /*@START_MENU_TOKEN@*/0.0/*@END_MENU_TOKEN@*/, y: 20)
             .padding(.horizontal, 30)
             .overlay(
-                Image(uiImage: UIImage(data: Data(base64Encoded: user.avatar)!)!)
+                Image(uiImage: UIImage(data: Data(base64Encoded: user.avatar)!) ?? UIImage(systemName: "person.circle")!)
                     .resizable()
                     .aspectRatio(contentMode: /*@START_MENU_TOKEN@*/.fill/*@END_MENU_TOKEN@*/)
                     .frame(width: 60, height: 60)

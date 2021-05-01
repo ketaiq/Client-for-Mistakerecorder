@@ -93,7 +93,7 @@ struct MistakeListView: View {
                             .shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: 3)
                     })
                     NavigationLink(
-                        destination: MistakeItemView(user: user, mistake: user.mistakeList[user.mistakeList.count - 1]),
+                        destination: MistakeItemView(user: user, mistake: user.mistakeList[user.mistakeList.count - 1]).navigationBarTitleDisplayMode(.inline),
                         isActive: self.$addButtonPressed) {
                         EmptyView()
                     }

@@ -87,7 +87,7 @@ struct TitleSubview: View {
             Button(action: {
                 showingUserMenuView.toggle()
             }, label: {
-                Image(uiImage: UIImage(data: Data(base64Encoded: user.avatar)!)!)
+                Image(uiImage: UIImage(data: Data(base64Encoded: user.avatar)!) ?? UIImage(systemName: "person.circle")!)
                     .resizable()
                     .frame(width: 40, height: 40)
                     .clipShape(Circle())
