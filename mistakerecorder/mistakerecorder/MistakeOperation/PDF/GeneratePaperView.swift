@@ -243,6 +243,7 @@ struct AutoSelectSubview: View {
                 .shadow(color: Color(red: 255 / 255, green: 255 / 255, blue: 255 / 255), radius: 3, x: -2, y: -2)
                 .padding()
             Button(action: {
+                hideKeyboard()
                 selectMistakesAutomatically(Int(self.mistakesNum.value) ?? 0)
                 if selectedMistakes.list.count > 0 {
                     showPDF = true
@@ -282,5 +283,8 @@ struct AutoSelectSubview: View {
         .background(Color.black.opacity(showAutoSelectSubview ? 0.3 : 0))
         .animation(.linear(duration: 0.5))
         .edgesIgnoringSafeArea(.all)
+        .onTapGesture {
+            hideKeyboard()
+        }
     }
 }
