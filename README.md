@@ -14,4 +14,19 @@ This paper designs a mobile application of organizing mistakes by photographing 
 **KEY WORDS**：Chinese OCR；Ebbinghaus Forgetting Curve；Mistake Recognition；Primary Chinese
 
 ## 预览
+### 主要界面
+<p float="left">
+<img src="https://github.com/uzktQ/Client-for-Mistakerecorder/blob/master/preview/%E5%AE%A2%E6%88%B7%E7%AB%AF%E7%99%BB%E5%BD%95%E7%95%8C%E9%9D%A2.PNG" width="300" height="533" alt="客户端登录界面"/>
+<img src="https://github.com/uzktQ/Client-for-Mistakerecorder/blob/master/preview/%E4%B8%BB%E9%A1%B5%E7%95%8C%E9%9D%A2.PNG" width="300" height="533" alt="主页界面"/>
+<img src="https://github.com/uzktQ/Client-for-Mistakerecorder/blob/master/preview/%E5%A4%8D%E4%B9%A0%E9%94%99%E9%A2%98%E7%95%8C%E9%9D%A2.PNG" width="300" height="533" alt="复习错题界面"/>
+<img src="https://github.com/uzktQ/Client-for-Mistakerecorder/blob/master/preview/%E9%94%99%E9%A2%98%E6%9C%AC%E7%95%8C%E9%9D%A2.PNG" width="300" height="533" alt="错题本界面"/>
+<img src="https://github.com/uzktQ/Client-for-Mistakerecorder/blob/master/preview/%E5%AF%BC%E5%87%BA%E9%94%99%E9%A2%98%E7%95%8C%E9%9D%A2.PNG" width="300" height="533" alt="导出错题界面"/>
+<img src="https://github.com/uzktQ/Client-for-Mistakerecorder/blob/master/preview/%E9%94%99%E9%A2%98%E7%BC%96%E8%BE%91%E7%95%8C%E9%9D%A2.PNG" width="300" height="533" alt="错题编辑界面"/>
+</p>
 
+### 登录
+<img src="https://github.com/uzktQ/Client-for-Mistakerecorder/blob/master/preview/%E7%99%BB%E5%BD%95.gif" width="300" height="533" alt="登录"/></br>
+### 更改头像
+<img src="https://github.com/uzktQ/Client-for-Mistakerecorder/blob/master/preview/%E6%9B%B4%E6%94%B9%E5%A4%B4%E5%83%8F.gif" width="300" height="533" alt="更改头像"/></br>
+### 编辑用户信息
+<img src="https://github.com/uzktQ/Client-for-Mistakerecorder/blob/master/preview/%E7%BC%96%E8%BE%91%E7%94%A8%E6%88%B7%E4%BF%A1%E6%81%AF.gif" width="300" height="533" alt="更改头像"/></br>
