@@ -13,7 +13,5 @@ This paper designs a mobile application of organizing mistakes by photographing 
 
 **KEY WORDS**：Chinese OCR；Ebbinghaus Forgetting Curve；Mistake Recognition；Primary Chinese
 
-***
-
 ## 预览
 
