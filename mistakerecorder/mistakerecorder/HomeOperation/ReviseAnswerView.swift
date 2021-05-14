@@ -20,6 +20,8 @@ struct ReviseAnswerView: View {
     @State private var cleanText = false
     
     private func evaluateAnswers() {
+        self.rightAnswerNum = 0
+        self.wrongAnswerNum = 0 // 批改记录清零
         if MistakeCategory.isPresetCategory(category: self.mistake.category) {
             if self.mistake.category == MistakeCategory.PinYinXieCi.toString() || self.mistake.category == MistakeCategory.ChengYuYiSi.toString() {
                 for index in 0 ..< self.mistake.questionItems.count {
