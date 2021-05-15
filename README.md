@@ -1,4 +1,5 @@
 # Client-for-Mistakerecorder
+![GitHub](https://img.shields.io/badge/part-client-orange)
 ![GitHub](https://img.shields.io/github/license/casdm/Client-for-Mistakerecorder)
 ![GitHub](https://img.shields.io/badge/version-v1.0-blue)
 ![GitHub](https://img.shields.io/badge/platform-ios-lightgrey)
