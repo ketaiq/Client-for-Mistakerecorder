@@ -1,4 +1,8 @@
 # Client-for-Mistakerecorder
+![GitHub](https://img.shields.io/github/license/casdm/Client-for-Mistakerecorder)
+![GitHub](https://img.shields.io/badge/platform-ios-lightgrey)
+![GitHub](https://img.shields.io/badge/version-v1.0-blue)
+
 2021年南京农业大学本科生毕业设计：错题拍拍手机APP客户端
 
 ## 预览
