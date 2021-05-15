@@ -60,3 +60,6 @@ This paper designs a mobile application of organizing mistakes by photographing 
 <img src="https://github.com/casdm/Client-for-Mistakerecorder/blob/master/preview/%E5%A4%8D%E4%B9%A0%E6%88%90%E8%AF%AD%E6%84%8F%E6%80%9D%E9%A2%98.gif" width="300" height="533" alt="复习成语意思题"/></br>
 ### 复习默写古诗题
 <img src="https://github.com/casdm/Client-for-Mistakerecorder/blob/master/preview/%E5%A4%8D%E4%B9%A0%E9%BB%98%E5%86%99%E5%8F%A4%E8%AF%97%E9%A2%98.gif" width="300" height="533" alt="复习默写古诗题"/></br>
+
+## 其他
+服务器端部分见[Sever-for-Mistakerecorder](https://github.com/casdm/Sever-for-Mistakerecorder "错题拍拍服务器端")。
