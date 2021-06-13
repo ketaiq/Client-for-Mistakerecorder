@@ -5,6 +5,9 @@
 ![GitHub](https://img.shields.io/badge/platform-ios-lightgrey)
 
 2021年南京农业大学本科生毕业设计：错题拍拍手机APP客户端
+<p float="left">
+<img src="https://github.com/casdm/Client-for-Mistakerecorder/blob/master/preview/biji1024.png" width="120" height="120" alt="图标"/></br>
+</p>
 
 ## 论文节选
 
